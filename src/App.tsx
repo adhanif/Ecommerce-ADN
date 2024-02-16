@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
-import Home from './components/pages/Home';
+
 import UserRegisterForm from './components/user/UserRegisterForm';
 import UserLoginForm from './components/user/UserLoginForm';
 import ProductsDataFetch from './components/product/ProductsDataFetch';
