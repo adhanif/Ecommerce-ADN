@@ -16,6 +16,6 @@ export default function ProductsDataFetch() {
   }, [memoizedFetchAllProducts]);
 
   const productList = useSelector((state: AppState) => state.products.products);
-  console.log(productList);
-  return <div>ProductsDataFetch</div>;
+  // console.log(productList);
+  return <div></div>;
 }
