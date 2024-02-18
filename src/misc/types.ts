@@ -22,3 +22,39 @@ export type InitialState = {
   loading: boolean;
   error?: string;
 };
+
+export type UserFormProps = {
+  type: 'login' | 'register';
+};
+
+export type UserLogin = {
+  email: string;
+  password: string;
+};
+
+export type UserRegister = UserLogin & {
+  name?: string;
+  avatar: string;
+};
+
+export type User = UserRegister & {
+  role: 'customer' | 'admin';
+  id: number;
+};
+
+export type InitialStateUser = {
+  user: User | null;
+  loading: boolean;
+  error: string;
+};
+
+export type Tokens = {
+  access_token: string;
+  refresh_token: string;
+};
+
+export type AuthState = {
+  token: Tokens | null;
+  error: string | null;
+};
+
