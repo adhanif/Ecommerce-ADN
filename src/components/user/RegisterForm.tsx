@@ -7,18 +7,13 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-import {
-  Tokens,
-  UserFormProps,
-  UserLogin,
-  UserRegister,
-} from '../../misc/types';
+import { UserRegister } from '../../misc/types';
 import {
   useCheckUserMutation,
   useRegisterUserMutation,

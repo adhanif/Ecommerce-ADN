@@ -1,7 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
 import { AuthState, Tokens, User, UserLogin } from '../../misc/types';
-import axios, { AxiosError, AxiosResponse } from 'axios';
-import { stringify } from 'querystring';
+
 
 let token: Tokens | null = null;
 

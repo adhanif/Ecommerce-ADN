@@ -7,26 +7,16 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 
-import {
-  Tokens,
-  UserFormProps,
-  UserLogin,
-  UserRegister,
-} from '../../misc/types';
-
-import {
-  useLoginUserMutation,
-  useRegisterUserMutation,
-} from '../../redux/userQuery';
-
+import { Tokens, UserLogin, UserRegister } from '../../misc/types';
+import { useLoginUserMutation } from '../../redux/userQuery';
 import Loading from '../loading/Loading';
 import { setToken } from '../../redux/slices/userSlice';
 
@@ -48,7 +38,7 @@ interface ErrorResponse {
 
 export default function UserForm() {
   const navigate = useNavigate();
-  const [loginUser, { isLoading, data, error,  }] = useLoginUserMutation();
+  const [loginUser, { isLoading, data, error }] = useLoginUserMutation();
 
   const dispatch = useDispatch();
 
