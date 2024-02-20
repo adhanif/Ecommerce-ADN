@@ -1,31 +1,17 @@
 import React from 'react';
 import './App.css';
 import { Link, Route, Routes } from 'react-router-dom';
-import { ScopedCssBaseline, Button } from '@mui/material';
+import { ScopedCssBaseline, Button, Container } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import UserForm from './components/user/UserForm';
 
-const themeLight = createTheme({
-  palette: {
-    background: {
-      default: '#fff',
-    },
-    text: {
-      primary: '#000',
-    },
-  },
-});
-
-const themeDark = createTheme({
-  palette: {
-    background: {
-      default: '#1d1d1d',
-    },
-    text: {
-      primary: '#fff',
-    },
-  },
-});
+import ProductsDataFetch from './components/product/ProductsDataFetch';
+import Loading from './components/loading/Loading';
+import NavBar from './components/navBar/NavBar';
+import { themeDark, themeLight } from './components/theme/ThemeContext';
+import Home from './pages/Home';
+import UserProfile from './components/userProfile/UserProfile';
+import LoginForm from './components/user/LoginForm';
+import RegisterForm from './components/user/RegisterForm';
 
 function App() {
   const [light, setLight] = React.useState(true);
@@ -34,35 +20,20 @@ function App() {
     setLight((prev) => !prev);
   };
   return (
-    <div>
-      <ThemeProvider theme={light ? themeLight : themeDark}>
-        <ScopedCssBaseline enableColorScheme>
-          <Button onClick={toggleTheme}>Toggle Theme</Button>
-
-          <nav>
-            <ul>
-              <li>
-                <Link to='/login'>Login</Link>
-              </li>
-              <li>
-                <Link to='/register'>Register</Link>
-              </li>
-            </ul>
-          </nav>
-          {/* <ProductsDataFetch /> */}
-          {/* <UserLoginForm />
-           */}
-          {/* <UserForm /> */}
-          <Routes>
-            <Route
-              path='/register'
-              element={<UserForm type='register' />}
-            ></Route>
-            <Route path='/login' element={<UserForm type='login' />}></Route>
-          </Routes>
-        </ScopedCssBaseline>
-      </ThemeProvider>
-    </div>
+    <Container maxWidth='xl'>
+   
+       
+        <NavBar />
+        <Routes>
+          <Route path='/home' element={<Home />}></Route>
+          <Route path='/products' element={<ProductsDataFetch />}></Route>
+          <Route path='/register' element={<RegisterForm />}></Route>
+          <Route path='/login' element={<LoginForm />}></Route>
+          <Route path='/profile' element={<UserProfile />}></Route>
+        </Routes>
+       
+     
+    </Container>
   );
 }
 

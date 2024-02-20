@@ -3,7 +3,15 @@ import { useSelector } from 'react-redux';
 
 import { fetchAllProducts } from '../../redux/slices/productSlice';
 import { AppState, useAppDispatch } from '../../redux/store';
+import { Typography } from '@mui/material';
+import { styled } from '@mui/system';
 
+// const me = styled(Typography)`font-size= 1rem`;
+const CustomTypography = styled(Typography)`
+  && {
+    font-size: 1rem;
+  }
+`;
 export default function ProductsDataFetch() {
   const dispatch = useAppDispatch();
 
@@ -17,5 +25,9 @@ export default function ProductsDataFetch() {
 
   const productList = useSelector((state: AppState) => state.products.products);
   // console.log(productList);
-  return <div></div>;
+  return (
+    <>
+      <Typography>It is working</Typography>
+    </>
+  );
 }
