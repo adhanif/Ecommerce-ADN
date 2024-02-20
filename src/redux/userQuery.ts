@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
 import { Tokens, User, UserLogin, UserRegister } from '../misc/types';
 
 interface LoginResponse {
@@ -7,8 +8,17 @@ interface LoginResponse {
   error?: any;
 }
 
-export const authQueries = createApi({
-  reducerPath: 'authApi',
+type Available = {
+  userExists: boolean | Available | undefined;
+  isAvailable: boolean;
+};
+
+type Email = {
+  email: string;
+};
+
+export const userQueries = createApi({
+  reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://api.escuelajs.co/api/v1/auth',
   }),
@@ -24,6 +34,14 @@ export const authQueries = createApi({
       },
       invalidatesTags: ['User'],
     }),
+    checkUser: builder.mutation<Available, Email>({
+      query: (body) => ({
+        url: 'https://api.escuelajs.co/api/v1/users/is-available',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['User'],
+    }),
     registerUser: builder.mutation<User, UserRegister>({
       query: (body) => ({
         url: 'https://api.escuelajs.co/api/v1/users/',
@@ -35,4 +53,8 @@ export const authQueries = createApi({
   }),
 });
 
-export const { useLoginUserMutation, useRegisterUserMutation } = authQueries;
+export const {
+  useLoginUserMutation,
+  useRegisterUserMutation,
+  useCheckUserMutation,
+} = userQueries;

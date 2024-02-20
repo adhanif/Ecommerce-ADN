@@ -2,17 +2,17 @@ import { useDispatch } from 'react-redux';
 import { UnknownAction, configureStore } from '@reduxjs/toolkit';
 
 import productReducer from './slices/productSlice';
-import { authReducer } from './slices/authSlice';
-import { authQueries } from './authQuery';
+import { userReducer } from './slices/userSlice';
+import { userQueries } from './userQuery';
 
 const store = configureStore({
   reducer: {
     products: productReducer,
-    authentication: authReducer,
-    [authQueries.reducerPath]: authQueries.reducer,
+    user: userReducer,
+    [userQueries.reducerPath]: userQueries.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(authQueries.middleware),
+    getDefaultMiddleware().concat(userQueries.middleware),
 });
 
 // store.subscribe(() => {

@@ -3,11 +3,6 @@ import { AuthState, Tokens, User, UserLogin } from '../../misc/types';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { stringify } from 'querystring';
 
-// let userData: User | null = null;
-
-// if (data) {
-//   userData = JSON.parse(data);
-// }
 let token: Tokens | null = null;
 
 const alreadyToken = localStorage.getItem('token');
@@ -21,21 +16,30 @@ const initialState: AuthState = {
   error: null,
 };
 
-export const authSlice = createSlice({
+export const userSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
     setToken: (state, action: PayloadAction<Tokens | null>) => {
-      localStorage.setItem('token', JSON.stringify(action.payload));
-      state.token = action.payload;
+      try {
+        localStorage.setItem('token', JSON.stringify(action.payload));
+        state.token = action.payload;
+      } catch (error) {
+        console.error('Error storing token in local storage:', error);
+      }
     },
 
     setError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
     },
+
+    logOut: (state) => {
+      localStorage.removeItem('token');
+      state.token = null;
+    },
   },
 });
 
-export const { setToken, setError } = authSlice.actions;
+export const { setToken, setError, logOut } = userSlice.actions;
 
-export const authReducer = authSlice.reducer;
+export const userReducer = userSlice.reducer;
