@@ -1,7 +1,12 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { AuthState, Tokens, User, UserLogin } from '../../misc/types';
-
+import {
+  AuthState,
+  Tokens,
+  User,
+  UserLogin,
+  UserProfileData,
+} from '../../misc/types';
 
 let token: Tokens | null = null;
 
@@ -11,7 +16,10 @@ if (alreadyToken) {
   token = JSON.parse(alreadyToken);
 }
 
+let user: UserProfileData | null = null;
+
 const initialState: AuthState = {
+  user: user,
   token: token,
   error: null,
 };
@@ -36,10 +44,14 @@ export const userSlice = createSlice({
     logOut: (state) => {
       localStorage.removeItem('token');
       state.token = null;
+      state.user = null;
+    },
+    saveUserInfo: (state, action: PayloadAction<UserProfileData | null>) => {
+      state.user = action.payload;
     },
   },
 });
 
-export const { setToken, setError, logOut } = userSlice.actions;
+export const { setToken, setError, logOut, saveUserInfo } = userSlice.actions;
 
 export const userReducer = userSlice.reducer;

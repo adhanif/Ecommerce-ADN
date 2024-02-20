@@ -53,8 +53,19 @@ export type Tokens = {
   refresh_token: string;
 };
 
+export type UserProfileData = {
+  id: number;
+  email: string;
+  password: string;
+  name: string;
+  role: string;
+  avatar: string;
+  creationAt: string;
+  updatedAt: string;
+};
+
 export type AuthState = {
+  user: UserProfileData | null;
   token: Tokens | null;
   error: string | null;
 };
-
