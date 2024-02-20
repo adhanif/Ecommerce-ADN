@@ -1,6 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { Tokens, User, UserLogin, UserRegister } from '../misc/types';
+import {
+  Tokens,
+  User,
+  UserLogin,
+  UserProfileData,
+  UserRegister,
+} from '../misc/types';
 
 interface LoginResponse {
   access_token: string;
@@ -15,6 +21,10 @@ type Available = {
 
 type Email = {
   email: string;
+};
+
+type TokenRequestBody = {
+  access_token: string;
 };
 
 export const userQueries = createApi({
@@ -50,6 +60,15 @@ export const userQueries = createApi({
       }),
       invalidatesTags: ['User'],
     }),
+    userProfile: builder.mutation<UserProfileData, TokenRequestBody>({
+      query: (body) => ({
+        url: 'https://api.escuelajs.co/api/v1/auth/profile',
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${body.access_token}`,
+        },
+      }),
+    }),
   }),
 });
 
@@ -57,4 +76,5 @@ export const {
   useLoginUserMutation,
   useRegisterUserMutation,
   useCheckUserMutation,
+  useUserProfileMutation,
 } = userQueries;

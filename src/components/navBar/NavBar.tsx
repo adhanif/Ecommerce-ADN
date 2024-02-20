@@ -16,9 +16,11 @@ import Badge from '@mui/material/Badge';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useCallback, useEffect } from 'react';
 
 import { AppState } from '../../redux/store';
 import { logOut } from '../../redux/slices/userSlice';
+import { useUserProfileMutation } from '../../redux/userQuery';
 
 const pages = ['Home', 'Products'];
 
@@ -29,12 +31,7 @@ function ResponsiveAppBar() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null,
   );
-
-  const dispatch = useDispatch();
-
-  const token = useSelector((state: AppState) => state.user.token);
-
-  const navigate = useNavigate();
+  const [userProfile, { isLoading, data, error }] = useUserProfileMutation();
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -51,8 +48,29 @@ function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const token = useSelector((state: AppState) => state.user.token);
+
+  const fetchUserProfile = useCallback(async () => {
+    try {
+      if (token) {
+        const response = await userProfile(token);
+        if ('data' in response) {
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+    }
+  }, [token, userProfile]);
+
+  useEffect(() => {
+    fetchUserProfile();
+  }, [fetchUserProfile]);
+
   const handleLogout = () => {
     dispatch(logOut());
+    navigate('/home');
   };
 
   return (
@@ -178,6 +196,16 @@ function ResponsiveAppBar() {
               >
                 Signup
               </Button>
+              <IconButton
+                size='large'
+                aria-label='show 17 new notifications'
+                color='inherit'
+                sx={{ marginRight: '0.5rem' }}
+              >
+                <Badge badgeContent={17} color='error'>
+                  <AddShoppingCartIcon />
+                </Badge>
+              </IconButton>
             </>
           ) : (
             <Box sx={{ flexGrow: 0 }}>
@@ -193,7 +221,11 @@ function ResponsiveAppBar() {
               </IconButton>
               <Tooltip title='Open settings'>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' />
+                  <Avatar
+                    alt='Remy Sharp'
+                    // src='/static/images/avatar/2.jpg'
+                    src={data?.avatar}
+                  />
                 </IconButton>
               </Tooltip>
               <Menu

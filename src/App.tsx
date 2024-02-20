@@ -21,18 +21,15 @@ function App() {
   };
   return (
     <Container maxWidth='xl'>
-   
-       
-        <NavBar />
-        <Routes>
-          <Route path='/home' element={<Home />}></Route>
-          <Route path='/products' element={<ProductsDataFetch />}></Route>
-          <Route path='/register' element={<RegisterForm />}></Route>
-          <Route path='/login' element={<LoginForm />}></Route>
-          <Route path='/profile' element={<UserProfile />}></Route>
-        </Routes>
-       
-     
+      <NavBar />
+      {/* <UserProfile /> */}
+      <Routes>
+        <Route path='/home' element={<Home />}></Route>
+        <Route path='/products' element={<ProductsDataFetch />}></Route>
+        <Route path='/register' element={<RegisterForm />}></Route>
+        <Route path='/login' element={<LoginForm />}></Route>
+        <Route path='/profile' element={<UserProfile />}></Route>
+      </Routes>
     </Container>
   );
 }
