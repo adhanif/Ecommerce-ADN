@@ -69,3 +69,22 @@ export type AuthState = {
   token: Tokens | null;
   error: string | null;
 };
+
+export type LoginResponse = {
+  access_token: string;
+  refresh_token: string;
+  error?: any;
+};
+
+export type Available = {
+  userExists: boolean | Available | undefined;
+  isAvailable: boolean;
+};
+
+export type Email = {
+  email: string;
+};
+
+export type TokenRequestBody = {
+  access_token: string;
+};

@@ -38,12 +38,12 @@ export default function UserProfile() {
   }, [fetchUserProfile]);
 
   if (isLoading) {
-    <Loading />;
+    return <Loading />;
   }
 
-  if (data) {
-    return (
-      <>
+  return (
+    <>
+      {data && (
         <Grid
           container
           display='flex'
@@ -101,10 +101,7 @@ export default function UserProfile() {
             </Card>
           </Grid>
         </Grid>
-      </>
-    );
-  }
-
-  // Default render when no loading, error, or data
-  return <div>No data available.</div>;
+      )}
+    </>
+  );
 }
