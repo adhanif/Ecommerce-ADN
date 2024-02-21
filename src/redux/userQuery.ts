@@ -6,26 +6,11 @@ import {
   UserLogin,
   UserProfileData,
   UserRegister,
+  LoginResponse,
+  Available,
+  Email,
+  TokenRequestBody,
 } from '../misc/types';
-
-interface LoginResponse {
-  access_token: string;
-  refresh_token: string;
-  error?: any;
-}
-
-type Available = {
-  userExists: boolean | Available | undefined;
-  isAvailable: boolean;
-};
-
-type Email = {
-  email: string;
-};
-
-type TokenRequestBody = {
-  access_token: string;
-};
 
 export const userQueries = createApi({
   reducerPath: 'userApi',

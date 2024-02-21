@@ -1,33 +1,80 @@
-import React, { useCallback, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useCallback, useEffect, useMemo } from 'react';
 
-import { fetchAllProducts } from '../../redux/slices/productSlice';
-import { AppState, useAppDispatch } from '../../redux/store';
-import { Typography } from '@mui/material';
+import { Box, Container, Grid, Typography } from '@mui/material';
 import { styled } from '@mui/system';
+import { useFetchAllProductsQuery } from '../../redux/productsQuery';
+import ProductCard from './ProductCard';
+import Loading from '../loading/Loading';
 
-// const me = styled(Typography)`font-size= 1rem`;
-const CustomTypography = styled(Typography)`
-  && {
-    font-size: 1rem;
-  }
-`;
 export default function ProductsDataFetch() {
-  const dispatch = useAppDispatch();
+  const { data, error, isLoading } = useFetchAllProductsQuery();
 
-  const memoizedFetchAllProducts = useCallback(() => {
-    dispatch(fetchAllProducts());
-  }, [dispatch]);
+  const memoizedData = useMemo(() => data, [data]);
 
-  useEffect(() => {
-    memoizedFetchAllProducts();
-  }, [memoizedFetchAllProducts]);
+  if (isLoading) {
+    return (
+      <>
+        <Loading />
+      </>
+    );
+  }
 
-  const productList = useSelector((state: AppState) => state.products.products);
-  // console.log(productList);
   return (
     <>
-      <Typography>It is working</Typography>
+      <>
+        <Box
+          id='highlights'
+          sx={{
+            pb: { xs: 8, sm: 16 },
+          }}
+        >
+          <Container
+            sx={{
+              position: 'relative',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: { xs: 3, sm: 6 },
+            }}
+          >
+            <Box
+              sx={{
+                width: { sm: '100%', md: '60%' },
+                textAlign: { sm: 'left', md: 'center' },
+              }}
+            >
+              <Typography component='h2' variant='h4'>
+                Products
+              </Typography>
+              <Typography variant='body1'>
+                Explore why our product stands out: adaptability, durability,
+                user-friendly design, and innovation. Enjoy reliable customer
+                support and precision in every detail.
+              </Typography>
+            </Box>
+            <Grid
+              container
+              spacing={2.5}
+              // gap={1}
+            >
+              {memoizedData &&
+                memoizedData.map((product, index) => (
+                  <Grid
+                    item
+                    xs={12}
+                    sm={6}
+                    md={4}
+                    lg={3}
+                    key={index}
+                    rowGap={5}
+                  >
+                    <ProductCard product={product} />
+                  </Grid>
+                ))}
+            </Grid>
+          </Container>
+        </Box>
+      </>
     </>
   );
 }

@@ -7,7 +7,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { createTheme } from '@mui/material/styles';
 
-import {  UserLogin, UserRegister } from '../../misc/types';
+import { UserLogin, UserRegister } from '../../misc/types';
 import {
   useLoginUserMutation,
   useUserProfileMutation,
@@ -23,6 +23,7 @@ import {
 import Loading from '../loading/Loading';
 import { saveUserInfo, setToken } from '../../redux/slices/userSlice';
 import { AppState } from '../../redux/store';
+import { useAppDispatch } from '../hooks/useDispatchApp';
 
 const theme = createTheme({
   palette: {
@@ -47,7 +48,7 @@ export default function UserForm() {
   const [userProfile, { isLoading: _isLoading, data: _data, error: _error }] =
     useUserProfileMutation();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const notify = (message: string) => toast.success(message);
   const notifyError = (message: string) => toast.error(message);
@@ -61,7 +62,7 @@ export default function UserForm() {
   } = useForm<UserRegister>();
 
   //user login
-  const token = useSelector((state: AppState) => state.user.token);
+  // const token = useSelector((state: AppState) => state.user.token);
 
   const login: SubmitHandler<UserLogin> = async (data) => {
     const response = await loginUser(data);
@@ -69,41 +70,32 @@ export default function UserForm() {
       dispatch(setToken(response.data));
       const res = await userProfile(response.data);
       if ('data' in res) {
+        // console.log(res.data.role);
         dispatch(saveUserInfo(res.data));
-      }
-    }
-
-    if ('error' in response) {
-      if ('status' in response.error) {
-        if (response.error.status === 401) {
-          setTimeout(() => {
-            notifyError('401 unauthorized');
-          }, 500);
+        if (res.data.role === 'customer') {
+          notify('Login Successfull');
+          navigate('/profile');
+        } else {
+          notify('Login Successfull');
+          navigate('/admin');
         }
       }
-    } else {
-      setTimeout(() => {
-        notify('Login Successfull');
-      }, 500);
-      setTimeout(() => {
-        navigate('/home');
-      }, 2000);
-      reset();
     }
-  };
 
-  // loading
-  if (isLoading) {
-    return (
-      <>
-        <Loading />
-      </>
-    );
-  }
+    if ('error' in response && 'status' in response.error) {
+      setTimeout(() => {
+        notifyError('401 unauthorized');
+      }, 1000);
+    }
+
+    // else {
+    //   notify('Login Successfull');
+    //   navigate('/profile');
+    // }
+  };
 
   return (
     <>
-      {/* <ThemeProvider theme={theme}> */}
       <ToastContainer
         position='top-right'
         autoClose={1000}
@@ -216,7 +208,6 @@ export default function UserForm() {
           </Grid>
         </Grid>
       </Container>
-      {/* </ThemeProvider> */}
     </>
   );
 }
