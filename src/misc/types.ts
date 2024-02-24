@@ -88,3 +88,11 @@ export type Email = {
 export type TokenRequestBody = {
   access_token: string;
 };
+
+export type productCategory = {
+  id: number;
+  name: string;
+  image: string;
+  creationAt: string;
+  updatedAt: string;
+};
