@@ -1,15 +1,116 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
-import { Box, Container, Grid, Typography } from '@mui/material';
-import { styled } from '@mui/system';
-import { useFetchAllProductsQuery } from '../../redux/productsQuery';
+import {
+  Box,
+  Button,
+  Container,
+  FormControl,
+  FormHelperText,
+  Grid,
+  MenuItem,
+  Pagination,
+  Paper,
+  Select,
+  SelectChangeEvent,
+  TextField,
+  Typography,
+} from '@mui/material';
+import {
+  useFetchAllProductsQuery,
+  useFetchBySearchQuery,
+} from '../../redux/productsQuery';
+import { useSelector } from 'react-redux';
+
 import ProductCard from './ProductCard';
 import Loading from '../loading/Loading';
+import { Product } from '../../misc/types';
+import FilterProducts from './FilterProducts';
+import { AppState } from '../../redux/store';
+import { SearchButton } from '../customStyling/buttons';
 
 export default function ProductsDataFetch() {
-  const { data, error, isLoading } = useFetchAllProductsQuery();
+  const searchQuery = useRef<HTMLInputElement>(null);
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
-  const memoizedData = useMemo(() => data, [data]);
+  const { data: allData, isLoading } = useFetchAllProductsQuery();
+
+  const { data: searchData, refetch } = useFetchBySearchQuery(
+    formSubmitted && searchQuery.current && searchQuery.current.value !== ''
+      ? searchQuery.current.value
+      : null,
+  );
+
+  const [sortBy, setSortBy] = useState('');
+
+  const priceFilterData: Product[] = useSelector(
+    (state: AppState) => state.products.products,
+  );
+
+  const [mainData, setMainData] = useState<Product[]>([]);
+
+  useEffect(() => {
+    if (priceFilterData.length > 0) {
+      setMainData(priceFilterData);
+    } else if (searchData && searchData.length > 0) {
+      setMainData(searchData);
+
+      setFormSubmitted(false);
+    } else if (allData?.length) {
+      setMainData(allData);
+    }
+  }, [priceFilterData, mainData, searchData, allData]);
+
+  console.log(mainData);
+  function sortData(data: Product[] | undefined, sortBy: string) {
+    if (!data) return [];
+
+    if (sortBy === 'lowToHigh') {
+      return [...data].sort((a, b) => a.price - b.price);
+    } else if (sortBy === 'highToLow') {
+      return [...data].sort((a, b) => b.price - a.price);
+    } else {
+      return data;
+    }
+  }
+
+
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    
+    setFormSubmitted(true);
+    setCurrentPage(1);
+    
+  };
+
+  const sortedData = sortData(mainData, sortBy);
+
+  // Pagination logic
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const slicedData = sortedData.slice(startIndex, endIndex);
+
+  const handleChange = useCallback(
+    (event: SelectChangeEvent<string>) => {
+      setSortBy(event.target.value);
+    },
+    [setSortBy],
+  );
+
+  const handlePageChange = useCallback(
+    (event: React.ChangeEvent<unknown>, page: number) => {
+      setCurrentPage(page);
+    },
+    [setCurrentPage],
+  );
 
   if (isLoading) {
     return (
@@ -21,60 +122,143 @@ export default function ProductsDataFetch() {
 
   return (
     <>
-      <>
-        <Box
-          id='highlights'
+      <Box
+        id='highlights'
+        sx={{
+          pb: { xs: 8, sm: 16 },
+        }}
+      >
+        {/* <Container
           sx={{
-            pb: { xs: 8, sm: 16 },
+            position: 'relative',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: { xs: 3, sm: 6 },
+          }}
+        > */}
+        <Box
+          sx={{
+            width: { sm: '100%', md: '60%' },
+            textAlign: { sm: 'left', md: 'center' },
           }}
         >
-          <Container
-            sx={{
-              position: 'relative',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: { xs: 3, sm: 6 },
-            }}
+          <Typography component='h2' variant='h4'>
+            Products
+          </Typography>
+          <Typography variant='body1'>
+            Explore why our product stands out: adaptability, durability,
+            user-friendly design, and innovation. Enjoy reliable customer
+            support and precision in every detail.
+          </Typography>
+        </Box>
+
+        <Grid
+          container
+          display='flex'
+          justifyContent='space-between'
+          alignItems='center'
+          marginBottom='3rem'
+          marginTop='3rem'
+        >
+          <Grid item xs={12} md={3}>
+            <Typography>{`Showing all ${sortedData.length} results`}</Typography>
+          </Grid>
+          <Grid
+            container
+            item
+            xs={12}
+            md={9}
+            display='flex'
+            justifyContent='space-between'
           >
-            <Box
-              sx={{
-                width: { sm: '100%', md: '60%' },
-                textAlign: { sm: 'left', md: 'center' },
-              }}
-            >
-              <Typography component='h2' variant='h4'>
-                Products
-              </Typography>
-              <Typography variant='body1'>
-                Explore why our product stands out: adaptability, durability,
-                user-friendly design, and innovation. Enjoy reliable customer
-                support and precision in every detail.
-              </Typography>
-            </Box>
             <Grid
               container
-              spacing={2.5}
-              // gap={1}
+              item
+              xs={12}
+              md={4}
+              sx={{
+                mt: { xs: '10px', sm: '10px', md: '0px' },
+                mb: { xs: '30px', sm: '30px', md: '0px' },
+              }}
             >
-              {memoizedData &&
-                memoizedData.map((product, index) => (
-                  <Grid
-                    item
-                    xs={12}
-                    sm={6}
-                    md={4}
-                    lg={3}
-                    key={index}
-                    rowGap={5}
-                  >
-                    <ProductCard product={product} />
+              <form style={{ width: '100%' }} onSubmit={handleSubmit}>
+                <Grid container alignItems='flex-end'>
+                  <Grid item xs={12} md={9}>
+                    <TextField
+                      // value={searchQuery}
+                      size='small'
+                      label='Search by title'
+                      variant='outlined'
+                      fullWidth
+                      // onChange={handleSearchChange}
+                      ref={searchQuery}
+                    />
                   </Grid>
-                ))}
+                  <Grid item xs={12} md={3}>
+                    <SearchButton variant='contained' type='submit' fullWidth>
+                      Search
+                    </SearchButton>
+                  </Grid>
+                </Grid>
+              </form>
             </Grid>
-          </Container>
-        </Box>
-      </>
+            <Grid item xs={12} md={4}>
+              <FormControl
+                sx={{ minWidth: 230, border: 'none' }}
+                size='small'
+                fullWidth
+              >
+                <Select
+                  value={sortBy}
+                  onChange={handleChange}
+                  displayEmpty
+                  inputProps={{ 'aria-label': 'Without label' }}
+                >
+                  <MenuItem value=''>Default sorting</MenuItem>
+                  <MenuItem value='lowToHigh'>
+                    Sort by price: low to high
+                  </MenuItem>
+                  <MenuItem value='highToLow'>
+                    Sort by price: high to low
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid container spacing={2.5}>
+          <Grid item xs={12} sm={12} md={3} lg={3}>
+            <FilterProducts />
+          </Grid>
+
+          {/* Products Grid Container */}
+          <Grid item xs={12} sm={12} md={9} lg={9}>
+            {slicedData.length === 0 ? (
+              <Typography variant='body1'>No results found.</Typography>
+            ) : (
+              <Grid container spacing={2.5}>
+                {slicedData &&
+                  slicedData.map((product, index) => (
+                    <Grid item xs={12} sm={6} md={6} lg={4} key={index}>
+                      <ProductCard product={product} />
+                    </Grid>
+                  ))}
+              </Grid>
+            )}
+            <Box marginTop='5rem' display='flex' justifyContent='center'>
+              <Pagination
+                count={Math.ceil(sortedData.length / itemsPerPage)}
+                page={currentPage}
+                onChange={handlePageChange}
+                variant='outlined'
+                shape='rounded'
+              />
+            </Box>
+          </Grid>
+        </Grid>
+        {/* </Container> */}
+      </Box>
     </>
   );
 }

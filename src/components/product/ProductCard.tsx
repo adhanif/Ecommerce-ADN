@@ -29,7 +29,7 @@ export default function ProductCard({ product }: { product: Product }) {
         <Link to={`/products/${product.id}`}>
           <CardMedia
             component='img'
-            height='250'
+            height='230'
             image={product.images[0]}
             alt={product.title}
             sx={{
