@@ -5,28 +5,25 @@ import React, {
   useRef,
   useState,
 } from 'react';
-
 import {
   Box,
-  Button,
-  Container,
   FormControl,
-  FormHelperText,
   Grid,
   MenuItem,
   Pagination,
-  Paper,
   Select,
   SelectChangeEvent,
   TextField,
+  TextFieldProps,
   Typography,
 } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 import {
   useFetchAllProductsQuery,
   useFetchBySearchQuery,
 } from '../../redux/productsQuery';
-import { useSelector } from 'react-redux';
-
 import ProductCard from './ProductCard';
 import Loading from '../loading/Loading';
 import { Product } from '../../misc/types';
@@ -35,15 +32,18 @@ import { AppState } from '../../redux/store';
 import { SearchButton } from '../customStyling/buttons';
 
 export default function ProductsDataFetch() {
-  const searchQuery = useRef<HTMLInputElement>(null);
+  const [mainData, setMainData] = useState<Product[]>([]);
+
+  const searchQuery = useRef<TextFieldProps>(null);
+
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   const { data: allData, isLoading } = useFetchAllProductsQuery();
 
   const { data: searchData, refetch } = useFetchBySearchQuery(
-    formSubmitted && searchQuery.current && searchQuery.current.value !== ''
+    searchQuery.current && typeof searchQuery.current.value === 'string'
       ? searchQuery.current.value
-      : null,
+      : '',
   );
 
   const [sortBy, setSortBy] = useState('');
@@ -52,21 +52,21 @@ export default function ProductsDataFetch() {
     (state: AppState) => state.products.products,
   );
 
-  const [mainData, setMainData] = useState<Product[]>([]);
-
   useEffect(() => {
     if (priceFilterData.length > 0) {
       setMainData(priceFilterData);
-    } else if (searchData && searchData.length > 0) {
+    } else if (
+      searchData
+      // && searchData.length > 0
+    ) {
       setMainData(searchData);
 
       setFormSubmitted(false);
     } else if (allData?.length) {
       setMainData(allData);
     }
-  }, [priceFilterData, mainData, searchData, allData]);
+  }, [priceFilterData, mainData, searchData, allData, setMainData]);
 
-  console.log(mainData);
   function sortData(data: Product[] | undefined, sortBy: string) {
     if (!data) return [];
 
@@ -79,14 +79,10 @@ export default function ProductsDataFetch() {
     }
   }
 
-
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
     setFormSubmitted(true);
     setCurrentPage(1);
-    
   };
 
   const sortedData = sortData(mainData, sortBy);
@@ -122,37 +118,28 @@ export default function ProductsDataFetch() {
 
   return (
     <>
+      <Box display='flex'>
+        <Link to='/home' style={{ textDecoration: 'none' }}>
+          <Typography variant='body2' color='grey.600'>
+            Home
+          </Typography>
+        </Link>
+
+        <Typography variant='body2' color='grey.600'>
+          / Products
+        </Typography>
+      </Box>
+      <Box>
+        <Typography component='h2' variant='h2' textAlign='center'>
+          Products
+        </Typography>
+      </Box>
       <Box
         id='highlights'
         sx={{
           pb: { xs: 8, sm: 16 },
         }}
       >
-        {/* <Container
-          sx={{
-            position: 'relative',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: { xs: 3, sm: 6 },
-          }}
-        > */}
-        <Box
-          sx={{
-            width: { sm: '100%', md: '60%' },
-            textAlign: { sm: 'left', md: 'center' },
-          }}
-        >
-          <Typography component='h2' variant='h4'>
-            Products
-          </Typography>
-          <Typography variant='body1'>
-            Explore why our product stands out: adaptability, durability,
-            user-friendly design, and innovation. Enjoy reliable customer
-            support and precision in every detail.
-          </Typography>
-        </Box>
-
         <Grid
           container
           display='flex'
@@ -192,7 +179,7 @@ export default function ProductsDataFetch() {
                       variant='outlined'
                       fullWidth
                       // onChange={handleSearchChange}
-                      ref={searchQuery}
+                      inputRef={searchQuery}
                     />
                   </Grid>
                   <Grid item xs={12} md={3}>
@@ -257,7 +244,6 @@ export default function ProductsDataFetch() {
             </Box>
           </Grid>
         </Grid>
-        {/* </Container> */}
       </Box>
     </>
   );

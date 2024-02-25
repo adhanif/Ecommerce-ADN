@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useGetOneProductQuery } from '../../redux/productsQuery';
 import {
@@ -11,44 +11,59 @@ import {
   Typography,
   Modal,
   Stack,
+  Box,
+  Divider,
+  CardMedia,
+  Checkbox,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import EuroIcon from '@mui/icons-material/Euro';
-import styled from 'styled-components';
-import { Button as MuiButton } from '@mui/material';
+import visa from '../images/visa.png';
+import master from '../images/master.png';
+import discover from '../images/discover.png';
+import american from '../images/american.png';
+
 import Loading from '../loading/Loading';
-export const ArrowButton = styled(MuiButton)`
-  && {
-    paddingx: 0px;
-    width: 1px;
-    background-color: black;
-    margin-right: 6px;
-    &:hover {
-      background-color: gray;
-    }
-  }
-`;
+import {
+  ArrowGroupButton,
+  QuantityGroupButton,
+  SquareButton,
+} from '../customStyling/buttons';
 
 export default function ProductDetail() {
   const productId = useParams();
-  const { data, isLoading } = useGetOneProductQuery(Number(productId.id));
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  // const [nextId, setNextId] = useState(Number(productId.id));
-  // const [previousId, setPreviousId] = useState(Number(productId.id));
+  const [count, setCount] = useState(0);
+  const [nextId, setNextId] = useState(Number(productId.id));
+  const [previousId, setPreviousId] = useState(Number(productId.id));
 
-  console.log(Number(productId.id));
-  // const handleNext = () => {};
-  // const handlePrevious = () => {
-  //   setPreviousId(previousId - 1);
-  // };
+  const { data, isLoading, refetch } = useGetOneProductQuery(
+    previousId || nextId,
+  );
 
-  console.log(data);
-  // useEffect(() => {
-  //   // getOneProduct(Number(productId));
-  // }, []);
+  const handleNext = () => {
+    if (productId) {
+      setPreviousId(previousId + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (productId && !(Number(productId.id) === 1)) {
+      setPreviousId(previousId - 1);
+    }
+  };
+
+  const handlePlus = () => {
+    setCount(count + 1);
+  };
+
+  const handleMinus = () => {
+    if (count >= 1) {
+      setCount(count - 1);
+    }
+  };
 
   const handleImageClick = (image: string) => {
     setSelectedImage(image);
@@ -57,6 +72,8 @@ export default function ProductDetail() {
   const handleCloseModal = () => {
     setSelectedImage(null);
   };
+
+  const handleCart = () => {};
 
   if (isLoading) {
     return <Loading />;
@@ -72,14 +89,24 @@ export default function ProductDetail() {
             justifyContent='space-between'
             alignItems='flex-start'
             marginTop='10rem'
+            marginBottom='10rem'
           >
-            <Grid item xs={12} sm={5} md={5} lg={5} marginRight={1}>
-              <ImageList cols={2} gap={6} rowHeight={240}>
-                {data.images.map((image, i) => (
-                  <ImageListItem key={i}>
+            <Grid item xs={12} sm={12} md={5} lg={5} marginRight={1}>
+              <ImageList cols={2} gap={6} rowHeight={200}>
+                {data.images.map((image, index) => (
+                  <ImageListItem
+                    key={index}
+                    cols={index === 0 ? 2 : 1}
+                    rows={index === 0 ? 2 : 1}
+                  >
                     <img
                       src={image}
-                      style={{ cursor: 'pointer' }}
+                      style={{
+                        cursor: 'pointer',
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                      }}
                       alt={data.title}
                       onClick={() => handleImageClick(image)}
                     />
@@ -115,7 +142,15 @@ export default function ProductDetail() {
               </Modal>
             </Grid>
 
-            <Grid container item xs={12} sm={6} md={6} lg={6}>
+            <Grid
+              container
+              item
+              xs={12}
+              sm={12}
+              md={6}
+              lg={6}
+              sx={{ mt: { xs: '5rem', sm: '5rem', md: '0' } }}
+            >
               <Grid container item display='flex' alignItems='center'>
                 <Grid
                   item
@@ -151,20 +186,17 @@ export default function ProductDetail() {
                   display='flex'
                   alignItems='center'
                 >
-                  <ArrowButton
-                    size='small'
-                    variant='contained'
-                    // onClick={handlePrevious}
+                  <ArrowGroupButton
+                    aria-label='Basic button group'
+                    size='medium'
                   >
-                    <ArrowBackIosNewIcon />
-                  </ArrowButton>
-                  <ArrowButton
-                    size='small'
-                    variant='contained'
-                    // onClick={handleNext}
-                  >
-                    <ArrowForwardIosIcon />
-                  </ArrowButton>
+                    <SquareButton size='small' onClick={handlePrevious}>
+                      <ArrowBackIosNewIcon fontSize='small' />
+                    </SquareButton>
+                    <SquareButton size='small' onClick={handleNext}>
+                      <ArrowForwardIosIcon fontSize='small' />
+                    </SquareButton>
+                  </ArrowGroupButton>
                 </Grid>
               </Grid>
               <Grid>
@@ -186,6 +218,103 @@ export default function ProductDetail() {
                 <Typography variant='body2' color='grey.600'>
                   {data.description}
                 </Typography>
+                <Box marginTop={2} marginBottom={3}>
+                  <QuantityGroupButton
+                    size='medium'
+                    aria-label='Basic button group'
+                  >
+                    <SquareButton onClick={handleMinus}>-</SquareButton>
+                    <Button disabled>{count}</Button>
+                    <SquareButton onClick={handlePlus}>+</SquareButton>
+                  </QuantityGroupButton>
+                  <SquareButton
+                    variant='outlined'
+                    onClick={handleCart}
+                    sx={{ marginLeft: '1rem' }}
+                  >
+                    add to cart
+                  </SquareButton>
+                </Box>
+                <Divider />
+                <Typography variant='caption'>
+                  Category: {data.category.name}
+                </Typography>
+                <Box>
+                  <Typography variant='body1' marginTop={1}>
+                    Free shipping on orders over €50!
+                  </Typography>
+
+                  <Box display='flex' alignItems='center'>
+                    <Checkbox disabled checked size='small' />
+                    <Typography variant='body2'>
+                      No-Risk Money Back Guarantee!
+                    </Typography>
+                  </Box>
+                  <Box display='flex' alignItems='center'>
+                    <Checkbox disabled checked size='small' />
+                    <Typography variant='body2'>No Hassle Refunds</Typography>
+                  </Box>
+                  <Box display='flex' alignItems='center'>
+                    <Checkbox disabled checked size='small' />
+                    <Typography variant='body2'>Secure Payments</Typography>
+                  </Box>
+                </Box>
+                <Box
+                  component='fieldset'
+                  textAlign='center'
+                  sx={{ display: 'flex', borderRadius: '5px' }}
+                  justifyContent='center'
+                  alignItems='center'
+                  marginTop={2}
+                >
+                  <legend>
+                    <Typography
+                      variant='body1'
+                      color='grey.600'
+                      fontWeight={600}
+                    >
+                      Guaranteed Safe Checkout
+                    </Typography>
+                  </legend>
+
+                  <CardMedia
+                    sx={{
+                      height: 53,
+                      width: 50,
+                      margin: '0 8px',
+                      borderRadius: '10px',
+                    }}
+                    image={visa}
+                  />
+
+                  <CardMedia
+                    sx={{
+                      height: 37,
+                      width: 60,
+                      margin: '0 8px',
+                      borderRadius: '5px',
+                    }}
+                    image={master}
+                  />
+                  <CardMedia
+                    sx={{
+                      height: 37,
+                      width: 60,
+                      margin: '0 8px',
+                      borderRadius: '5px',
+                    }}
+                    image={american}
+                  />
+                  <CardMedia
+                    sx={{
+                      height: 37,
+                      width: 60,
+                      margin: '0 8px',
+                      borderRadius: '5px',
+                    }}
+                    image={discover}
+                  />
+                </Box>
               </Grid>
             </Grid>
           </Grid>

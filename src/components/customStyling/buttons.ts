@@ -1,4 +1,4 @@
-import { Button, styled } from '@mui/material';
+import { Button, ButtonGroup, styled } from '@mui/material';
 
 export const SearchButton = styled(Button)({
   backgroundColor: 'black',
@@ -9,5 +9,24 @@ export const SearchButton = styled(Button)({
     boxShadow: 'none',
     border: '1px solid',
     color: 'black',
+  },
+});
+
+export const QuantityGroupButton = styled(ButtonGroup)({
+  borderColor: '#e0e0e0',
+});
+
+export const ArrowGroupButton = styled(ButtonGroup)({
+  borderColor: '#e0e0e0',
+});
+
+export const SquareButton = styled(Button)({
+  borderColor: '#e0e0e0',
+ 
+  color: 'black',
+  ':hover': {
+    borderColor: 'black',
+    backgroundColor: 'black',
+    color: 'white',
   },
 });
