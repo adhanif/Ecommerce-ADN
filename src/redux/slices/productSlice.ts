@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import {  createSlice } from '@reduxjs/toolkit';
 
-import { InitialState, Product } from '../../misc/types';
+
+import { InitialState } from '../../misc/types';
 
 const initialState: InitialState = {
   products: [],

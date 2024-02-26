@@ -96,3 +96,10 @@ export type productCategory = {
   creationAt: string;
   updatedAt: string;
 };
+
+export type QuantityControlButtonProps = {
+  count: number;
+  handleMinus: () => void;
+  handlePlus: () => void;
+  handleCart: () => void;
+};

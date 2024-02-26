@@ -25,13 +25,15 @@ import { useUserProfileMutation } from '../../redux/userQuery';
 const pages = ['Home', 'Products'];
 
 function ResponsiveAppBar() {
+  const cartData = useSelector((state: AppState) => state.cart.products);
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null,
   );
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null,
   );
-  const [userProfile, { isLoading, data, error }] = useUserProfileMutation();
+  const [userProfile, { data }] = useUserProfileMutation();
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -197,12 +199,14 @@ function ResponsiveAppBar() {
                 Signup
               </Button>
               <IconButton
+                type='button'
                 size='large'
                 aria-label='show 17 new notifications'
                 color='inherit'
                 sx={{ marginRight: '0.5rem' }}
+                onClick={() => navigate('/cart')}
               >
-                <Badge badgeContent={17} color='error'>
+                <Badge badgeContent={cartData && cartData.length} color='error'>
                   <AddShoppingCartIcon />
                 </Badge>
               </IconButton>
@@ -214,8 +218,9 @@ function ResponsiveAppBar() {
                 aria-label='show 17 new notifications'
                 color='inherit'
                 sx={{ marginRight: '0.5rem' }}
+                onClick={() => navigate('/cart')}
               >
-                <Badge badgeContent={17} color='error'>
+                <Badge badgeContent={cartData && cartData.length} color='error'>
                   <AddShoppingCartIcon />
                 </Badge>
               </IconButton>

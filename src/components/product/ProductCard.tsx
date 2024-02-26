@@ -3,9 +3,8 @@ import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
 import EuroIcon from '@mui/icons-material/Euro';
 import {
-  Button,
+
   CardContent,
-  CardActions,
   CardMedia,
   Rating,
   Box,

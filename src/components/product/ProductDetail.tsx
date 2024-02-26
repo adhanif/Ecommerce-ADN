@@ -25,34 +25,29 @@ import discover from '../images/discover.png';
 import american from '../images/american.png';
 
 import Loading from '../loading/Loading';
-import {
-  ArrowGroupButton,
-  QuantityGroupButton,
-  SquareButton,
-} from '../customStyling/buttons';
+import { ArrowGroupButton, SquareButton } from '../customStyling/buttons';
+import { useAppDispatch } from '../../redux/store';
+import { addToCart } from '../../redux/slices/cartSlice';
+import QuantityControlButton from '../cart/QuantityControlButton';
+import { setNotification } from '../../redux/slices/notificationSlice';
 
 export default function ProductDetail() {
   const productId = useParams();
+  const dispatch = useAppDispatch();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const [count, setCount] = useState(0);
-  const [nextId, setNextId] = useState(Number(productId.id));
+
   const [previousId, setPreviousId] = useState(Number(productId.id));
 
-  const { data, isLoading, refetch } = useGetOneProductQuery(
-    previousId || nextId,
-  );
+  const { data, isLoading } = useGetOneProductQuery(previousId);
 
   const handleNext = () => {
-    if (productId) {
-      setPreviousId(previousId + 1);
-    }
+    setPreviousId(previousId + 1);
   };
 
   const handlePrevious = () => {
-    if (productId && !(Number(productId.id) === 1)) {
-      setPreviousId(previousId - 1);
-    }
+    setPreviousId(previousId - 1);
   };
 
   const handlePlus = () => {
@@ -73,7 +68,22 @@ export default function ProductDetail() {
     setSelectedImage(null);
   };
 
-  const handleCart = () => {};
+  // console.log(data);
+  const handleCart = () => {
+    if (data && count >= 1) {
+      dispatch(addToCart({ product: data, count }));
+      setCount(0);
+      dispatch(
+        setNotification({
+          open: true,
+          message: `${count} item${
+            count !== 1 ? 's have' : ' has'
+          } been added to the cart!`,
+          severity: 'success',
+        }),
+      );
+    }
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -218,23 +228,13 @@ export default function ProductDetail() {
                 <Typography variant='body2' color='grey.600'>
                   {data.description}
                 </Typography>
-                <Box marginTop={2} marginBottom={3}>
-                  <QuantityGroupButton
-                    size='medium'
-                    aria-label='Basic button group'
-                  >
-                    <SquareButton onClick={handleMinus}>-</SquareButton>
-                    <Button disabled>{count}</Button>
-                    <SquareButton onClick={handlePlus}>+</SquareButton>
-                  </QuantityGroupButton>
-                  <SquareButton
-                    variant='outlined'
-                    onClick={handleCart}
-                    sx={{ marginLeft: '1rem' }}
-                  >
-                    add to cart
-                  </SquareButton>
-                </Box>
+
+                <QuantityControlButton
+                  count={count}
+                  handleMinus={handleMinus}
+                  handlePlus={handlePlus}
+                  handleCart={handleCart}
+                />
                 <Divider />
                 <Typography variant='caption'>
                   Category: {data.category.name}

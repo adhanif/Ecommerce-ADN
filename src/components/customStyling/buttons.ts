@@ -13,7 +13,7 @@ export const SearchButton = styled(Button)({
 });
 
 export const QuantityGroupButton = styled(ButtonGroup)({
-  borderColor: '#e0e0e0',
+  borderColor: 'black',
 });
 
 export const ArrowGroupButton = styled(ButtonGroup)({
@@ -22,7 +22,9 @@ export const ArrowGroupButton = styled(ButtonGroup)({
 
 export const SquareButton = styled(Button)({
   borderColor: '#e0e0e0',
- 
+  // borderColor: 'black',
+  // backgroundColor: '#e0e0e0',
+  border: '1px solid #e0e0e0',
   color: 'black',
   ':hover': {
     borderColor: 'black',
@@ -30,3 +32,4 @@ export const SquareButton = styled(Button)({
     color: 'white',
   },
 });
+
