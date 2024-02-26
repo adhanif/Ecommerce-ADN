@@ -9,29 +9,17 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { createTheme } from '@mui/material/styles';
 
 import { UserLogin, UserRegister } from '../../misc/types';
 import {
   useLoginUserMutation,
   useUserProfileMutation,
 } from '../../redux/userQuery';
-import Loading from '../loading/Loading';
 import { saveUserInfo, setToken } from '../../redux/slices/userSlice';
-import { AppState } from '../../redux/store';
 import { useAppDispatch } from '../hooks/useDispatchApp';
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#000000',
-    },
-  },
-});
+import { setNotification } from '../../redux/slices/notificationSlice';
 
 interface ErrorResponse {
   status: number;
@@ -50,9 +38,6 @@ export default function UserForm() {
 
   const dispatch = useAppDispatch();
 
-  const notify = (message: string) => toast.success(message);
-  const notifyError = (message: string) => toast.error(message);
-
   const {
     register,
     handleSubmit,
@@ -70,13 +55,24 @@ export default function UserForm() {
       dispatch(setToken(response.data));
       const res = await userProfile(response.data);
       if ('data' in res) {
-        // console.log(res.data.role);
         dispatch(saveUserInfo(res.data));
         if (res.data.role === 'customer') {
-          notify('Login Successfull');
+          dispatch(
+            setNotification({
+              open: true,
+              message: 'Login Successfull',
+              severity: 'success',
+            }),
+          );
           navigate('/profile');
         } else {
-          notify('Login Successfull');
+          dispatch(
+            setNotification({
+              open: true,
+              message: 'Login Successfull',
+              severity: 'success',
+            }),
+          );
           navigate('/admin');
         }
       }
@@ -84,7 +80,13 @@ export default function UserForm() {
 
     if ('error' in response && 'status' in response.error) {
       setTimeout(() => {
-        notifyError('401 unauthorized');
+        dispatch(
+          setNotification({
+            open: true,
+            message: '401 unauthorized',
+            severity: 'error',
+          }),
+        );
       }, 1000);
     }
 
@@ -96,18 +98,6 @@ export default function UserForm() {
 
   return (
     <>
-      <ToastContainer
-        position='top-right'
-        autoClose={1000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme='dark'
-      />
       <Container maxWidth='sm'>
         <Grid
           container

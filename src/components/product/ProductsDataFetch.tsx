@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Box,
   FormControl,
@@ -40,7 +34,7 @@ export default function ProductsDataFetch() {
 
   const { data: allData, isLoading } = useFetchAllProductsQuery();
 
-  const { data: searchData, refetch } = useFetchBySearchQuery(
+  const { data: searchData } = useFetchBySearchQuery(
     searchQuery.current && typeof searchQuery.current.value === 'string'
       ? searchQuery.current.value
       : '',
@@ -163,7 +157,7 @@ export default function ProductsDataFetch() {
               container
               item
               xs={12}
-              md={4}
+              md={6}
               sx={{
                 mt: { xs: '10px', sm: '10px', md: '0px' },
                 mb: { xs: '30px', sm: '30px', md: '0px' },
@@ -171,7 +165,7 @@ export default function ProductsDataFetch() {
             >
               <form style={{ width: '100%' }} onSubmit={handleSubmit}>
                 <Grid container alignItems='flex-end'>
-                  <Grid item xs={12} md={9}>
+                  <Grid item xs={12} md={8}>
                     <TextField
                       // value={searchQuery}
                       size='small'

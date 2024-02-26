@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   FormControl,
   Grid,
@@ -10,7 +9,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React, {  useState } from 'react';
+import React, { useState } from 'react';
 
 import { useAppDispatch } from '../hooks/useDispatchApp';
 import { setFilteredData } from '../../redux/slices/productSlice';
@@ -18,7 +17,6 @@ import {
   useFetchAllCategoriesQuery,
   useFetchByPriceRangeCategoryQuery,
 } from '../../redux/productsQuery';
-
 
 //price range filter
 interface PriceRange {
@@ -34,7 +32,6 @@ export default function FilterProducts() {
     max: 0,
   });
   const [categoryId, setCategoryId] = useState('');
-  const [reset, setReset] = useState(false);
 
   const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -51,18 +48,16 @@ export default function FilterProducts() {
     Number(categoryId),
   ]);
 
-  
   const handleFilter = () => {
     dispatch(setFilteredData(data));
   };
   const handleReset = () => {
     setPriceRange({ min: 0, max: 0 });
     setCategoryId('');
-    setReset((prevReset) => !prevReset);
+
     dispatch(setFilteredData([]));
   };
 
- 
   return (
     <>
       <Paper elevation={3} style={{ padding: '20px' }}>
