@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Box, Button, Container, Grid, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Container,
+  Divider,
+  Grid,
+  Typography,
+} from '@mui/material';
 import Table from '@mui/material/Table';
 import IconButton from '@mui/material/IconButton';
 import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
@@ -25,20 +32,11 @@ import {
 } from '../customStyling/buttons';
 import { setNotification } from '../../redux/slices/notificationSlice';
 import { Link } from 'react-router-dom';
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
+import { StyledTableCell } from '../customStyling/table';
 
 export default function Cart() {
   const cartData = useSelector((state: AppState) => state.cart.products);
-  const user = useSelector((state: AppState) => state.user.user);
+  const token = useSelector((state: AppState) => state.user.token);
 
   const dispatch = useAppDispatch();
 
@@ -80,7 +78,7 @@ export default function Cart() {
   };
 
   const handleCheckOut = () => {
-    if (user) {
+    if (token) {
       dispatch(
         setNotification({
           open: true,
@@ -125,10 +123,11 @@ export default function Cart() {
             component='h2'
             variant='h4'
             // textAlign='center'
-            fontWeight='600'
+            fontWeight='700'
           >
             Cart
           </Typography>
+          <Divider />
         </Box>
         <Grid container marginTop='2rem' spacing={5}>
           <Grid item xs={12} sm={12} md={9}>
@@ -137,7 +136,7 @@ export default function Cart() {
                 <TableHead>
                   <TableRow>
                     <StyledTableCell sx={{ padding: '5px' }}></StyledTableCell>
-                    <StyledTableCell sx={{ padding: '5px' }} align='center'>
+                    <StyledTableCell sx={{ padding: '5px' }} align='left'>
                       Product
                     </StyledTableCell>
                     <StyledTableCell sx={{ padding: '5px' }} align='center'>
@@ -166,6 +165,7 @@ export default function Cart() {
                             alt={item.title}
                             width='40'
                             height='40'
+                            style={{ borderRadius: '50%' }}
                           />
                         </TableCell>
                         <TableCell

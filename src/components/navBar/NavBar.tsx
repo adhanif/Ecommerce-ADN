@@ -16,11 +16,12 @@ import Badge from '@mui/material/Badge';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useCallback, useEffect } from 'react';
 
 import { AppState } from '../../redux/store';
 import { logOut } from '../../redux/slices/userSlice';
-import { useUserProfileMutation } from '../../redux/userQuery';
+import { useUserProfileQuery } from '../../redux/userQuery';
+import { setNotification } from '../../redux/slices/notificationSlice';
+import { skipToken } from '@reduxjs/toolkit/query';
 
 const pages = ['Home', 'Products'];
 
@@ -33,7 +34,6 @@ function ResponsiveAppBar() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null,
   );
-  const [userProfile, { data }] = useUserProfileMutation();
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -52,27 +52,22 @@ function ResponsiveAppBar() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const token = useSelector((state: AppState) => state.user.token);
 
-  const fetchUserProfile = useCallback(async () => {
-    try {
-      if (token) {
-        const response = await userProfile(token);
-        if ('data' in response) {
-        }
-      }
-    } catch (error) {
-      console.error('Error fetching user profile:', error);
-    }
-  }, [token, userProfile]);
+  const { data: userData } = useUserProfileQuery(token ?? skipToken);
 
-  useEffect(() => {
-    fetchUserProfile();
-  }, [fetchUserProfile]);
 
   const handleLogout = () => {
     dispatch(logOut());
-    navigate('/home');
+    dispatch(
+      setNotification({
+        open: true,
+        message: 'Logout Successfull',
+        severity: 'success',
+      }),
+    );
+    navigate('/login');
   };
 
   return (
@@ -226,11 +221,7 @@ function ResponsiveAppBar() {
               </IconButton>
               <Tooltip title='Open settings'>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar
-                    alt='Remy Sharp'
-                    // src='/static/images/avatar/2.jpg'
-                    src={data?.avatar}
-                  />
+                  <Avatar alt='Remy Sharp' src={userData && userData?.avatar} />
                 </IconButton>
               </Tooltip>
               <Menu
@@ -250,12 +241,17 @@ function ResponsiveAppBar() {
                 onClose={handleCloseUserMenu}
               >
                 <MenuItem onClick={handleCloseUserMenu}>
-                  <Link
-                    to={`/profile`}
-                    style={{ textDecoration: 'none', color: 'black' }}
-                  >
-                    <Typography textAlign='center'>Profile</Typography>
-                  </Link>
+                  {userData && (
+                    <Link
+                      // to={'/profile'}
+                      to={`${
+                        userData.role === 'customer' ? '/profile' : '/admin'
+                      }`}
+                      style={{ textDecoration: 'none', color: 'black' }}
+                    >
+                      <Typography textAlign='center'>Profile</Typography>
+                    </Link>
+                  )}
                 </MenuItem>
 
                 {/* Logout MenuItem */}

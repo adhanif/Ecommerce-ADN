@@ -7,36 +7,31 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
 import { UserLogin, UserRegister } from '../../misc/types';
 import {
   useLoginUserMutation,
-  useUserProfileMutation,
+  useUserProfileQuery,
 } from '../../redux/userQuery';
 import { saveUserInfo, setToken } from '../../redux/slices/userSlice';
 import { useAppDispatch } from '../hooks/useDispatchApp';
 import { setNotification } from '../../redux/slices/notificationSlice';
-
-interface ErrorResponse {
-  status: number;
-  data: {
-    message: string;
-    statusCode: number;
-  };
-}
+import { AppState } from '../../redux/store';
+import { useSelector } from 'react-redux';
+import { skipToken } from '@reduxjs/toolkit/query';
+import Loading from '../loading/Loading';
 
 export default function UserForm() {
   const navigate = useNavigate();
-  const [loginUser, { isLoading, data, error }] = useLoginUserMutation();
-
-  const [userProfile, { isLoading: _isLoading, data: _data, error: _error }] =
-    useUserProfileMutation();
-
   const dispatch = useAppDispatch();
+
+  const [loginUser, { isLoading }] = useLoginUserMutation();
+
+  const token = useSelector((state: AppState) => state.user.token);
+  const { data: userData } = useUserProfileQuery(token ?? skipToken);
 
   const {
     register,
@@ -46,36 +41,20 @@ export default function UserForm() {
     formState: { errors },
   } = useForm<UserRegister>();
 
-  //user login
-  // const token = useSelector((state: AppState) => state.user.token);
-
   const login: SubmitHandler<UserLogin> = async (data) => {
     const response = await loginUser(data);
+
     if ('data' in response && 'access_token' in response.data) {
       dispatch(setToken(response.data));
-      const res = await userProfile(response.data);
-      if ('data' in res) {
-        dispatch(saveUserInfo(res.data));
-        if (res.data.role === 'customer') {
-          dispatch(
-            setNotification({
-              open: true,
-              message: 'Login Successfull',
-              severity: 'success',
-            }),
-          );
-          navigate('/profile');
-        } else {
-          dispatch(
-            setNotification({
-              open: true,
-              message: 'Login Successfull',
-              severity: 'success',
-            }),
-          );
-          navigate('/admin');
-        }
-      }
+      navigate('/products');
+
+      dispatch(
+        setNotification({
+          open: true,
+          message: 'Login Successfull',
+          severity: 'success',
+        }),
+      );
     }
 
     if ('error' in response && 'status' in response.error) {
@@ -89,12 +68,17 @@ export default function UserForm() {
         );
       }, 1000);
     }
-
-    // else {
-    //   notify('Login Successfull');
-    //   navigate('/profile');
-    // }
   };
+
+  useEffect(() => {
+    if (userData) {
+      dispatch(saveUserInfo(userData));
+    }
+  }, [token, userData, dispatch]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>

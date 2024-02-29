@@ -17,6 +17,22 @@ export type Product = {
   category: Category;
 };
 
+export type UpdateProduct = {
+  title?: string;
+  price?: number;
+  description?: string;
+  images?: string[];
+  category?: Category;
+};
+
+export type CreateProduct = {
+  title: string;
+  price: number;
+  description: string;
+  images: string[] | string;
+  categoryId: number;
+};
+
 export type InitialState = {
   products: Product[];
   loading: boolean;
@@ -49,8 +65,8 @@ export type InitialStateUser = {
 };
 
 export type Tokens = {
-  access_token: string;
-  refresh_token: string;
+  access_token?: string;
+  refresh_token?: string;
 };
 
 export type UserProfileData = {
@@ -87,6 +103,7 @@ export type Email = {
 
 export type TokenRequestBody = {
   access_token: string;
+  refresh_token: string;
 };
 
 export type productCategory = {

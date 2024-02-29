@@ -7,10 +7,8 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React from 'react';
+
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
 import { UserRegister } from '../../misc/types';
@@ -19,6 +17,8 @@ import {
   useRegisterUserMutation,
 } from '../../redux/userQuery';
 import Loading from '../loading/Loading';
+import { useAppDispatch } from '../hooks/useDispatchApp';
+import { setNotification } from '../../redux/slices/notificationSlice';
 
 export default function UserForm() {
   const navigate = useNavigate();
@@ -27,8 +27,7 @@ export default function UserForm() {
   const [checkUser, { isLoading, data: data_, error, isSuccess }] =
     useCheckUserMutation();
 
-  const notify = (message: string) => toast.success(message);
-  const notifyError = (message: string) => toast.error(message);
+  const dispatch = useAppDispatch();
 
   const {
     register,
@@ -44,11 +43,16 @@ export default function UserForm() {
     const response = await UserRegister(data);
 
     if ('data' in response) {
-      notify('The user has registered successfully');
+      dispatch(
+        setNotification({
+          open: true,
+          message: 'The user has registered successfully',
+          severity: 'success',
+        }),
+      );
     }
-    setTimeout(() => {
-      navigate('/login');
-    }, 1500);
+
+    navigate('/login');
   };
 
   // loading
@@ -62,18 +66,6 @@ export default function UserForm() {
 
   return (
     <>
-      <ToastContainer
-        position='top-right'
-        autoClose={1000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme='dark'
-      />
       <Container maxWidth='sm'>
         <Grid
           container

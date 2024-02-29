@@ -2,13 +2,7 @@ import React from 'react';
 import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
 import EuroIcon from '@mui/icons-material/Euro';
-import {
-
-  CardContent,
-  CardMedia,
-  Rating,
-  Box,
-} from '@mui/material';
+import { CardContent, CardMedia, Rating, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 import { Product } from '../../misc/types';

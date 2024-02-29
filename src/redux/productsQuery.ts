@@ -1,22 +1,38 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Product, productCategory } from '../misc/types';
+import {
+  CreateProduct,
+  Product,
+  UpdateProduct,
+  productCategory,
+} from '../misc/types';
+
+export type ImageResponse = {
+  originalname: string;
+  filename: string;
+  location: string;
+};
+
+export type MyFormData = FormData;
 
 export const productQueries = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://api.escuelajs.co/api/v1/products',
+    baseUrl: 'https://api.escuelajs.co/api/v1',
   }),
   tagTypes: ['Products'],
 
   endpoints: (builder) => ({
     fetchAllProducts: builder.query<Product[], void>({
-      query: () => '',
+      query: () => ({
+        url: '/products',
+        method: 'GET',
+      }),
       providesTags: ['Products'],
     }),
 
     getOneProduct: builder.query<Product, number>({
       query: (productId) => ({
-        url: `https://api.escuelajs.co/api/v1/products/${productId}`,
+        url: `/products/${productId}`,
         method: 'GET',
       }),
       providesTags: ['Products'],
@@ -27,7 +43,7 @@ export const productQueries = createApi({
       [number, number, number]
     >({
       query: ([min, max, id]) => ({
-        url: `https://api.escuelajs.co/api/v1/products/?price_min=${min}&price_max=${max}&categoryId=${id}`,
+        url: `/products/?price_min=${min}&price_max=${max}&categoryId=${id}`,
         method: 'GET',
       }),
       providesTags: ['Products'],
@@ -35,17 +51,54 @@ export const productQueries = createApi({
 
     fetchAllCategories: builder.query<productCategory[], void>({
       query: () => ({
-        url: `https://api.escuelajs.co/api/v1/categories`,
+        url: `/categories`,
         method: 'GET',
       }),
       providesTags: ['Products'],
     }),
     fetchBySearch: builder.query<Product[], string | null>({
       query: (searchQuery) => ({
-        url: `https://api.escuelajs.co/api/v1/products/?title=${searchQuery}`,
+        url: `/products/?title=${searchQuery}`,
         method: 'GET',
       }),
       providesTags: ['Products'],
+    }),
+    // FormData
+    uploadImages: builder.mutation<ImageResponse, FormData>({
+      query: (images) => ({
+        url: '/files/upload',
+        method: 'POST',
+        body: images,
+        // headers: {
+        //   'Content-Type': 'multipart/form-data',
+        // },
+        transformResponse: (rawResult: ImageResponse) => rawResult,
+      }),
+
+      invalidatesTags: ['Products'],
+    }),
+    createProduct: builder.mutation<Product, CreateProduct>({
+      query: (body) => ({
+        url: '/products/',
+        method: 'POST',
+        body: body,
+      }),
+      invalidatesTags: ['Products'],
+    }),
+    deleteProduct: builder.mutation<boolean, number>({
+      query: (id) => ({
+        url: `/products/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Products'],
+    }),
+    updateProduct: builder.mutation<Product, [number, UpdateProduct]>({
+      query: ([id, body]) => ({
+        url: `/products/${id}`,
+        method: 'PUT',
+        body: body,
+      }),
+      invalidatesTags: ['Products'],
     }),
   }),
 });
@@ -56,4 +109,8 @@ export const {
   useGetOneProductQuery,
   useFetchByPriceRangeCategoryQuery,
   useFetchBySearchQuery,
+  useUploadImagesMutation,
+  useDeleteProductMutation,
+  useUpdateProductMutation,
+  useCreateProductMutation,
 } = productQueries;

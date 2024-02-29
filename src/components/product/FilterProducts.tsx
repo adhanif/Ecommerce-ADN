@@ -67,6 +67,7 @@ export default function FilterProducts() {
         <Grid container spacing={1}>
           <Grid item xs={12} md={6} lg={6}>
             <TextField
+              type='number'
               label='€ Min'
               variant='outlined'
               size='small'
@@ -81,6 +82,7 @@ export default function FilterProducts() {
           </Grid>
           <Grid item xs={12} md={6} lg={6}>
             <TextField
+              type='number'
               label='€ Max'
               variant='outlined'
               size='small'
