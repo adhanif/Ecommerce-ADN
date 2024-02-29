@@ -45,7 +45,7 @@ export const userQueries = createApi({
       }),
       invalidatesTags: ['User'],
     }),
-    userProfile: builder.mutation<UserProfileData, TokenRequestBody>({
+    userProfile: builder.query<UserProfileData, Tokens>({
       query: (body) => ({
         url: 'https://api.escuelajs.co/api/v1/auth/profile',
         method: 'GET',
@@ -54,6 +54,23 @@ export const userQueries = createApi({
         },
       }),
     }),
+    // userProfile: builder.query<UserProfileData, void>({
+    //   query: () => ({
+    //     url: 'https://api.escuelajs.co/api/v1/auth/profile',
+    //     transformResponse: (response: User) => {
+    //       const { id, role, name, email, avatar } = response;
+    //       return {
+    //         id,
+    //         role,
+    //         name,
+    //         email,
+    //         avatar,
+    //       };
+    //     },
+    //   }),
+    // }),
+
+    //
   }),
 });
 
@@ -61,5 +78,6 @@ export const {
   useLoginUserMutation,
   useRegisterUserMutation,
   useCheckUserMutation,
-  useUserProfileMutation,
+  // useUserProfileQuery,
+  useUserProfileQuery,
 } = userQueries;

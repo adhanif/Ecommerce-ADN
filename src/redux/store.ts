@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { UnknownAction, configureStore } from '@reduxjs/toolkit';
+import {  configureStore } from '@reduxjs/toolkit';
 
 import productReducer from './slices/productSlice';
 import { userReducer } from './slices/userSlice';
@@ -26,16 +26,7 @@ const store = configureStore({
 });
 
 // Subscribe to store changes and update local storage for cart slice
-// store.subscribe(() => {
-//   const currentState = store.getState();
-//   const cartState = currentState.cart;
-//   localStorage.setItem('cartProducts', JSON.stringify(cartState.products));
-// });
 
 export type AppState = ReturnType<typeof store.getState>;
 export const useAppDispatch = () => useDispatch<typeof store.dispatch>();
 export default store;
-
-// function cartReducer(state: unknown, action: UnknownAction): unknown {
-//   throw new Error('Function not implemented.');
-// }

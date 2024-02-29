@@ -12,15 +12,11 @@ import Admin from './components/adminProfile/Admin';
 import ProductDetail from './components/product/ProductDetail';
 import { Container } from '@mui/material';
 import Cart from './components/cart/Cart';
-import { ToastContainer } from 'react-toastify';
 import NotificationSnackBars from './components/notification/NotificationSnackBars';
+import Footer from './components/footer/Footer';
+import PrivateRoutes from './components/utils/PrivateRoutes';
 
 function App() {
-  // const [light, setLight] = React.useState(true);
-
-  // const toggleTheme = () => {
-  //   setLight((prev) => !prev);
-  // };
   return (
     <Container maxWidth='xl'>
       <NavBar />
@@ -32,10 +28,13 @@ function App() {
         <Route path='/products/:id' element={<ProductDetail />}></Route>
         <Route path='/register' element={<RegisterForm />}></Route>
         <Route path='/login' element={<LoginForm />}></Route>
-        <Route path='/profile' element={<UserProfile />}></Route>
-        <Route path='/admin' element={<Admin />}></Route>
+        <Route element={<PrivateRoutes />}>
+          <Route path='/profile' element={<UserProfile />}></Route>
+          <Route path='/admin' element={<Admin />}></Route>
+        </Route>
         <Route path='/cart' element={<Cart />}></Route>
       </Routes>
+      <Footer />
     </Container>
   );
 }

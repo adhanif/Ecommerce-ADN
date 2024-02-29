@@ -2,7 +2,7 @@ import { Button, ButtonGroup, styled } from '@mui/material';
 
 export const SearchButton = styled(Button)({
   backgroundColor: 'black',
-  padding: '7px',
+  padding: '8px',
   '&:hover': {
     backgroundColor: 'white',
     borderColor: '#CA8A04',
