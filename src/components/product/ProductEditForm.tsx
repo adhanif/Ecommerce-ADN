@@ -15,7 +15,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import { useUpdateProductMutation } from '../../redux/productsQuery';
 import { SearchButton } from '../customStyling/buttons';
-import { Product } from '../../misc/types';
+import { Product, SelectOptions } from '../../misc/types';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -36,11 +36,8 @@ type Inputs = {
   categoryId?: number | string;
   files: FileList[];
 };
-type selectOptions = {
-  id: number;
-  label: string;
-};
-const selectOptions: selectOptions[] = [
+
+const selectOptions: SelectOptions[] = [
   { id: 1, label: 'Clothes' },
   { id: 2, label: 'Electronics' },
   { id: 3, label: 'Furniture' },

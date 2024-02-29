@@ -12,10 +12,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { UserRegister } from '../../misc/types';
-import {
-  useCheckUserMutation,
-  useRegisterUserMutation,
-} from '../../redux/userQuery';
+import { useRegisterUserMutation } from '../../redux/userQuery';
 import Loading from '../loading/Loading';
 import { useAppDispatch } from '../hooks/useDispatchApp';
 import { setNotification } from '../../redux/slices/notificationSlice';
@@ -23,7 +20,7 @@ import { setNotification } from '../../redux/slices/notificationSlice';
 export default function UserForm() {
   const navigate = useNavigate();
 
-  const [UserRegister, {isLoading}] = useRegisterUserMutation();
+  const [UserRegister, { isLoading }] = useRegisterUserMutation();
   // const [checkUser, { isLoading, data: data_, error, isSuccess }] =
   //   useCheckUserMutation();
 
@@ -32,8 +29,8 @@ export default function UserForm() {
   const {
     register,
     handleSubmit,
-    watch,
-    reset,
+    // watch,
+    // reset,
     formState: { errors },
   } = useForm<UserRegister>();
 

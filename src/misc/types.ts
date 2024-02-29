@@ -120,3 +120,9 @@ export type QuantityControlButtonProps = {
   handlePlus: () => void;
   handleCart: () => void;
 };
+
+
+export type SelectOptions = {
+  id: number;
+  label: string;
+};
