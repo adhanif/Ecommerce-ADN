@@ -1,5 +1,4 @@
-import {  createSlice } from '@reduxjs/toolkit';
-
+import { createSlice } from '@reduxjs/toolkit';
 
 import { InitialState } from '../../misc/types';
 
@@ -9,7 +8,6 @@ const initialState: InitialState = {
 };
 
 //API url
-const url = 'https://api.escuelajs.co/api/v1/products';
 
 const productSlice = createSlice({
   name: 'products',

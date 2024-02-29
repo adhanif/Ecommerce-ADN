@@ -1,5 +1,5 @@
 import React from 'react';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import {
   Container,
   FormControl,
@@ -16,7 +16,6 @@ import {
   useUploadImagesMutation,
 } from '../../redux/productsQuery';
 import { SearchButton } from '../customStyling/buttons';
-import axios from 'axios';
 
 type Inputs = {
   images: any;
@@ -29,13 +28,12 @@ type Inputs = {
 
 export default function ProductForm() {
   const { data: categories } = useFetchAllCategoriesQuery();
-  const [uploadImages, { data, error }] = useUploadImagesMutation();
+  const [uploadImages] = useUploadImagesMutation();
   const [createProduct] = useCreateProductMutation();
 
   const {
-    register,
     handleSubmit,
-    watch,
+
     control,
     reset,
     formState: { errors },
@@ -50,7 +48,7 @@ export default function ProductForm() {
   });
 
   const onSubmit = async (data: Inputs) => {
-    const file = data.files[0];
+    // const file = data.files[0];
     const images: string[] = [];
     try {
       for (let i = 0; i < data.files.length; i++) {

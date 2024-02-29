@@ -1,12 +1,12 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-export type initialState = {
+export type InitialState = {
   open: boolean;
   message: string;
   severity: string;
 };
 
-const initialState = {
+const initialState: InitialState = {
   open: false,
   message: '',
   severity: 'success',
@@ -16,7 +16,7 @@ const notificationSlice = createSlice({
   name: 'notification',
   initialState,
   reducers: {
-    setNotification: (state, action: PayloadAction<initialState>) => {
+    setNotification: (state, action: PayloadAction<InitialState>) => {
       const { open, message, severity } = action.payload;
       return { ...state, open, message, severity };
     },

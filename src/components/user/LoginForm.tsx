@@ -36,8 +36,7 @@ export default function UserForm() {
   const {
     register,
     handleSubmit,
-    watch,
-    reset,
+
     formState: { errors },
   } = useForm<UserRegister>();
 

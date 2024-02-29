@@ -9,7 +9,6 @@ import {
   LoginResponse,
   Available,
   Email,
-  TokenRequestBody,
 } from '../misc/types';
 
 export const userQueries = createApi({

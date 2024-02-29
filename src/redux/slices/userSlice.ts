@@ -1,12 +1,6 @@
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import {
-  AuthState,
-  Tokens,
-  User,
-  UserLogin,
-  UserProfileData,
-} from '../../misc/types';
+import { AuthState, Tokens, UserProfileData } from '../../misc/types';
 
 let token: Tokens | null = null;
 

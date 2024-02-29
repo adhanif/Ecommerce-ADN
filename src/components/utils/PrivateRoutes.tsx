@@ -1,10 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Outlet, Navigate } from 'react-router-dom';
-import { AppState, useAppDispatch } from '../../redux/store';
+import { AppState } from '../../redux/store';
 
 export default function PrivateRoutes() {
-  const user = useSelector((state: AppState) => state.user.user?.role);
+  // const user = useSelector((state: AppState) => state.user.user?.role);
   const token = useSelector(
     (state: AppState) => state.user.token?.access_token,
   );
