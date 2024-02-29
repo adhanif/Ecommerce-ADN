@@ -1,5 +1,5 @@
 import React from 'react';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import {
   Container,
   FormControl,
@@ -13,11 +13,7 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
-import {
-  useFetchAllCategoriesQuery,
-  useUpdateProductMutation,
-  useUploadImagesMutation,
-} from '../../redux/productsQuery';
+import { useUpdateProductMutation } from '../../redux/productsQuery';
 import { SearchButton } from '../customStyling/buttons';
 import { Product } from '../../misc/types';
 
@@ -60,14 +56,13 @@ export default function ProductEditForm(props: ProductEditFormProps) {
   const { handleCloseModal, item } = props;
   // console.log('it is rendering');
   // const [uploadImages, { data, error }] = useUploadImagesMutation();
-  const [updateProduct, { data, error }] = useUpdateProductMutation();
+  const [updateProduct] = useUpdateProductMutation();
 
   const {
-    register,
     handleSubmit,
-    watch,
+
     control,
-    reset,
+
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {
@@ -87,7 +82,7 @@ export default function ProductEditForm(props: ProductEditFormProps) {
       // categoryId: data.categoryId,
     };
     try {
-      const response = await updateProduct([item.id, updatedObject]);
+      await updateProduct([item.id, updatedObject]);
       handleCloseModal();
     } catch (error) {
       console.log(error);

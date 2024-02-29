@@ -6,13 +6,12 @@ import { AppState } from '../../redux/store';
 import Loading from '../loading/Loading';
 import ProfileCard from '../profileCard/ProfileCard';
 import { skipToken } from '@reduxjs/toolkit/query';
-import { useFetchAllProductsQuery } from '../../redux/productsQuery';
+
 import AddIcon from '@mui/icons-material/Add';
 import AdminTable from './AdminTable';
 import { Box, Container, Divider, Grid, Typography } from '@mui/material';
 import { SearchButton } from '../customStyling/buttons';
 import ProductForm from '../product/ProductCreateForm';
-import ProductEditForm from '../product/ProductEditForm';
 
 export default function Admin() {
   const token = useSelector((state: AppState) => state.user.token);

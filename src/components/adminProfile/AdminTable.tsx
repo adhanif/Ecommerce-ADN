@@ -11,7 +11,6 @@ import {
   Typography,
   Container,
   Grid,
-  TablePagination,
   Pagination,
   Modal,
   Stack,
@@ -33,7 +32,7 @@ export default function AdminTable() {
   const [mainData, setMainData] = useState<Product[]>([]);
   const { data: allProducts } = useFetchAllProductsQuery();
   const [selectedItem, setSelectedItem] = useState<Product | null>(null);
-  const [deleteProduct, { isSuccess }] = useDeleteProductMutation();
+  const [deleteProduct] = useDeleteProductMutation();
   const dispatch = useAppDispatch();
 
   //pagination
@@ -85,7 +84,6 @@ export default function AdminTable() {
 
   return (
     <>
-      {/* <Container> */}
       <Grid
         container
         display='flex'
@@ -198,7 +196,6 @@ export default function AdminTable() {
           </Modal>
         </Table>
       </TableContainer>
-      {/* </Container> */}
     </>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import {
   Box,
@@ -12,7 +12,7 @@ import Table from '@mui/material/Table';
 import IconButton from '@mui/material/IconButton';
 import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
@@ -24,7 +24,7 @@ import {
   increseQuantity,
   removeFromCart,
 } from '../../redux/slices/cartSlice';
-import { styled } from '@mui/material/styles';
+
 import {
   QuantityGroupButton,
   SearchButton,

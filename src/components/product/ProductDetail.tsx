@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useGetOneProductQuery } from '../../redux/productsQuery';
 import {
-  Button,
   Container,
   Grid,
   IconButton,

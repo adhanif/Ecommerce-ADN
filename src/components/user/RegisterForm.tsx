@@ -23,9 +23,9 @@ import { setNotification } from '../../redux/slices/notificationSlice';
 export default function UserForm() {
   const navigate = useNavigate();
 
-  const [UserRegister] = useRegisterUserMutation();
-  const [checkUser, { isLoading, data: data_, error, isSuccess }] =
-    useCheckUserMutation();
+  const [UserRegister, {isLoading}] = useRegisterUserMutation();
+  // const [checkUser, { isLoading, data: data_, error, isSuccess }] =
+  //   useCheckUserMutation();
 
   const dispatch = useAppDispatch();
 
