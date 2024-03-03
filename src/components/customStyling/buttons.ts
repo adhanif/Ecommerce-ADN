@@ -1,7 +1,8 @@
 import { Button, ButtonGroup, styled } from '@mui/material';
 
 export const SearchButton = styled(Button)({
-  backgroundColor: 'black',
+  backgroundColor: 'background.default',
+  color: 'text.primary',
   padding: '8px',
   '&:hover': {
     backgroundColor: 'white',
@@ -21,15 +22,15 @@ export const ArrowGroupButton = styled(ButtonGroup)({
 });
 
 export const SquareButton = styled(Button)({
-  borderColor: '#e0e0e0',
-  // borderColor: 'black',
-  // backgroundColor: '#e0e0e0',
-  border: '1px solid #e0e0e0',
-  color: 'black',
+  // borderColor: '#e0e0e0',
+  backgroundColor: 'background.default',
+  color: 'inherit',
+  // border: '1px solid #e0e0e0',
+  borderColor: 'black',
+
   ':hover': {
     borderColor: 'black',
-    backgroundColor: 'black',
-    color: 'white',
+    backgroundColor: 'white',
+    color: 'black',
   },
 });
-

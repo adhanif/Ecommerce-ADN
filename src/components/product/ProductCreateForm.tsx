@@ -35,7 +35,7 @@ interface ProductFormProps {
 const ProductForm: React.FC<ProductFormProps> = ({ setOpen }) => {
   const { data: categories } = useFetchAllCategoriesQuery();
   const [uploadImages] = useUploadImagesMutation();
-  const [createProduct, { isSuccess }] = useCreateProductMutation();
+  const [createProduct] = useCreateProductMutation();
   const dispatch = useAppDispatch();
 
   const {

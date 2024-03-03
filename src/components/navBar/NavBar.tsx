@@ -22,6 +22,7 @@ import { logOut, removeUserInfo } from '../../redux/slices/userSlice';
 import { useUserProfileQuery } from '../../redux/userQuery';
 import { setNotification } from '../../redux/slices/notificationSlice';
 import { skipToken } from '@reduxjs/toolkit/query';
+import ToggleColorMode from './ToggleColorMode';
 
 const pages = ['Home', 'Products'];
 
@@ -90,6 +91,7 @@ function ResponsiveAppBar() {
             noWrap
             component='a'
             href='#app-bar-with-responsive-menu'
+            // color="text.primary"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -178,7 +180,9 @@ function ResponsiveAppBar() {
               </Button>
             ))}
           </Box>
-
+          <>
+            <ToggleColorMode />
+          </>
           {!token ? (
             <>
               <Button
