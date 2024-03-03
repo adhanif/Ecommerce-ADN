@@ -7,8 +7,6 @@ import {
   UserProfileData,
   UserRegister,
   LoginResponse,
-  Available,
-  Email,
 } from '../misc/types';
 
 export const userQueries = createApi({
@@ -28,14 +26,7 @@ export const userQueries = createApi({
       },
       invalidatesTags: ['User'],
     }),
-    checkUser: builder.mutation<Available, Email>({
-      query: (body) => ({
-        url: 'https://api.escuelajs.co/api/v1/users/is-available',
-        method: 'POST',
-        body,
-      }),
-      invalidatesTags: ['User'],
-    }),
+
     registerUser: builder.mutation<User, UserRegister>({
       query: (body) => ({
         url: 'https://api.escuelajs.co/api/v1/users/',
@@ -53,30 +44,11 @@ export const userQueries = createApi({
         },
       }),
     }),
-    // userProfile: builder.query<UserProfileData, void>({
-    //   query: () => ({
-    //     url: 'https://api.escuelajs.co/api/v1/auth/profile',
-    //     transformResponse: (response: User) => {
-    //       const { id, role, name, email, avatar } = response;
-    //       return {
-    //         id,
-    //         role,
-    //         name,
-    //         email,
-    //         avatar,
-    //       };
-    //     },
-    //   }),
-    // }),
-
-    //
   }),
 });
 
 export const {
   useLoginUserMutation,
   useRegisterUserMutation,
-  useCheckUserMutation,
-  // useUserProfileQuery,
   useUserProfileQuery,
 } = userQueries;

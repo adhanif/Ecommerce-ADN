@@ -16,6 +16,8 @@ import {
   useUploadImagesMutation,
 } from '../../redux/productsQuery';
 import { SearchButton } from '../customStyling/buttons';
+import { useAppDispatch } from '../../redux/store';
+import { setNotification } from '../../redux/slices/notificationSlice';
 
 type Inputs = {
   images: any;
@@ -26,10 +28,15 @@ type Inputs = {
   files: FileList[];
 };
 
-export default function ProductForm() {
+interface ProductFormProps {
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const ProductForm: React.FC<ProductFormProps> = ({ setOpen }) => {
   const { data: categories } = useFetchAllCategoriesQuery();
   const [uploadImages] = useUploadImagesMutation();
-  const [createProduct] = useCreateProductMutation();
+  const [createProduct, { isSuccess }] = useCreateProductMutation();
+  const dispatch = useAppDispatch();
 
   const {
     handleSubmit,
@@ -60,50 +67,14 @@ export default function ProductForm() {
           if ('data' in result && 'location' in result.data) {
             // const location1: string = result.location;
             const location = result.data.location;
-            console.log(location);
             images.push(location);
-            console.log('successfull');
-          } else {
-            throw result;
           }
-          console.log(result);
         }
       }
-
-      // if (file instanceof File) {
-      //   const formData = new FormData();
-      //   formData.append('file', file);
-
-      // Make a POST request using axios
-      // const result = await axios.post(
-      //   'https://api.escuelajs.co/api/v1/files/upload',
-      //   formData,
-      //   {
-      //     headers: {
-      //       'Content-Type': 'multipart/form-data',
-      //     },
-      //   },
-      // );
-      // const result = await uploadImages(formData);
-      // console.log(result, 'File uploaded successfully');
-      // }
     } catch (error) {
       console.error('Error uploading file:', error);
     }
 
-    const formData = new FormData();
-
-    formData.append('title', data.title);
-    formData.append('price', String(data.price));
-    formData.append('description', data.description);
-
-    if (images) {
-      for (let i = 0; i < images.length; i++) {
-        formData.append('images', images[i]);
-      }
-    }
-
-    console.log(images);
     try {
       const res = await createProduct({
         title: data.title,
@@ -112,7 +83,17 @@ export default function ProductForm() {
         images: images,
         categoryId: Number(data.categoryId),
       });
-      console.log(res);
+
+      if ('data' in res && 'images' in res.data) {
+        dispatch(
+          setNotification({
+            open: true,
+            message: 'Product has been created!',
+            severity: 'success',
+          }),
+        );
+        setOpen(false);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -128,7 +109,7 @@ export default function ProductForm() {
 
   return (
     <>
-      <Container maxWidth='md' sx={{ marginBottom: '12rem' }}>
+      <Container>
         <Grid>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container display='flex' justifyContent='center' spacing='10'>
@@ -198,22 +179,6 @@ export default function ProductForm() {
                   )}
                 />
 
-                {/* <FormControl fullWidth size='small'>
-                  <Select
-                    {...register('categoryId')}
-                    defaultValue={''}
-                    displayEmpty
-                    inputProps={{ 'aria-label': 'Without label' }}
-                  >
-                    {categories &&
-                      categories.map((category) => (
-                        <MenuItem key={category.id} value={category.id}>
-                          {category.name}
-                        </MenuItem>
-                      ))}
-                  </Select>
-                </FormControl> */}
-
                 <Typography
                   variant='caption'
                   sx={{ color: 'red' }}
@@ -277,11 +242,6 @@ export default function ProductForm() {
                     {errors.files.message}
                   </Typography>
                 )}
-                {/* <input
-                  type='file'
-                  multiple
-                  {...register('files', { required: 'Files are required' })}
-                /> */}
               </Grid>
               <Grid item xs={12} sm={12} md={3} marginTop='2rem'>
                 <SearchButton variant='contained' type='submit' fullWidth>
@@ -294,4 +254,6 @@ export default function ProductForm() {
       </Container>
     </>
   );
-}
+};
+
+export default ProductForm;

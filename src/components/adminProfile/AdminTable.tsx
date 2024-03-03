@@ -17,7 +17,11 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 
-import { StyledTableCell, StyledTableRow } from '../customStyling/table';
+import {
+  StyledLink,
+  StyledTableCell,
+  StyledTableRow,
+} from '../customStyling/table';
 import {
   useDeleteProductMutation,
   useFetchAllProductsQuery,
@@ -56,6 +60,7 @@ export default function AdminTable() {
 
   const handleDelete = (item: Product) => {
     deleteProduct(item.id);
+
     dispatch(
       setNotification({
         open: true,
@@ -134,9 +139,20 @@ export default function AdminTable() {
                         height='40'
                         style={{ borderRadius: '50%', marginRight: '1rem' }}
                       />
-                      <Typography variant='subtitle2' fontWeight='700'>
-                        {item.title}
-                      </Typography>
+
+                      <StyledLink to={`/products/${item.id}`}>
+                        <Typography
+                          variant='subtitle2'
+                          noWrap
+                          sx={{
+                            fontSize: '0.875rem',
+                            color: 'black',
+                          }}
+                          fontWeight={700}
+                        >
+                          {item.title}
+                        </Typography>
+                      </StyledLink>
                     </Grid>
                   </TableCell>
                   <TableCell align='left'>

@@ -32,7 +32,7 @@ import {
 } from '../customStyling/buttons';
 import { setNotification } from '../../redux/slices/notificationSlice';
 import { Link } from 'react-router-dom';
-import { StyledTableCell } from '../customStyling/table';
+import { StyledLink, StyledTableCell } from '../customStyling/table';
 
 export default function Cart() {
   const cartData = useSelector((state: AppState) => state.cart.products);
@@ -170,15 +170,21 @@ export default function Cart() {
                         </TableCell>
                         <TableCell
                           sx={{ width: '5px', padding: '2px' }}
-                          align='center'
+                          align='left'
                         >
-                          <Typography
-                            variant='subtitle2'
-                            noWrap
-                            sx={{ maxWidth: '50px' }}
-                          >
-                            {item.title}
-                          </Typography>
+                          <StyledLink to={`/products/${item.id}`}>
+                            <Typography
+                              variant='subtitle2'
+                              noWrap
+                              sx={{
+                                fontSize: '0.875rem',
+                                color: 'black',
+                              }}
+                              fontWeight={700}
+                            >
+                              {item.title}
+                            </Typography>
+                          </StyledLink>
                         </TableCell>
                         <TableCell
                           sx={{ width: '7px', padding: '2px' }}

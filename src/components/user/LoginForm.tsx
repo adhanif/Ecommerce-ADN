@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import {
   Box,
   Button,
@@ -7,9 +8,9 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React, { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import { UserLogin, UserRegister } from '../../misc/types';
 import {
@@ -20,7 +21,6 @@ import { saveUserInfo, setToken } from '../../redux/slices/userSlice';
 import { useAppDispatch } from '../hooks/useDispatchApp';
 import { setNotification } from '../../redux/slices/notificationSlice';
 import { AppState } from '../../redux/store';
-import { useSelector } from 'react-redux';
 import { skipToken } from '@reduxjs/toolkit/query';
 import Loading from '../loading/Loading';
 
@@ -31,7 +31,7 @@ export default function UserForm() {
   const [loginUser, { isLoading }] = useLoginUserMutation();
 
   const token = useSelector((state: AppState) => state.user.token);
-  const { data: userData } = useUserProfileQuery(token ?? skipToken);
+  const { data: userData, refetch } = useUserProfileQuery(token ?? skipToken);
 
   const {
     register,
@@ -45,8 +45,10 @@ export default function UserForm() {
 
     if ('data' in response && 'access_token' in response.data) {
       dispatch(setToken(response.data));
-      navigate('/products');
 
+      setTimeout(() => {
+        navigate('/home');
+      }, 2000);
       dispatch(
         setNotification({
           open: true,
@@ -71,9 +73,17 @@ export default function UserForm() {
 
   useEffect(() => {
     if (userData) {
-      dispatch(saveUserInfo(userData));
+      dispatch(
+        saveUserInfo({
+          name: userData.name,
+          role: userData.role,
+          avatar: userData.avatar,
+          creationAt: userData.creationAt,
+          updatedAt: userData.updatedAt,
+        }),
+      );
     }
-  }, [token, userData, dispatch]);
+  }, [userData]);
 
   if (isLoading) {
     return <Loading />;

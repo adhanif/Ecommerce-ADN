@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import { AuthState, Tokens, UserProfileData } from '../../misc/types';
+import { AuthState, Tokens, UserInitialState } from '../../misc/types';
 
 let token: Tokens | null = null;
 
@@ -9,8 +9,13 @@ const alreadyToken = localStorage.getItem('token');
 if (alreadyToken) {
   token = JSON.parse(alreadyToken);
 }
+// UserProfileData
 
-let user: UserProfileData | null = null;
+let user: UserInitialState | null = null;
+const alreadyUser = localStorage.getItem('user');
+if (alreadyUser) {
+  user = JSON.parse(alreadyUser);
+}
 
 const initialState: AuthState = {
   user: user,
@@ -36,16 +41,22 @@ export const userSlice = createSlice({
     },
 
     logOut: (state) => {
-      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+
       state.token = null;
-      state.user = null;
     },
-    saveUserInfo: (state, action: PayloadAction<UserProfileData | null>) => {
+    saveUserInfo: (state, action: PayloadAction<UserInitialState | null>) => {
+      localStorage.setItem('user', JSON.stringify(action.payload));
       state.user = action.payload;
+    },
+    removeUserInfo: (state) => {
+      localStorage.removeItem('token');
+      state.user = null;
     },
   },
 });
 
-export const { setToken, setError, logOut, saveUserInfo } = userSlice.actions;
+export const { setToken, setError, logOut, saveUserInfo, removeUserInfo } =
+  userSlice.actions;
 
 export const userReducer = userSlice.reducer;

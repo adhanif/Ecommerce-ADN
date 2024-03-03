@@ -1,27 +1,37 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Outlet, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { AppState } from '../../redux/store';
 
-export default function PrivateRoutes() {
-  // const user = useSelector((state: AppState) => state.user.user?.role);
-  const token = useSelector(
-    (state: AppState) => state.user.token?.access_token,
-  );
-  //   const userRole = useSelector(user?.role);
+import UserProfile from '../userProfile/UserProfile';
+import Admin from '../adminProfile/Admin';
 
-  return token ? <Outlet /> : <Navigate to={'/login'} />;
+interface PrivateRouteProps {
+  path?: string;
 }
 
-// import { Navigate } from "react-router-dom";
+export default function PrivateRoutes({
+  path,
+}: PrivateRouteProps): JSX.Element {
+  const userProfile = useSelector((state: AppState) => state.user.user?.role);
 
-// interface PrivateRouteType {
-//   Component: React.ComponentType<any>;
-// }
+  if (!userProfile) {
+    return <Navigate to='/login' replace />;
+  }
 
-// const PrivateRoute = ({ Component }: PrivateRouteType) => {
-//   const isAuthenticated = localStorage.getItem("access-token") ? true : false;
-//   return isAuthenticated ? <Component /> : <Navigate to="/login" />;
-// };
-
-// export default PrivateRoute;
+  if (userProfile === 'admin') {
+    if (path === '/admin') {
+      return <Admin />;
+    } else {
+      return <Navigate to='/no-access' replace />;
+    }
+  } else if (userProfile === 'customer') {
+    if (path === '/profile') {
+      return <UserProfile />;
+    } else {
+      return <Navigate to='/no-access' replace />;
+    }
+  } else {
+    return <Navigate to='/no-access' replace />;
+  }
+}

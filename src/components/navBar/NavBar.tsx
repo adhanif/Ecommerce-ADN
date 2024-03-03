@@ -18,7 +18,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AppState } from '../../redux/store';
-import { logOut } from '../../redux/slices/userSlice';
+import { logOut, removeUserInfo } from '../../redux/slices/userSlice';
 import { useUserProfileQuery } from '../../redux/userQuery';
 import { setNotification } from '../../redux/slices/notificationSlice';
 import { skipToken } from '@reduxjs/toolkit/query';
@@ -57,9 +57,9 @@ function ResponsiveAppBar() {
 
   const { data: userData } = useUserProfileQuery(token ?? skipToken);
 
-
   const handleLogout = () => {
     dispatch(logOut());
+    dispatch(removeUserInfo());
     dispatch(
       setNotification({
         open: true,

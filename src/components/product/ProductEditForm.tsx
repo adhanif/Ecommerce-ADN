@@ -57,9 +57,7 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 
   const {
     handleSubmit,
-
     control,
-
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {

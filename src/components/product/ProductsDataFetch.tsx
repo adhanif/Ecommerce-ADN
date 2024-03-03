@@ -39,7 +39,8 @@ export default function ProductsDataFetch() {
       ? searchQuery.current.value
       : '',
   );
-  console.log(formSubmitted);
+  if (formSubmitted) {
+  }
   const [sortBy, setSortBy] = useState('');
 
   const priceFilterData: Product[] = useSelector(

@@ -59,14 +59,9 @@ export type User = UserRegister & {
 };
 
 export type InitialStateUser = {
-  user: User | null;
+  user: User;
   loading: boolean;
   error: string;
-};
-
-export type Tokens = {
-  access_token?: string;
-  refresh_token?: string;
 };
 
 export type UserProfileData = {
@@ -80,8 +75,20 @@ export type UserProfileData = {
   updatedAt: string;
 };
 
+export type UserInitialState = {
+  name: string;
+  role: string;
+  avatar: string;
+  creationAt: string;
+  updatedAt: string;
+};
+
+export type Tokens = {
+  access_token?: string;
+  refresh_token?: string;
+};
 export type AuthState = {
-  user: UserProfileData | null;
+  user: UserInitialState | null;
   token: Tokens | null;
   error: string | null;
 };
@@ -120,7 +127,6 @@ export type QuantityControlButtonProps = {
   handlePlus: () => void;
   handleCart: () => void;
 };
-
 
 export type SelectOptions = {
   id: number;

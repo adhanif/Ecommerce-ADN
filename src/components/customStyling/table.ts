@@ -1,6 +1,7 @@
 import { TableRow } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import { Link } from 'react-router-dom';
 
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -21,3 +22,11 @@ export const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
+
+export const StyledLink = styled(Link)({
+  textDecoration: 'none',
+  '&:hover': {
+    textDecoration: 'underline',
+    color: 'black',
+  },
+});

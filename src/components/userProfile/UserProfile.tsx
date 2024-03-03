@@ -11,6 +11,7 @@ export default function UserProfile() {
   const token = useSelector((state: AppState) => state.user.token);
   const { isLoading, data } = useUserProfileQuery(token ?? skipToken);
 
+
   if (isLoading) {
     return <Loading />;
   }

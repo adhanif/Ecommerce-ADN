@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useUserProfileQuery } from '../../redux/userQuery';
+import CloseIcon from '@mui/icons-material/Close';
 
 import { AppState } from '../../redux/store';
 import Loading from '../loading/Loading';
@@ -9,13 +10,47 @@ import { skipToken } from '@reduxjs/toolkit/query';
 
 import AddIcon from '@mui/icons-material/Add';
 import AdminTable from './AdminTable';
-import { Box, Container, Divider, Grid, Typography } from '@mui/material';
+import {
+  Box,
+  Container,
+  Divider,
+  Grid,
+  IconButton,
+  Modal,
+  Stack,
+  Typography,
+} from '@mui/material';
 import { SearchButton } from '../customStyling/buttons';
 import ProductForm from '../product/ProductCreateForm';
 
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 500,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
 export default function Admin() {
+  const [open, setOpen] = useState(false);
+
   const token = useSelector((state: AppState) => state.user.token);
   const { isLoading, data } = useUserProfileQuery(token ?? skipToken);
+  const memoizedData = useMemo(() => data, [data]);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpen(false);
+  };
+
+  const memoizedSetOpen = useMemo(() => setOpen, [setOpen]);
 
   if (isLoading) {
     return <Loading />;
@@ -25,7 +60,7 @@ export default function Admin() {
     <>
       <Container>
         {/* <ProductEditForm /> */}
-        <ProductForm />
+        {/* <ProductForm /> */}
         <Box display='flex' justifyContent='center'>
           <Grid item>
             <Typography variant='h4' fontWeight='700'>
@@ -35,7 +70,7 @@ export default function Admin() {
           </Grid>
         </Box>
 
-        {data && <ProfileCard data={data} />}
+        {memoizedData && <ProfileCard data={memoizedData} />}
 
         <Grid
           marginBottom='4rem'
@@ -50,13 +85,35 @@ export default function Admin() {
             </Typography>
           </Grid>
           <Grid item>
-            <SearchButton variant='contained' startIcon={<AddIcon />}>
+            <SearchButton
+              variant='contained'
+              startIcon={<AddIcon />}
+              onClick={handleOpen}
+            >
               Add Product
             </SearchButton>
           </Grid>
         </Grid>
 
         <AdminTable />
+
+        <Modal open={open} onClose={handleCloseModal}>
+          <Stack display='flex' sx={style}>
+            <IconButton
+              aria-label='close'
+              onClick={handleCloseModal}
+              style={{
+                position: 'absolute',
+                top: 50,
+                right: 50,
+                color: 'white',
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+            <ProductForm setOpen={memoizedSetOpen} />
+          </Stack>
+        </Modal>
       </Container>
     </>
   );

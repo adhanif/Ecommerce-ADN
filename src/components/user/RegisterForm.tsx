@@ -21,16 +21,14 @@ export default function UserForm() {
   const navigate = useNavigate();
 
   const [UserRegister, { isLoading }] = useRegisterUserMutation();
-  // const [checkUser, { isLoading, data: data_, error, isSuccess }] =
-  //   useCheckUserMutation();
+  
 
   const dispatch = useAppDispatch();
 
   const {
     register,
     handleSubmit,
-    // watch,
-    // reset,
+ 
     formState: { errors },
   } = useForm<UserRegister>();
 
