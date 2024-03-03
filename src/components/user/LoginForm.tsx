@@ -31,7 +31,7 @@ export default function UserForm() {
   const [loginUser, { isLoading }] = useLoginUserMutation();
 
   const token = useSelector((state: AppState) => state.user.token);
-  const { data: userData, refetch } = useUserProfileQuery(token ?? skipToken);
+  const { data: userData } = useUserProfileQuery(token ?? skipToken);
 
   const {
     register,
@@ -48,7 +48,7 @@ export default function UserForm() {
 
       setTimeout(() => {
         navigate('/home');
-      }, 2000);
+      }, 500);
       dispatch(
         setNotification({
           open: true,
@@ -83,7 +83,7 @@ export default function UserForm() {
         }),
       );
     }
-  }, [userData]);
+  }, [userData, dispatch]);
 
   if (isLoading) {
     return <Loading />;
@@ -161,7 +161,7 @@ export default function UserForm() {
                   type='submit'
                   variant='contained'
                   fullWidth
-                  style={{ marginTop: '1rem', backgroundColor: 'black' }}
+                  style={{ marginTop: '1rem' }}
                 >
                   {' '}
                   login

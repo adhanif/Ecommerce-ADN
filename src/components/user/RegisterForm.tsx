@@ -21,14 +21,13 @@ export default function UserForm() {
   const navigate = useNavigate();
 
   const [UserRegister, { isLoading }] = useRegisterUserMutation();
-  
 
   const dispatch = useAppDispatch();
 
   const {
     register,
     handleSubmit,
- 
+
     formState: { errors },
   } = useForm<UserRegister>();
 
@@ -175,7 +174,7 @@ export default function UserForm() {
                   variant='contained'
                   color='primary'
                   fullWidth
-                  style={{ marginTop: '1rem', backgroundColor: 'black' }}
+                  style={{ marginTop: '1rem' }}
                 >
                   {' '}
                   sign up

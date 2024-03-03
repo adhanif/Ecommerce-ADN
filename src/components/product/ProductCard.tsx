@@ -13,7 +13,7 @@ export default function ProductCard({ product }: { product: Product }) {
       sx={{
         height: '100%',
         border: 'none',
-        background: 'transparent',
+        background: 'background.default',
       }}
     >
       <Box>

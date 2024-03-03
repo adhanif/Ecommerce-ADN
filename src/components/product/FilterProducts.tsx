@@ -122,19 +122,14 @@ export default function FilterProducts() {
             </FormControl>
           </Grid>
           <Grid item xs={12} md={12} lg={12} marginTop='20px'>
-            <Button
-              variant='contained'
-              onClick={handleFilter}
-              fullWidth
-              sx={{ bgcolor: 'black' }}
-            >
+            <Button variant='contained' onClick={handleFilter} fullWidth>
               Filter
             </Button>
             <Button
               variant='outlined'
               onClick={handleReset}
               fullWidth
-              sx={{ borderColor: 'black', color: 'black', marginTop: '10px' }}
+              sx={{ marginTop: '10px' }}
             >
               Reset
             </Button>
