@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {
   Box,
@@ -20,7 +20,7 @@ import Paper from '@mui/material/Paper';
 
 import { AppState, useAppDispatch } from '../../redux/store';
 import {
-  deccreseQuantity,
+  decreseQuantity,
   increseQuantity,
   removeFromCart,
 } from '../../redux/slices/cartSlice';
@@ -56,7 +56,7 @@ export default function Cart() {
   };
 
   const handleMinus = (id: number) => {
-    dispatch(deccreseQuantity(id));
+    dispatch(decreseQuantity(id));
     dispatch(
       setNotification({
         open: true,
