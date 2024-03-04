@@ -13,7 +13,7 @@ const ThemeContext = createContext<ThemeContextType>({
 });
 
 export default function ThemeProvider({ children }: { children: ReactNode }) {
-  const [mode, setMode] = React.useState<Mode>('dark');
+  const [mode, setMode] = React.useState<Mode>('light');
 
   const toggleColorMode = () => {
     setMode((prev) => (prev === 'dark' ? 'light' : 'dark'));

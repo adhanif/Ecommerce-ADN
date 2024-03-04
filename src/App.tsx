@@ -40,7 +40,7 @@ function App() {
           justifyContent: 'center',
           bgcolor: 'background.default',
           color: 'text.primary',
-          borderRadius: 1,
+          // borderRadius: 1,
           p: 3,
         }}
       >

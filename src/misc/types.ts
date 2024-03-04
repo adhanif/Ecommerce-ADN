@@ -132,3 +132,35 @@ export type SelectOptions = {
   id: number;
   label: string;
 };
+
+export type CartProduct = {
+  id: number;
+  title: string;
+  price: number;
+  description: string;
+  images: string[];
+  creationAt: string;
+  updatedAt: string;
+  category: {
+    id: number;
+    name: string;
+    image: string;
+    creationAt: string;
+    updatedAt: string;
+  };
+  quantity: number;
+};
+
+export type AddToCartPayload = {
+  product: Product;
+  count: number;
+};
+
+export type increaseCartPayload = {
+  id: number;
+  count: number;
+};
+export type InitialCartState = {
+  products: CartProduct[];
+  loading: boolean;
+};

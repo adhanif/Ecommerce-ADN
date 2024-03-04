@@ -51,8 +51,6 @@ type ProductEditFormProps = {
 
 export default function ProductEditForm(props: ProductEditFormProps) {
   const { handleCloseModal, item } = props;
-  // console.log('it is rendering');
-  // const [uploadImages, { data, error }] = useUploadImagesMutation();
   const [updateProduct] = useUpdateProductMutation();
 
   const {
@@ -74,7 +72,6 @@ export default function ProductEditForm(props: ProductEditFormProps) {
       title: data.title,
       price: data.price,
       description: data.description,
-      // categoryId: data.categoryId,
     };
     try {
       await updateProduct([item.id, updatedObject]);
@@ -111,7 +108,9 @@ export default function ProductEditForm(props: ProductEditFormProps) {
                 spacing='10'
               >
                 <Grid item xs={12} sm={12} md={6}>
-                  <Typography variant='subtitle2'>Title</Typography>
+                  <Typography variant='subtitle2' color='text.primary'>
+                    Title
+                  </Typography>
                   <Controller
                     name='title'
                     control={control}
@@ -139,7 +138,9 @@ export default function ProductEditForm(props: ProductEditFormProps) {
                 </Grid>
 
                 <Grid item xs={12} sm={12} md={6}>
-                  <Typography variant='subtitle2'>Price (€)</Typography>
+                  <Typography variant='subtitle2' color='text.primary'>
+                    Price (€)
+                  </Typography>
 
                   <Controller
                     name='price'
@@ -158,7 +159,9 @@ export default function ProductEditForm(props: ProductEditFormProps) {
                 </Grid>
 
                 <Grid item xs={12} sm={12} md={12} marginTop='1rem'>
-                  <Typography variant='subtitle2'>Category</Typography>
+                  <Typography variant='subtitle2' color='text.primary'>
+                    Category
+                  </Typography>
                   <Controller
                     name='categoryId'
                     control={control}
@@ -175,22 +178,6 @@ export default function ProductEditForm(props: ProductEditFormProps) {
                     )}
                   />
 
-                  {/* <FormControl fullWidth size='small'>
-                  <Select
-                    {...register('categoryId')}
-                    defaultValue={''}
-                    displayEmpty
-                    inputProps={{ 'aria-label': 'Without label' }}
-                  >
-                    {categories &&
-                      categories.map((category) => (
-                        <MenuItem key={category.id} value={category.id}>
-                          {category.name}
-                        </MenuItem>
-                      ))}
-                  </Select>
-                </FormControl> */}
-
                   <Typography
                     variant='caption'
                     sx={{ color: 'red' }}
@@ -201,7 +188,9 @@ export default function ProductEditForm(props: ProductEditFormProps) {
                 </Grid>
 
                 <Grid item xs={12} sm={12} md={12} marginTop='1rem'>
-                  <Typography variant='subtitle2'>Description</Typography>
+                  <Typography variant='subtitle2' color='text.primary'>
+                    Description
+                  </Typography>
                   <Controller
                     name='description'
                     control={control}

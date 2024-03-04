@@ -114,7 +114,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ setOpen }) => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container display='flex' justifyContent='center' spacing='10'>
               <Grid item xs={12} sm={12} md={6}>
-                <Typography variant='subtitle2'>Title</Typography>
+                <Typography variant='subtitle2' color='text.primary'>
+                  Title
+                </Typography>
                 <Controller
                   name='title'
                   control={control}
@@ -142,7 +144,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ setOpen }) => {
               </Grid>
 
               <Grid item xs={12} sm={12} md={6}>
-                <Typography variant='subtitle2'>Price (€)</Typography>
+                <Typography variant='subtitle2' color='text.primary'>
+                  Price (€)
+                </Typography>
 
                 <Controller
                   name='price'
@@ -161,7 +165,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ setOpen }) => {
               </Grid>
 
               <Grid item xs={12} sm={12} md={12} marginTop='1rem'>
-                <Typography variant='subtitle2'>Category</Typography>
+                <Typography variant='subtitle2' color='text.primary'>
+                  Category
+                </Typography>
                 <Controller
                   name='categoryId'
                   control={control}
@@ -189,7 +195,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ setOpen }) => {
               </Grid>
 
               <Grid item xs={12} sm={12} md={12} marginTop='1rem'>
-                <Typography variant='subtitle2'>Description</Typography>
+                <Typography variant='subtitle2' color='text.primary'>
+                  Description
+                </Typography>
                 <Controller
                   name='description'
                   control={control}

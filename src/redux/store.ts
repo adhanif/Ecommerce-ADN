@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import {  configureStore } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 
 import productReducer from './slices/productSlice';
 import { userReducer } from './slices/userSlice';
@@ -29,4 +29,28 @@ const store = configureStore({
 
 export type AppState = ReturnType<typeof store.getState>;
 export const useAppDispatch = () => useDispatch<typeof store.dispatch>();
+// export default store;
+
+export const createNewStore = () => {
+  return configureStore({
+    reducer: {
+      // counterReducer
+      cart: cartReducer,
+      products: productReducer,
+      users: userReducer,
+      user: userReducer,
+      notification: notificationSlice,
+      // query
+      [userQueries.reducerPath]: userQueries.reducer,
+      [productQueries.reducerPath]: productQueries.reducer,
+    },
+
+    // middleware
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(
+        userQueries.middleware,
+        productQueries.middleware,
+      ),
+  });
+};
 export default store;
