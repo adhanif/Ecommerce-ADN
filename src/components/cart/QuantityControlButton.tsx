@@ -14,7 +14,7 @@ const QuantityControlButton: React.FC<QuantityControlButtonProps> = ({
     <Box marginTop={2} marginBottom={3}>
       <QuantityGroupButton size='medium' aria-label='Basic button group'>
         <SquareButton onClick={handleMinus}>-</SquareButton>
-        <Button disabled>{count}</Button>
+        <SquareButton >{count}</SquareButton>
         <SquareButton onClick={handlePlus}>+</SquareButton>
       </QuantityGroupButton>
       <SquareButton

@@ -65,7 +65,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ setOpen }) => {
           formData.append('file', filenew);
           const result = await uploadImages(formData);
           if ('data' in result && 'location' in result.data) {
-            // const location1: string = result.location;
+          
             const location = result.data.location;
             images.push(location);
           }

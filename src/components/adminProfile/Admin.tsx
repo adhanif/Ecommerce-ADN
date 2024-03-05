@@ -58,62 +58,62 @@ export default function Admin() {
 
   return (
     <>
-      <Container>
-        {/* <ProductEditForm /> */}
-        {/* <ProductForm /> */}
-        <Box display='flex' justifyContent='center'>
-          <Grid item>
-            <Typography variant='h4' fontWeight='700'>
-              Admin Dashboard
-            </Typography>
-            <Divider />
+      <Container sx={{ marginTop: '5rem' }}>
+        <Box marginBottom='10rem'>
+          <Box display='flex' justifyContent='center'>
+            <Grid item>
+              <Typography variant='h4' fontWeight='700'>
+                Admin Dashboard
+              </Typography>
+              <Divider />
+            </Grid>
+          </Box>
+
+          {memoizedData && <ProfileCard data={memoizedData} />}
+
+          <Grid
+            marginBottom='4rem'
+            container
+            display='flex'
+            justifyContent='space-between'
+            alignItems='center'
+          >
+            <Grid item>
+              <Typography variant='h4' fontWeight='700'>
+                All Products
+              </Typography>
+            </Grid>
+            <Grid item>
+              <SearchButton
+                variant='contained'
+                startIcon={<AddIcon />}
+                onClick={handleOpen}
+              >
+                Add Product
+              </SearchButton>
+            </Grid>
           </Grid>
+
+          <AdminTable />
+
+          <Modal open={open} onClose={handleCloseModal}>
+            <Stack display='flex' sx={style}>
+              <IconButton
+                aria-label='close'
+                onClick={handleCloseModal}
+                style={{
+                  position: 'absolute',
+                  top: 10,
+                  right: 10,
+                  color: 'text.primary',
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
+              <ProductForm setOpen={memoizedSetOpen} />
+            </Stack>
+          </Modal>
         </Box>
-
-        {memoizedData && <ProfileCard data={memoizedData} />}
-
-        <Grid
-          marginBottom='4rem'
-          container
-          display='flex'
-          justifyContent='space-between'
-          alignItems='center'
-        >
-          <Grid item>
-            <Typography variant='h4' fontWeight='700'>
-              All Products
-            </Typography>
-          </Grid>
-          <Grid item>
-            <SearchButton
-              variant='contained'
-              startIcon={<AddIcon />}
-              onClick={handleOpen}
-            >
-              Add Product
-            </SearchButton>
-          </Grid>
-        </Grid>
-
-        <AdminTable />
-
-        <Modal open={open} onClose={handleCloseModal}>
-          <Stack display='flex' sx={style}>
-            <IconButton
-              aria-label='close'
-              onClick={handleCloseModal}
-              style={{
-                position: 'absolute',
-                top: 50,
-                right: 50,
-                color: 'white',
-              }}
-            >
-              <CloseIcon />
-            </IconButton>
-            <ProductForm setOpen={memoizedSetOpen} />
-          </Stack>
-        </Modal>
       </Container>
     </>
   );

@@ -29,6 +29,7 @@ import { useAppDispatch } from '../../redux/store';
 import { addToCart } from '../../redux/slices/cartSlice';
 import QuantityControlButton from '../cart/QuantityControlButton';
 import { setNotification } from '../../redux/slices/notificationSlice';
+import { convertImagesArray } from '../utils/products';
 
 export default function ProductDetail() {
   const productId = useParams();
@@ -67,7 +68,6 @@ export default function ProductDetail() {
     setSelectedImage(null);
   };
 
-  // console.log(data);
   const handleCart = () => {
     if (data && count >= 1) {
       dispatch(addToCart({ product: data, count }));
@@ -102,7 +102,7 @@ export default function ProductDetail() {
           >
             <Grid item xs={12} sm={12} md={5} lg={5} marginRight={1}>
               <ImageList cols={2} gap={6} rowHeight={200}>
-                {data.images.map((image, index) => (
+                {convertImagesArray(data.images).map((image, index) => (
                   <ImageListItem
                     key={index}
                     cols={index === 0 ? 2 : 1}

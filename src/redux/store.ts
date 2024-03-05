@@ -38,7 +38,6 @@ export const createNewStore = () => {
       cart: cartReducer,
       products: productReducer,
       users: userReducer,
-      user: userReducer,
       notification: notificationSlice,
       // query
       [userQueries.reducerPath]: userQueries.reducer,

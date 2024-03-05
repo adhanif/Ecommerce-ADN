@@ -30,6 +30,7 @@ import { Product } from '../../misc/types';
 import { setNotification } from '../../redux/slices/notificationSlice';
 import { useAppDispatch } from '../hooks/useDispatchApp';
 import ProductEditForm from '../product/ProductEditForm';
+import { convertImagesArray } from '../utils/products';
 
 export default function AdminTable() {
   const [mainData, setMainData] = useState<Product[]>([]);
@@ -78,14 +79,13 @@ export default function AdminTable() {
     [setSelectedItem],
   );
 
-  // const handleEditClick = (item: Product) => {
-  //   setSelectedItem(item);
-  // };
-
   const handleCloseModal = () => {
     setSelectedItem(null);
   };
 
+  if (mainData) {
+    // console.log(convertImagesArray());
+  }
   return (
     <>
       <Grid
@@ -119,10 +119,7 @@ export default function AdminTable() {
               <StyledTableCell align='left'>CATEGORY</StyledTableCell>
               <StyledTableCell align='left'>PRICE</StyledTableCell>
               <StyledTableCell align='left'>ID</StyledTableCell>
-              <StyledTableCell
-                // sx={{ padding: '5px' }}
-                align='center'
-              ></StyledTableCell>
+              <StyledTableCell align='center'></StyledTableCell>
               <StyledTableCell></StyledTableCell>
             </TableRow>
           </TableHead>
@@ -133,7 +130,7 @@ export default function AdminTable() {
                   <TableCell align='left'>
                     <Grid display='flex' alignItems='center'>
                       <img
-                        src={item.images[0]}
+                        src={convertImagesArray(item.images)[0]}
                         alt={item.title}
                         width='40'
                         height='40'

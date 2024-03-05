@@ -69,9 +69,7 @@ export const productQueries = createApi({
         url: '/files/upload',
         method: 'POST',
         body: images,
-        // headers: {
-        //   'Content-Type': 'multipart/form-data',
-        // },
+
         transformResponse: (rawResult: ImageResponse) => rawResult,
       }),
 

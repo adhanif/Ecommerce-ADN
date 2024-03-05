@@ -12,14 +12,14 @@ import {
 export const userQueries = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://api.escuelajs.co/api/v1/auth',
+    baseUrl: 'https://api.escuelajs.co/api/v1',
   }),
   tagTypes: ['User'],
   endpoints: (builder) => ({
     loginUser: builder.mutation<LoginResponse, UserLogin>({
       query: (body) => {
         return {
-          url: '/login',
+          url: '/auth/login/',
           method: 'POST',
           body,
         };
@@ -29,7 +29,7 @@ export const userQueries = createApi({
 
     registerUser: builder.mutation<User, UserRegister>({
       query: (body) => ({
-        url: 'https://api.escuelajs.co/api/v1/users/',
+        url: '/users/',
         method: 'POST',
         body,
       }),
@@ -37,7 +37,7 @@ export const userQueries = createApi({
     }),
     userProfile: builder.query<UserProfileData, Tokens>({
       query: (body) => ({
-        url: 'https://api.escuelajs.co/api/v1/auth/profile',
+        url: '/auth/profile',
         method: 'GET',
         headers: {
           Authorization: `Bearer ${body.access_token}`,

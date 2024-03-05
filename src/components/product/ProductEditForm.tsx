@@ -90,8 +90,8 @@ export default function ProductEditForm(props: ProductEditFormProps) {
             onClick={handleCloseModal}
             style={{
               position: 'absolute',
-              top: 10,
-              right: 10,
+              top: 50,
+              right: 50,
               color: 'white',
             }}
           >

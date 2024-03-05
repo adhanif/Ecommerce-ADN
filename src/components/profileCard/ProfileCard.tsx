@@ -8,6 +8,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+
 import { UserProfileData } from '../../misc/types';
 
 export default function ProfileCard({ data }: { data: UserProfileData }) {

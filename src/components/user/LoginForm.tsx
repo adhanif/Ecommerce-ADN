@@ -47,7 +47,7 @@ export default function UserForm() {
       dispatch(setToken(response.data));
 
       setTimeout(() => {
-        navigate('/home');
+        navigate('/');
       }, 500);
       dispatch(
         setNotification({

@@ -33,6 +33,15 @@ export type CreateProduct = {
   categoryId: number;
 };
 
+export type CreateProductMockServer = {
+  id: number;
+  title: string;
+  price: number;
+  description: string;
+  images: string[] | string;
+  categoryId: number;
+};
+
 export type InitialState = {
   products: Product[];
   loading: boolean;

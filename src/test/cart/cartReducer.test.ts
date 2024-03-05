@@ -7,6 +7,7 @@ import cartReducer, {
 } from '../../redux/slices/cartSlice';
 import { createNewStore } from '../../redux/store';
 import { InitialCartState } from '../../misc/types';
+import { products } from '../shared/mockData';
 
 let store = createNewStore();
 
@@ -19,61 +20,7 @@ beforeEach(() => {
   store = createNewStore();
 });
 
-beforeEach(() => {});
-
 describe('cart reducer', () => {
-  //mock data
-  const product: Product[] = [
-    {
-      id: 1,
-      title: 'Test Product',
-      price: 20,
-      description: 'Product description',
-      images: ['image1.jpg'],
-      creationAt: '2022-01-01',
-      updatedAt: '2022-01-02',
-      category: {
-        id: 1,
-        name: 'TestCategory',
-        image: 'category.jpg',
-        creationAt: '2022-01-01',
-        updatedAt: '2022-01-02',
-      },
-    },
-    {
-      id: 2,
-      title: 'Another Product',
-      price: 30,
-      description: 'Another product description',
-      images: ['image2.jpg'],
-      creationAt: '2022-02-01',
-      updatedAt: '2022-02-02',
-      category: {
-        id: 2,
-        name: 'AnotherCategory',
-        image: 'another_category.jpg',
-        creationAt: '2022-02-01',
-        updatedAt: '2022-02-02',
-      },
-    },
-    {
-      id: 3,
-      title: 'Yet Another Product',
-      price: 25,
-      description: 'Yet another product description',
-      images: ['image3.jpg'],
-      creationAt: '2022-03-01',
-      updatedAt: '2022-03-02',
-      category: {
-        id: 3,
-        name: 'YetAnotherCategory',
-        image: 'yet_another_category.jpg',
-        creationAt: '2022-03-01',
-        updatedAt: '2022-03-02',
-      },
-    },
-  ];
-
   // test0: initial state
   test('should return the initial state', () => {
     const state = cartReducer(initialCartState, { type: '' });
@@ -85,7 +32,7 @@ describe('cart reducer', () => {
     const count = 2;
     const state = cartReducer(
       initialCartState,
-      addToCart({ product: product[0], count }),
+      addToCart({ product: products[0], count }),
     );
     expect(state.products).toHaveLength(1);
     expect(state.products[0].id).toBe(1);
@@ -98,11 +45,10 @@ describe('cart reducer', () => {
     const count = 2;
     const state = cartReducer(
       initialCartState,
-      addToCart({ product: product[0], count }),
+      addToCart({ product: products[0], count }),
     );
 
-    const deleteItemState = cartReducer(state, removeFromCart(product[0].id));
-    console.log(deleteItemState);
+    const deleteItemState = cartReducer(state, removeFromCart(products[0].id));
     expect(deleteItemState.products).toHaveLength(0);
   });
 
@@ -111,9 +57,9 @@ describe('cart reducer', () => {
     const count = 2;
     const state = cartReducer(
       initialCartState,
-      addToCart({ product: product[1], count }),
+      addToCart({ product: products[1], count }),
     );
-    const increaseState = cartReducer(state, increseQuantity(product[1].id));
+    const increaseState = cartReducer(state, increseQuantity(products[1].id));
     expect(increaseState.products[0].quantity).toEqual(3);
   });
 
@@ -122,9 +68,9 @@ describe('cart reducer', () => {
     const count = 6;
     const state = cartReducer(
       initialCartState,
-      addToCart({ product: product[2], count }),
+      addToCart({ product: products[2], count }),
     );
-    const decreaseState = cartReducer(state, decreseQuantity(product[2].id));
+    const decreaseState = cartReducer(state, decreseQuantity(products[2].id));
     expect(decreaseState.products[0].quantity).toEqual(5);
   });
 });

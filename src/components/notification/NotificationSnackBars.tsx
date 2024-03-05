@@ -15,16 +15,8 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 export default function NotificationSnackBars() {
-  // const [open, setOpen] = React.useState<boolean>(false);
-
   const notification = useSelector((state: AppState) => state.notification);
   const dispatch = useAppDispatch();
-
-  // console.log(typeof notification.severity);
-
-  // const handleClick = () => {
-  //   setOpen(true);
-  // };
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,
@@ -33,7 +25,7 @@ export default function NotificationSnackBars() {
     if (reason === 'clickaway') {
       return;
     }
-    // setOpen(false);
+
     dispatch(setNotification({ open: false, message: '', severity: '' }));
   };
 

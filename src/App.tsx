@@ -16,6 +16,7 @@ import NotificationSnackBars from './components/notification/NotificationSnackBa
 import Footer from './components/footer/Footer';
 import PrivateRoutes from './components/utils/PrivateRoutes';
 import NoAuthorization from './components/utils/NoAuthorization';
+import { Contact } from './components/contact/Contact';
 
 function App() {
   const { mode } = useTheme();
@@ -34,21 +35,21 @@ function App() {
     <ThemeProvider theme={theme}>
       <Box
         sx={{
-          display: 'flex',
+          // display: 'flex',
           width: '100%',
           alignItems: 'center',
           justifyContent: 'center',
           bgcolor: 'background.default',
           color: 'text.primary',
           // borderRadius: 1,
-          p: 3,
+          // p: 3,
         }}
       >
-        <Container maxWidth='xl'>
+        {/* <Container maxWidth='xl'> */}
           <NavBar />
           <NotificationSnackBars />
           <Routes>
-            <Route path='/home' element={<Home />}></Route>
+            <Route path='/' element={<Home />}></Route>
             <Route path='/products' element={<ProductsDataFetch />}></Route>
             <Route path='/products/:id' element={<ProductDetail />}></Route>
             <Route path='/register' element={<RegisterForm />}></Route>
@@ -60,9 +61,11 @@ function App() {
             />
             <Route path='/cart' element={<Cart />}></Route>
             <Route path='/no-access' element={<NoAuthorization />}></Route>
+
+            <Route path='/contact' element={<Contact />}></Route>
           </Routes>
           <Footer />
-        </Container>
+        {/* </Container> */}
       </Box>
     </ThemeProvider>
   );

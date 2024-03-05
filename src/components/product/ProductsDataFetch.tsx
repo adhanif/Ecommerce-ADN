@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Box,
+  Container,
   FormControl,
   Grid,
   MenuItem,
@@ -24,6 +25,7 @@ import { Product } from '../../misc/types';
 import FilterProducts from './FilterProducts';
 import { AppState } from '../../redux/store';
 import { SearchButton } from '../customStyling/buttons';
+import { sortData } from '../utils/products';
 
 export default function ProductsDataFetch() {
   const [mainData, setMainData] = useState<Product[]>([]);
@@ -61,18 +63,6 @@ export default function ProductsDataFetch() {
       setMainData(allData);
     }
   }, [priceFilterData, mainData, searchData, allData, setMainData]);
-
-  function sortData(data: Product[] | undefined, sortBy: string) {
-    if (!data) return [];
-
-    if (sortBy === 'lowToHigh') {
-      return [...data].sort((a, b) => a.price - b.price);
-    } else if (sortBy === 'highToLow') {
-      return [...data].sort((a, b) => b.price - a.price);
-    } else {
-      return data;
-    }
-  }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -113,133 +103,147 @@ export default function ProductsDataFetch() {
 
   return (
     <>
-      <Box display='flex'>
-        <Link to='/home' style={{ textDecoration: 'none' }}>
-          <Typography variant='body2' color='grey.600'>
-            Home
-          </Typography>
-        </Link>
+      <Container maxWidth='xl' sx={{ marginTop: '5rem' }}>
+        <Box display='flex'>
+          <Link to='/home' style={{ textDecoration: 'none' }}>
+            <Typography variant='body2' color='grey.600'>
+              Home
+            </Typography>
+          </Link>
 
-        <Typography variant='body2' color='grey.600'>
-          / Products
-        </Typography>
-      </Box>
-      <Box>
-        <Typography component='h2' variant='h2' textAlign='center'>
-          Products
-        </Typography>
-      </Box>
-      <Box
-        id='highlights'
-        sx={{
-          pb: { xs: 8, sm: 16 },
-        }}
-      >
-        <Grid
-          container
-          display='flex'
-          justifyContent='space-between'
-          alignItems='center'
-          marginBottom='3rem'
-          marginTop='3rem'
+          <Typography variant='body2' color='grey.600'>
+            / Products
+          </Typography>
+        </Box>
+        <Box>
+          <Typography
+            fontWeight='900'
+            component='h2'
+            variant='h2'
+            textAlign='center'
+            sx={{
+              typography: {
+                xs: { fontSize: '1.5rem' },
+                sm: { fontSize: '2.5rem' },
+                md: { fontSize: '3rem' },
+              },
+            }}
+          >
+            Products
+          </Typography>
+        </Box>
+        <Box
+          id='highlights'
+          sx={{
+            pb: { xs: 8, sm: 16 },
+          }}
         >
-          <Grid item xs={12} md={3}>
-            <Typography>{`Showing all ${sortedData.length} results`}</Typography>
-          </Grid>
           <Grid
             container
-            item
-            xs={12}
-            md={9}
             display='flex'
             justifyContent='space-between'
+            alignItems='center'
+            marginBottom='3rem'
+            marginTop='3rem'
           >
+            <Grid item xs={12} md={3}>
+              <Typography>{`Showing all ${sortedData.length} results`}</Typography>
+            </Grid>
             <Grid
               container
               item
               xs={12}
-              md={6}
-              sx={{
-                mt: { xs: '10px', sm: '10px', md: '0px' },
-                mb: { xs: '30px', sm: '30px', md: '0px' },
-              }}
+              md={9}
+              display='flex'
+              justifyContent='space-between'
             >
-              <form style={{ width: '100%' }} onSubmit={handleSubmit}>
-                <Grid container alignItems='flex-end'>
-                  <Grid item xs={12} md={8}>
-                    <TextField
-                      // value={searchQuery}
-                      size='small'
-                      label='Search by title'
-                      variant='outlined'
-                      fullWidth
-                      // onChange={handleSearchChange}
-                      inputRef={searchQuery}
-                    />
-                  </Grid>
-                  <Grid item xs={12} md={3}>
-                    <SearchButton variant='contained' type='submit' fullWidth>
-                      Search
-                    </SearchButton>
-                  </Grid>
-                </Grid>
-              </form>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              <FormControl
-                sx={{ minWidth: 230, border: 'none' }}
-                size='small'
-                fullWidth
+              <Grid
+                container
+                item
+                xs={12}
+                md={6}
+                sx={{
+                  mt: { xs: '10px', sm: '10px', md: '0px' },
+                  mb: { xs: '30px', sm: '30px', md: '0px' },
+                }}
               >
-                <Select
-                  value={sortBy}
-                  onChange={handleChange}
-                  displayEmpty
-                  inputProps={{ 'aria-label': 'Without label' }}
+                <form style={{ width: '100%' }} onSubmit={handleSubmit}>
+                  <Grid container alignItems='flex-end'>
+                    <Grid item xs={12} md={8}>
+                      <TextField
+                        // value={searchQuery}
+                        size='small'
+                        label='Search by title'
+                        variant='outlined'
+                        fullWidth
+                        // onChange={handleSearchChange}
+                        inputRef={searchQuery}
+                      />
+                    </Grid>
+                    <Grid item xs={12} md={3}>
+                      <SearchButton variant='contained' type='submit' fullWidth>
+                        Search
+                      </SearchButton>
+                    </Grid>
+                  </Grid>
+                </form>
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <FormControl
+                  sx={{ minWidth: 230, border: 'none' }}
+                  size='small'
+                  fullWidth
                 >
-                  <MenuItem value=''>Default sorting</MenuItem>
-                  <MenuItem value='lowToHigh'>
-                    Sort by price: low to high
-                  </MenuItem>
-                  <MenuItem value='highToLow'>
-                    Sort by price: high to low
-                  </MenuItem>
-                </Select>
-              </FormControl>
+                  <Select
+                    value={sortBy}
+                    onChange={handleChange}
+                    displayEmpty
+                    inputProps={{ 'aria-label': 'Without label' }}
+                  >
+                    <MenuItem value=''>Default sorting</MenuItem>
+                    <MenuItem value='lowToHigh'>
+                      Sort by price: low to high
+                    </MenuItem>
+                    <MenuItem value='highToLow'>
+                      Sort by price: high to low
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-        <Grid container spacing={2.5}>
-          <Grid item xs={12} sm={12} md={3} lg={3}>
-            <FilterProducts />
-          </Grid>
+          <Grid container spacing={2.5}>
+            <Grid item xs={12} sm={12} md={3} lg={3}>
+              <FilterProducts />
+            </Grid>
 
-          {/* Products Grid Container */}
-          <Grid item xs={12} sm={12} md={9} lg={9}>
-            {slicedData.length === 0 ? (
-              <Typography variant='body1'>No results found.</Typography>
-            ) : (
-              <Grid container spacing={2.5}>
-                {slicedData &&
-                  slicedData.map((product, index) => (
-                    <Grid item xs={12} sm={6} md={6} lg={4} key={index}>
-                      <ProductCard product={product} />
-                    </Grid>
-                  ))}
-              </Grid>
-            )}
-            <Box marginTop='5rem' display='flex' justifyContent='center'>
-              <Pagination
-                count={Math.ceil(sortedData.length / itemsPerPage)}
-                page={currentPage}
-                onChange={handlePageChange}
-                variant='outlined'
-                shape='rounded'
-              />
-            </Box>
+            {/* Products Grid Container */}
+            <Grid item xs={12} sm={12} md={9} lg={9}>
+              {slicedData.length === 0 ? (
+                <Typography variant='body1'>No results found.</Typography>
+              ) : (
+                <Grid container spacing={2.5}>
+                  {slicedData &&
+                    slicedData.map((product, index) => (
+                      <Grid item xs={12} sm={6} md={6} lg={4} key={index}>
+                        <ProductCard product={product} />
+                      </Grid>
+                    ))}
+                </Grid>
+              )}
+              <Box marginTop='5rem' display='flex' justifyContent='center'>
+                <Pagination
+                  count={Math.ceil(sortedData.length / itemsPerPage)}
+                  page={currentPage}
+                  onChange={handlePageChange}
+                  variant='outlined'
+                  shape='rounded'
+                />
+              </Box>
+            </Grid>
           </Grid>
-        </Grid>
-      </Box>
+        </Box>
+      </Container>
     </>
   );
 }

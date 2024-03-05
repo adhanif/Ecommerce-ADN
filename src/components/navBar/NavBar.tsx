@@ -23,8 +23,10 @@ import { useUserProfileQuery } from '../../redux/userQuery';
 import { setNotification } from '../../redux/slices/notificationSlice';
 import { skipToken } from '@reduxjs/toolkit/query';
 import ToggleColorMode from './ToggleColorMode';
+import { useTheme } from '../contextAPI/ThemeContext';
 
 const pages = ['Home', 'Products'];
+// const pages = [{ Home: '/' }, { Products: '/products' }];
 
 function ResponsiveAppBar() {
   const cartData = useSelector((state: AppState) => state.cart.products);
@@ -55,9 +57,8 @@ function ResponsiveAppBar() {
   const navigate = useNavigate();
 
   const token = useSelector((state: AppState) => state.user.token);
-
   const { data: userData } = useUserProfileQuery(token ?? skipToken);
-
+  const { mode } = useTheme();
   const handleLogout = () => {
     dispatch(logOut());
     dispatch(removeUserInfo());
@@ -76,11 +77,12 @@ function ResponsiveAppBar() {
       position='static'
       sx={{
         boxShadow: 0,
-        bgcolor: 'black',
+        bgcolor: mode === 'light' ? 'black' : 'dark',
         backgroundImage: 'none',
-        borderRadius: '999px',
-        mt: 2,
-        mb: 5,
+        // borderRadius: '999px',
+        // border: '1px solid',
+        // mt: 2,
+        // mb: 5,
       }}
     >
       <Container maxWidth='xl'>
@@ -102,7 +104,7 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            FASHION
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -134,18 +136,27 @@ function ResponsiveAppBar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Link
-                    to={`/${page.toLowerCase()}`}
-                    style={{ textDecoration: 'none' }}
-                  >
-                    <Typography textAlign='center' color='black'>
-                      {page}
-                    </Typography>
-                  </Link>
-                </MenuItem>
-              ))}
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Link to={`/`} style={{ textDecoration: 'none' }}>
+                  <Typography textAlign='center' color='text.primary'>
+                    Home
+                  </Typography>
+                </Link>
+              </MenuItem>
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Link to={`/products`} style={{ textDecoration: 'none' }}>
+                  <Typography textAlign='center' color='text.primary'>
+                    shop
+                  </Typography>
+                </Link>
+              </MenuItem>
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Link to={`/contact`} style={{ textDecoration: 'none' }}>
+                  <Typography textAlign='center' color='text.primary'>
+                    contact
+                  </Typography>
+                </Link>
+              </MenuItem>
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -165,20 +176,33 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            FASHION
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                component={Link}
-                to={`/${page.toLowerCase()}`}
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
+            <Button
+              component={Link}
+              to={`/`}
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              Home
+            </Button>
+            <Button
+              component={Link}
+              to={`/products`}
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              Shop
+            </Button>
+            <Button
+              component={Link}
+              to={`/contact`}
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              contact
+            </Button>
           </Box>
           <>
             <ToggleColorMode />
@@ -251,9 +275,11 @@ function ResponsiveAppBar() {
                       to={`${
                         userData.role === 'customer' ? '/profile' : '/admin'
                       }`}
-                      style={{ textDecoration: 'none', color: 'black' }}
+                      style={{ textDecoration: 'none' }}
                     >
-                      <Typography textAlign='center'>Profile</Typography>
+                      <Typography textAlign='center' color='text.primary'>
+                        Profile
+                      </Typography>
                     </Link>
                   )}
                 </MenuItem>
@@ -265,7 +291,9 @@ function ResponsiveAppBar() {
                     handleLogout();
                   }}
                 >
-                  <Typography textAlign='center'>Logout</Typography>
+                  <Typography textAlign='center' color='text.primary'>
+                    Logout
+                  </Typography>
                 </MenuItem>
               </Menu>
             </Box>

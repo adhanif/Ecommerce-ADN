@@ -17,6 +17,7 @@ import {
   useFetchAllCategoriesQuery,
   useFetchByPriceRangeCategoryQuery,
 } from '../../redux/productsQuery';
+import { SearchButton, SquareButton } from '../customStyling/buttons';
 
 //price range filter
 interface PriceRange {
@@ -122,17 +123,17 @@ export default function FilterProducts() {
             </FormControl>
           </Grid>
           <Grid item xs={12} md={12} lg={12} marginTop='20px'>
-            <Button variant='contained' onClick={handleFilter} fullWidth>
+            <SearchButton variant='contained' onClick={handleFilter} fullWidth>
               Filter
-            </Button>
-            <Button
+            </SearchButton>
+            <SquareButton
               variant='outlined'
               onClick={handleReset}
               fullWidth
               sx={{ marginTop: '10px' }}
             >
               Reset
-            </Button>
+            </SquareButton>
           </Grid>
         </Grid>
       </Paper>
