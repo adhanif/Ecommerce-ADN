@@ -11,9 +11,9 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import Badge from '@mui/material/Badge';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import DiamondIcon from '@mui/icons-material/Diamond';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -80,13 +80,10 @@ function ResponsiveAppBar() {
     >
       <Container maxWidth='xl'>
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <DiamondIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
             variant='h6'
             noWrap
-            component='a'
-            href='#app-bar-with-responsive-menu'
-            // color="text.primary"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -95,6 +92,10 @@ function ResponsiveAppBar() {
               letterSpacing: '.3rem',
               color: 'inherit',
               textDecoration: 'none',
+              cursor: 'pointer',
+            }}
+            onClick={() => {
+              navigate('/');
             }}
           >
             FASHION
@@ -152,12 +153,12 @@ function ResponsiveAppBar() {
               </MenuItem>
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+
+          <DiamondIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant='h5'
             noWrap
             component='a'
-            href='#app-bar-with-responsive-menu'
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -167,6 +168,10 @@ function ResponsiveAppBar() {
               letterSpacing: '.3rem',
               color: 'inherit',
               textDecoration: 'none',
+              cursor: 'pointer',
+            }}
+            onClick={() => {
+              navigate('/');
             }}
           >
             FASHION
@@ -222,7 +227,13 @@ function ResponsiveAppBar() {
                 sx={{ marginRight: '0.5rem' }}
                 onClick={() => navigate('/cart')}
               >
-                <Badge badgeContent={cartData && cartData.length} color='error'>
+                <Badge
+                  badgeContent={
+                    cartData && cartData.length > 0 ? cartData.length : 0
+                  }
+                  color='error'
+                  showZero
+                >
                   <AddShoppingCartIcon />
                 </Badge>
               </IconButton>
@@ -231,12 +242,18 @@ function ResponsiveAppBar() {
             <Box sx={{ flexGrow: 0 }}>
               <IconButton
                 size='large'
-                aria-label='show 17 new notifications'
+                aria-label='cart'
                 color='inherit'
                 sx={{ marginRight: '0.5rem' }}
                 onClick={() => navigate('/cart')}
               >
-                <Badge badgeContent={cartData && cartData.length} color='error'>
+                <Badge
+                  badgeContent={
+                    cartData && cartData.length > 0 ? cartData.length : 0
+                  }
+                  color='error'
+                  showZero
+                >
                   <AddShoppingCartIcon />
                 </Badge>
               </IconButton>
@@ -264,7 +281,6 @@ function ResponsiveAppBar() {
                 <MenuItem onClick={handleCloseUserMenu}>
                   {userData && (
                     <Link
-                      // to={'/profile'}
                       to={`${
                         userData.role === 'customer' ? '/profile' : '/admin'
                       }`}
@@ -277,7 +293,6 @@ function ResponsiveAppBar() {
                   )}
                 </MenuItem>
 
-                {/* Logout MenuItem */}
                 <MenuItem
                   onClick={() => {
                     handleCloseUserMenu();

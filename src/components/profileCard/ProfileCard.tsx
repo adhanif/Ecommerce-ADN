@@ -18,7 +18,7 @@ export default function ProfileCard({ data }: { data: UserProfileData }) {
         container
         display='flex'
         justifyContent='center'
-        marginBottom='3rem'
+        marginBottom='5rem'
         marginTop='3rem'
       >
         <Grid item xs={12} sm={8} md={8}>

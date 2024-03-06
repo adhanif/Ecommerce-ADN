@@ -17,6 +17,7 @@ import Footer from './components/footer/Footer';
 import PrivateRoutes from './components/utils/PrivateRoutes';
 import NoAuthorization from './components/utils/NoAuthorization';
 import { Contact } from './components/contact/Contact';
+import Scroller from './components/scroller/Scroller';
 
 function App() {
   const { mode } = useTheme();
@@ -43,6 +44,7 @@ function App() {
         }}
       >
         <NavBar />
+
         <NotificationSnackBars />
         <Routes>
           <Route path='/' element={<Home />}></Route>
@@ -56,6 +58,7 @@ function App() {
           <Route path='/no-access' element={<NoAuthorization />}></Route>
           <Route path='/contact' element={<Contact />}></Route>
         </Routes>
+        <Scroller />
         <Footer />
       </Box>
     </ThemeProvider>

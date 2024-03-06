@@ -14,7 +14,7 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 
 import { useUpdateProductMutation } from '../../redux/productsQuery';
-import { SearchButton } from '../customStyling/buttons';
+import { StandardButton } from '../customStyling/buttons';
 import { Product, SelectOptions } from '../../misc/types';
 
 const style = {
@@ -250,9 +250,9 @@ export default function ProductEditForm(props: ProductEditFormProps) {
                 /> */}
                 </Grid>
                 <Grid item xs={12} sm={12} md={3} marginTop='2rem'>
-                  <SearchButton variant='contained' type='submit' fullWidth>
+                  <StandardButton variant='contained' type='submit' fullWidth>
                     Save
-                  </SearchButton>
+                  </StandardButton>
                 </Grid>
               </Grid>
             </form>

@@ -10,7 +10,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import TwitterIcon from '@mui/icons-material/X';
-import { SearchButton } from '../customStyling/buttons';
+import { StandardButton } from '../customStyling/buttons';
 
 function Copyright() {
   return (
@@ -137,13 +137,13 @@ export default function Footer() {
                 //   aria-label: 'Enter your email address',
                 // }}
               />
-              <SearchButton
+              <StandardButton
                 variant='contained'
                 color='primary'
                 sx={{ flexShrink: 0 }}
               >
                 Subscribe
-              </SearchButton>
+              </StandardButton>
             </Stack>
           </Box>
         </Box>

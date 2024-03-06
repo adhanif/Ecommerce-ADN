@@ -143,9 +143,9 @@ export default function AdminTable() {
                           noWrap
                           sx={{
                             fontSize: '0.875rem',
-                            color: 'black',
                           }}
                           fontWeight={700}
+                          color='text.primary'
                         >
                           {item.title}
                         </Typography>

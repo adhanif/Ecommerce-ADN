@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { SearchButton } from '../customStyling/buttons';
+import { StandardButton } from '../customStyling/buttons';
 
 type Inputs = {
   name: string;
@@ -33,7 +33,6 @@ export const ContactForm = () => {
 
       <Grid container justifyContent='center' alignItems='center'>
         <Box
-          textAlign='center'
           paddingX='40px'
           paddingY='40px'
           sx={{
@@ -41,15 +40,20 @@ export const ContactForm = () => {
             borderRadius: '8px',
           }}
         >
-          <Typography component='h1' variant='h4' marginBottom={1}>
+          <Typography
+            component='h1'
+            variant='h4'
+            marginBottom={1}
+            textAlign='center'
+          >
             Contact Us
           </Typography>
           {errors.name && (
             <Typography
               variant='caption'
               sx={{ color: 'red' }}
-              marginTop={1}
               role='alert'
+              textAlign='left'
             >
               {errors.name.message}
             </Typography>
@@ -111,14 +115,14 @@ export const ContactForm = () => {
               })}
             />
 
-            <SearchButton
+            <StandardButton
               variant='contained'
               type='submit'
               fullWidth
               sx={{ mt: 3, mb: 2 }}
             >
               Send
-            </SearchButton>
+            </StandardButton>
           </form>
         </Box>
       </Grid>

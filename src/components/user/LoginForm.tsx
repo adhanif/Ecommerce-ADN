@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import {
   Box,
-  Button,
   Container,
   Grid,
   Link,
@@ -23,6 +22,7 @@ import { setNotification } from '../../redux/slices/notificationSlice';
 import { AppState } from '../../redux/store';
 import { skipToken } from '@reduxjs/toolkit/query';
 import Loading from '../loading/Loading';
+import { StandardButton } from '../customStyling/buttons';
 
 export default function UserForm() {
   const navigate = useNavigate();
@@ -157,7 +157,7 @@ export default function UserForm() {
                   })}
                 />
 
-                <Button
+                <StandardButton
                   type='submit'
                   variant='contained'
                   fullWidth
@@ -165,7 +165,7 @@ export default function UserForm() {
                 >
                   {' '}
                   login
-                </Button>
+                </StandardButton>
               </form>
               <Box
                 textAlign='center'
@@ -182,7 +182,11 @@ export default function UserForm() {
                     navigate('/register');
                   }}
                 >
-                  <Typography variant='body2' fontWeight='bold'>
+                  <Typography
+                    variant='body2'
+                    fontWeight='bold'
+                    color='text.primary'
+                  >
                     Create an account
                   </Typography>
                 </Link>
