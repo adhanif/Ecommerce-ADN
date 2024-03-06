@@ -11,12 +11,6 @@ const icon = L.icon({
   iconSize: [20, 30],
 });
 
-interface MapProps {
-  center: [number, number];
-  zoom: number;
-  name: string;
-}
-
 const MapDetail = () => {
   return (
     <Container component='main' maxWidth='sm'>
