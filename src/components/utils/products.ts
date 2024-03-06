@@ -26,8 +26,8 @@ export function convertImagesArray(inputArray: string[]): string[] {
           );
         }
       }
-
+      /* eslint-disable-next-line */
       return str.replace(/[\[\]"]/g, '');
     })
-    .flat(); // Use flat() to flatten the resulting array
+    .flat();
 }
