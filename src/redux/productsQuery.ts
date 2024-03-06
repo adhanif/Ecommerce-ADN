@@ -40,7 +40,7 @@ export const productQueries = createApi({
 
     fetchByPriceRangeCategory: builder.query<
       Product[],
-      [number, number, number]
+      [number | null, number | null, number | null]
     >({
       query: ([min, max, id]) => ({
         url: `/products/?price_min=${min}&price_max=${max}&categoryId=${id}`,

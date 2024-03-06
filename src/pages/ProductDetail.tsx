@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { useGetOneProductQuery } from '../../redux/productsQuery';
+import { useGetOneProductQuery } from '../redux/productsQuery';
 import {
   Container,
   Grid,
@@ -18,18 +18,21 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import visa from '../images/visa.png';
-import master from '../images/master.png';
-import discover from '../images/discover.png';
-import american from '../images/american.png';
+import visa from '../../src/components/images/visa.png';
+import master from '../../src/components/images/master.png';
+import discover from '../../src/components/images/discover.png';
+import american from '../../src/components/images/american.png';
 
-import Loading from '../loading/Loading';
-import { ArrowGroupButton, SquareButton } from '../customStyling/buttons';
-import { useAppDispatch } from '../../redux/store';
-import { addToCart } from '../../redux/slices/cartSlice';
-import QuantityControlButton from '../cart/QuantityControlButton';
-import { setNotification } from '../../redux/slices/notificationSlice';
-import { convertImagesArray } from '../utils/products';
+import Loading from '../components/loading/Loading';
+import {
+  ArrowGroupButton,
+  SquareButton,
+} from '../components/customStyling/buttons';
+import { useAppDispatch } from '../redux/store';
+import { addToCart } from '../redux/slices/cartSlice';
+import QuantityControlButton from '../components/cart/QuantityControlButton';
+import { setNotification } from '../redux/slices/notificationSlice';
+import { convertImagesArray } from '../components/utils/products';
 
 export default function ProductDetail() {
   const productId = useParams();

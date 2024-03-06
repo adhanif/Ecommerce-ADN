@@ -18,14 +18,14 @@ import { useSelector } from 'react-redux';
 import {
   useFetchAllProductsQuery,
   useFetchBySearchQuery,
-} from '../../redux/productsQuery';
-import ProductCard from './ProductCard';
-import Loading from '../loading/Loading';
-import { Product } from '../../misc/types';
-import FilterProducts from './FilterProducts';
-import { AppState } from '../../redux/store';
-import { SearchButton } from '../customStyling/buttons';
-import { sortData } from '../utils/products';
+} from '../redux/productsQuery';
+import ProductCard from '../components/product/ProductCard';
+import Loading from '../components/loading/Loading';
+import { Product } from '../misc/types';
+import FilterProducts from '../components/product/FilterProducts';
+import { AppState } from '../redux/store';
+import { SearchButton } from '../components/customStyling/buttons';
+import { sortData } from '../components/utils/products';
 
 export default function ProductsDataFetch() {
   const [mainData, setMainData] = useState<Product[]>([]);
@@ -33,6 +33,8 @@ export default function ProductsDataFetch() {
   const searchQuery = useRef<TextFieldProps>(null);
 
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [sortBy, setSortBy] = useState('');
+  const [isPriceFilterActive, setIsPriceFilterActive] = useState(false);
 
   const { data: allData, isLoading } = useFetchAllProductsQuery();
 
@@ -43,26 +45,37 @@ export default function ProductsDataFetch() {
   );
   if (formSubmitted) {
   }
-  const [sortBy, setSortBy] = useState('');
 
   const priceFilterData: Product[] = useSelector(
     (state: AppState) => state.products.products,
   );
 
   useEffect(() => {
-    if (priceFilterData.length > 0) {
+    if (isPriceFilterActive) {
       setMainData(priceFilterData);
+      setIsPriceFilterActive(true);
     } else if (
+      !isPriceFilterActive &&
       searchData
       // && searchData.length > 0
     ) {
       setMainData(searchData);
 
       setFormSubmitted(false);
-    } else if (allData?.length) {
+      setIsPriceFilterActive(false);
+    } else if (!isPriceFilterActive && allData?.length) {
       setMainData(allData);
+      setIsPriceFilterActive(false);
     }
-  }, [priceFilterData, mainData, searchData, allData, setMainData]);
+  }, [
+    priceFilterData,
+    mainData,
+    searchData,
+    allData,
+    formSubmitted,
+    setMainData,
+    setIsPriceFilterActive,
+  ]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -214,7 +227,7 @@ export default function ProductsDataFetch() {
           </Grid>
           <Grid container spacing={2.5}>
             <Grid item xs={12} sm={12} md={3} lg={3}>
-              <FilterProducts />
+              <FilterProducts setIsPriceFilterActive={setIsPriceFilterActive} />
             </Grid>
 
             {/* Products Grid Container */}

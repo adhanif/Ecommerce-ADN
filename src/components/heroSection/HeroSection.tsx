@@ -52,9 +52,9 @@ const HeroSection = () => {
             }}
             letterSpacing={1}
           >
-            Up to 50% off
+            Up to 70% off
           </Typography>
-          <Typography>Hundreds of styles available</Typography>
+          <Typography>Hundreds of items available</Typography>
           <Grid item xs={3} sm={6} marginTop='1rem'>
             <SearchButton variant='contained' onClick={handleNavigate}>
               SHOP NOW

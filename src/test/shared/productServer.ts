@@ -1,11 +1,7 @@
 import { HttpResponse, http } from 'msw';
 import { setupServer } from 'msw/node';
 import { products } from '../shared/mockData';
-import {
-  CreateProduct,
-  CreateProductMockServer,
-  Product,
-} from '../../misc/types';
+import { CreateProductMockServer } from '../../misc/types';
 
 let mockProducts = products;
 
@@ -22,21 +18,6 @@ export const handler = [
     return HttpResponse.json(createdProduct, { status: 201 });
   }),
 
-  //   http.delete(
-  //     'https://api.escuelajs.co/api/v1/products/:productId',
-  //     async ({ request }) => {
-  //       const productId = new URL(request.url).searchParams.get('productId');
-  //       if (!productId) {
-  //         return new HttpResponse(null, { status: 404 });
-  //       }
-  //       mockProducts.splice(0, 1);
-  //       console.log(
-  //         'ater delete numbers of items in mock products:',
-  //         mockProducts.length,
-  //       );
-  //       return HttpResponse.json(true, { status: 204 });
-  //     },
-  //   ),
   http.delete(
     'https://api.escuelajs.co/api/v1/products/:productId',
     async (req) => {

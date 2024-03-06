@@ -19,13 +19,21 @@ import {
 } from '../../redux/productsQuery';
 import { SearchButton, SquareButton } from '../customStyling/buttons';
 
+import { Product } from '../../misc/types';
+
 //price range filter
 interface PriceRange {
   min: number;
   max: number;
 }
 
-export default function FilterProducts() {
+interface setIsPriceFilterActiveProps {
+  setIsPriceFilterActive: (value: boolean) => void;
+}
+
+export default function FilterProducts({
+  setIsPriceFilterActive,
+}: setIsPriceFilterActiveProps) {
   const { data: dataCategories } = useFetchAllCategoriesQuery();
   const dispatch = useAppDispatch();
   const [priceRange, setPriceRange] = useState<PriceRange>({
@@ -33,7 +41,6 @@ export default function FilterProducts() {
     max: 0,
   });
   const [categoryId, setCategoryId] = useState('');
-
   const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setPriceRange((prev) => ({ ...prev, [name]: value }));
@@ -43,20 +50,24 @@ export default function FilterProducts() {
     setCategoryId(event.target.value);
   };
 
-  const { data } = useFetchByPriceRangeCategoryQuery([
-    priceRange.min,
-    priceRange.max,
-    Number(categoryId),
-  ]);
+  const [skip, setSkip] = useState(true);
+  const { data } = useFetchByPriceRangeCategoryQuery(
+    [priceRange.min, priceRange.max, Number(categoryId)],
+    { skip: skip },
+  );
 
   const handleFilter = () => {
     dispatch(setFilteredData(data));
+    setSkip(false);
+    setIsPriceFilterActive(true);
   };
+
   const handleReset = () => {
     setPriceRange({ min: 0, max: 0 });
     setCategoryId('');
 
     dispatch(setFilteredData([]));
+    setIsPriceFilterActive(false);
   };
 
   return (

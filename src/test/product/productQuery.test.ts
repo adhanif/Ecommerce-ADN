@@ -1,8 +1,4 @@
-// import { fireEvent, render, screen } from '@testing-library/react';
-// import ProductQuery from "../../redux/productsQuery"
-// import { Provider } from 'react-redux';
 import store from '../../redux/store';
-// import { PropsWithChildren } from 'react';
 import { productServer } from '../shared/productServer';
 import { productQueries } from '../../redux/productsQuery';
 import { CreateProduct, Product } from '../../misc/types';
@@ -44,9 +40,8 @@ describe('test ProductQuery component', () => {
     let result = await store.dispatch(
       productQueries.endpoints.deleteProduct.initiate(2),
     );
-    console.log(result);
+
     if ('data' in result) {
-      //   console.log(result.data as unknown as Product[]);
       const productResult = result.data as unknown as Product[];
       const item = productResult.find((item) => item.id === 2);
       expect(item).toBe(undefined);
