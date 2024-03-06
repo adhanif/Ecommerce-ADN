@@ -20,7 +20,6 @@ export const ContactForm = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Inputs>();
 

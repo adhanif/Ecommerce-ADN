@@ -1,5 +1,4 @@
 import {
-  Button,
   FormControl,
   Grid,
   MenuItem,
@@ -18,8 +17,6 @@ import {
   useFetchByPriceRangeCategoryQuery,
 } from '../../redux/productsQuery';
 import { SearchButton, SquareButton } from '../customStyling/buttons';
-
-import { Product } from '../../misc/types';
 
 //price range filter
 interface PriceRange {

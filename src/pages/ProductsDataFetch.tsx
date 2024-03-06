@@ -74,7 +74,7 @@ export default function ProductsDataFetch() {
     allData,
     formSubmitted,
     setMainData,
-    setIsPriceFilterActive,
+    isPriceFilterActive,
   ]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

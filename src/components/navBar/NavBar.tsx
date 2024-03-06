@@ -25,9 +25,6 @@ import { skipToken } from '@reduxjs/toolkit/query';
 import ToggleColorMode from './ToggleColorMode';
 import { useTheme } from '../contextAPI/ThemeContext';
 
-const pages = ['Home', 'Products'];
-// const pages = [{ Home: '/' }, { Products: '/products' }];
-
 function ResponsiveAppBar() {
   const cartData = useSelector((state: AppState) => state.cart.products);
 
@@ -79,10 +76,6 @@ function ResponsiveAppBar() {
         boxShadow: 0,
         bgcolor: mode === 'light' ? 'black' : 'dark',
         backgroundImage: 'none',
-        // borderRadius: '999px',
-        // border: '1px solid',
-        // mt: 2,
-        // mb: 5,
       }}
     >
       <Container maxWidth='xl'>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 
 import { QuantityGroupButton, SquareButton } from '../customStyling/buttons';
 import { QuantityControlButtonProps } from '../../misc/types';
@@ -14,7 +14,7 @@ const QuantityControlButton: React.FC<QuantityControlButtonProps> = ({
     <Box marginTop={2} marginBottom={3}>
       <QuantityGroupButton size='medium' aria-label='Basic button group'>
         <SquareButton onClick={handleMinus}>-</SquareButton>
-        <SquareButton >{count}</SquareButton>
+        <SquareButton>{count}</SquareButton>
         <SquareButton onClick={handlePlus}>+</SquareButton>
       </QuantityGroupButton>
       <SquareButton

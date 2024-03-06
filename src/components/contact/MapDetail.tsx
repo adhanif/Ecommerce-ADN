@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import iconMarker from 'leaflet/dist/images/marker-icon.png';
 import iconRetina from 'leaflet/dist/images/marker-icon-2x.png';
