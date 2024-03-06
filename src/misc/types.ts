@@ -95,7 +95,6 @@ export type UserInitialState = {
 export type Tokens = {
   access_token?: string;
   refresh_token?: string;
-
 };
 export type AuthState = {
   user: UserInitialState | null;
@@ -173,4 +172,10 @@ export type increaseCartPayload = {
 export type InitialCartState = {
   products: CartProduct[];
   loading: boolean;
+};
+
+export type InitialNotificationState = {
+  open: boolean;
+  message: string;
+  severity: string;
 };
