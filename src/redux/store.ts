@@ -7,14 +7,14 @@ import { userQueries } from './userQuery';
 import { productQueries } from './productsQuery';
 import cartReducer from './slices/cartSlice';
 
-import notificationSlice from './slices/notificationSlice';
+import notificationReducer from './slices/notificationSlice';
 
 const store = configureStore({
   reducer: {
     cart: cartReducer,
     products: productReducer,
     user: userReducer,
-    notification: notificationSlice,
+    notification: notificationReducer,
     [userQueries.reducerPath]: userQueries.reducer,
     [productQueries.reducerPath]: productQueries.reducer,
   },
@@ -38,7 +38,7 @@ export const createNewStore = () => {
       cart: cartReducer,
       products: productReducer,
       users: userReducer,
-      notification: notificationSlice,
+      notification: notificationReducer,
       // query
       [userQueries.reducerPath]: userQueries.reducer,
       [productQueries.reducerPath]: productQueries.reducer,
