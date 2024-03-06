@@ -1,12 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import {
-  Box,
-  Container,
-  Divider,
-  Grid,
-  Typography,
-} from '@mui/material';
+import { Box, Container, Divider, Grid, Typography } from '@mui/material';
 import Table from '@mui/material/Table';
 import IconButton from '@mui/material/IconButton';
 import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
@@ -25,7 +19,7 @@ import {
 } from '../../redux/slices/cartSlice';
 import {
   QuantityGroupButton,
-  SearchButton,
+  StandardButton,
   SquareButton,
 } from '../customStyling/buttons';
 import { setNotification } from '../../redux/slices/notificationSlice';
@@ -288,13 +282,13 @@ export default function Cart() {
                           display='flex'
                           justifyContent='center'
                         >
-                          <SearchButton
+                          <StandardButton
                             variant='contained'
                             fullWidth
                             onClick={handleCheckOut}
                           >
                             Checkout
-                          </SearchButton>
+                          </StandardButton>
                         </Grid>
                       </TableCell>
                     </TableRow>

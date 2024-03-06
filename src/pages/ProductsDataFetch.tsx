@@ -24,7 +24,7 @@ import Loading from '../components/loading/Loading';
 import { Product } from '../misc/types';
 import FilterProducts from '../components/product/FilterProducts';
 import { AppState } from '../redux/store';
-import { SearchButton } from '../components/customStyling/buttons';
+import { StandardButton } from '../components/customStyling/buttons';
 import { sortData } from '../components/utils/products';
 
 export default function ProductsDataFetch() {
@@ -54,11 +54,7 @@ export default function ProductsDataFetch() {
     if (isPriceFilterActive) {
       setMainData(priceFilterData);
       setIsPriceFilterActive(true);
-    } else if (
-      !isPriceFilterActive &&
-      searchData
-      // && searchData.length > 0
-    ) {
+    } else if (!isPriceFilterActive && searchData) {
       setMainData(searchData);
 
       setFormSubmitted(false);
@@ -189,14 +185,17 @@ export default function ProductsDataFetch() {
                         label='Search by title'
                         variant='outlined'
                         fullWidth
-                        // onChange={handleSearchChange}
                         inputRef={searchQuery}
                       />
                     </Grid>
                     <Grid item xs={12} md={3}>
-                      <SearchButton variant='contained' type='submit' fullWidth>
+                      <StandardButton
+                        variant='contained'
+                        type='submit'
+                        fullWidth
+                      >
                         Search
-                      </SearchButton>
+                      </StandardButton>
                     </Grid>
                   </Grid>
                 </form>

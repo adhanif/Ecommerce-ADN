@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import hero from '../images/hero1.jpg';
 import { Grid, Typography } from '@mui/material';
-import { SearchButton } from '../customStyling/buttons';
+import { StandardButton } from '../customStyling/buttons';
 import { useNavigate } from 'react-router-dom';
 
 interface StyledBoxProps {
@@ -56,9 +56,9 @@ const HeroSection = () => {
           </Typography>
           <Typography>Hundreds of items available</Typography>
           <Grid item xs={3} sm={6} marginTop='1rem'>
-            <SearchButton variant='contained' onClick={handleNavigate}>
+            <StandardButton variant='contained' onClick={handleNavigate}>
               SHOP NOW
-            </SearchButton>
+            </StandardButton>
           </Grid>
         </MainBox>
       </StyledBox>

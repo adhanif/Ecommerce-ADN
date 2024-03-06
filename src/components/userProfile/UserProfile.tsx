@@ -6,15 +6,23 @@ import { AppState } from '../../redux/store';
 import Loading from '../loading/Loading';
 import ProfileCard from '../profileCard/ProfileCard';
 import { skipToken } from '@reduxjs/toolkit/query';
+import { Container, Grid } from '@mui/material';
 
 export default function UserProfile() {
   const token = useSelector((state: AppState) => state.user.token);
   const { isLoading, data } = useUserProfileQuery(token ?? skipToken);
 
-
   if (isLoading) {
     return <Loading />;
   }
 
-  return <>{data && <ProfileCard data={data} />}</>;
+  return (
+    <>
+      <Container>
+        <Grid marginTop='8rem' marginBottom='8rem' container>
+          {data && <ProfileCard data={data} />}
+        </Grid>
+      </Container>
+    </>
+  );
 }

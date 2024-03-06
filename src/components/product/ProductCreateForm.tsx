@@ -15,7 +15,7 @@ import {
   useFetchAllCategoriesQuery,
   useUploadImagesMutation,
 } from '../../redux/productsQuery';
-import { SearchButton } from '../customStyling/buttons';
+import { StandardButton } from '../customStyling/buttons';
 import { useAppDispatch } from '../../redux/store';
 import { setNotification } from '../../redux/slices/notificationSlice';
 
@@ -65,7 +65,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ setOpen }) => {
           formData.append('file', filenew);
           const result = await uploadImages(formData);
           if ('data' in result && 'location' in result.data) {
-          
             const location = result.data.location;
             images.push(location);
           }
@@ -252,9 +251,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ setOpen }) => {
                 )}
               </Grid>
               <Grid item xs={12} sm={12} md={3} marginTop='2rem'>
-                <SearchButton variant='contained' type='submit' fullWidth>
+                <StandardButton variant='contained' type='submit' fullWidth>
                   Save
-                </SearchButton>
+                </StandardButton>
               </Grid>
             </Grid>
           </form>

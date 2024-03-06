@@ -37,7 +37,12 @@ export default function ProductCard({ product }: { product: Product }) {
         </Link>
       </Box>
       <CardContent sx={{ textAlign: 'center' }}>
-        <Typography variant='caption' component='div' color='grey.600'>
+        <Typography
+          variant='caption'
+          component='div'
+          color='grey.600'
+          marginBottom='10px'
+        >
           {product.category.name}
         </Typography>
         <Typography
@@ -54,7 +59,7 @@ export default function ProductCard({ product }: { product: Product }) {
           display='flex'
           alignItems='center'
           justifyContent='center'
-          color='grey.800'
+          color='text.primary'
           marginBottom='5px'
         >
           <EuroIcon sx={{ fontSize: '15px' }} />

@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Container,
   Grid,
   Link,
@@ -16,6 +15,7 @@ import { useRegisterUserMutation } from '../../redux/userQuery';
 import Loading from '../loading/Loading';
 import { useAppDispatch } from '../hooks/useDispatchApp';
 import { setNotification } from '../../redux/slices/notificationSlice';
+import { StandardButton } from '../customStyling/buttons';
 
 export default function UserForm() {
   const navigate = useNavigate();
@@ -169,7 +169,7 @@ export default function UserForm() {
                   })}
                 />
 
-                <Button
+                <StandardButton
                   type='submit'
                   variant='contained'
                   color='primary'
@@ -178,7 +178,7 @@ export default function UserForm() {
                 >
                   {' '}
                   sign up
-                </Button>
+                </StandardButton>
               </form>
 
               <Box
@@ -198,7 +198,11 @@ export default function UserForm() {
                     navigate('/login');
                   }}
                 >
-                  <Typography variant='body2' fontWeight='bold'>
+                  <Typography
+                    variant='body2'
+                    fontWeight='bold'
+                    color='text.primary'
+                  >
                     Log in now!
                   </Typography>
                 </Link>

@@ -20,7 +20,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { SearchButton } from '../customStyling/buttons';
+import { StandardButton } from '../customStyling/buttons';
 import ProductForm from '../product/ProductCreateForm';
 
 const style = {
@@ -84,13 +84,13 @@ export default function Admin() {
               </Typography>
             </Grid>
             <Grid item>
-              <SearchButton
+              <StandardButton
                 variant='contained'
                 startIcon={<AddIcon />}
                 onClick={handleOpen}
               >
                 Add Product
-              </SearchButton>
+              </StandardButton>
             </Grid>
           </Grid>
 
