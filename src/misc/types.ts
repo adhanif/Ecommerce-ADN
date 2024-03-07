@@ -99,6 +99,7 @@ export type Tokens = {
 export type AuthState = {
   user: UserInitialState | null;
   token: Tokens | null;
+  googleToken?: string | null;
   error: string | null;
 };
 
@@ -178,4 +179,15 @@ export type InitialNotificationState = {
   open: boolean;
   message: string;
   severity: string;
+};
+
+export type UserGoogleProfile = {
+  id: string;
+  email: string;
+  verified_email: boolean;
+  name: string;
+  given_name: string;
+  family_name: string;
+  picture: string;
+  locale: string;
 };

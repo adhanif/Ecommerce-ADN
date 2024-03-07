@@ -10,12 +10,12 @@ import {
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import { UserRegister } from '../../misc/types';
-import { useRegisterUserMutation } from '../../redux/userQuery';
-import Loading from '../loading/Loading';
-import { useAppDispatch } from '../hooks/useDispatchApp';
-import { setNotification } from '../../redux/slices/notificationSlice';
-import { StandardButton } from '../customStyling/buttons';
+import { UserRegister } from '../misc/types';
+import { useRegisterUserMutation } from '../redux/userQuery';
+import Loading from '../components/loading/Loading';
+import { useAppDispatch } from '../components/hooks/useDispatchApp';
+import { setNotification } from '../redux/slices/notificationSlice';
+import { StandardButton } from '../components/customStyling/buttons';
 
 export default function UserForm() {
   const navigate = useNavigate();

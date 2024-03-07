@@ -1,7 +1,7 @@
 import { Box, Container, Grid, Typography } from '@mui/material';
 import React from 'react';
-import { ContactForm } from './ContactForm';
-import MapDetail from './MapDetail';
+import { ContactForm } from '../components/contact/ContactForm';
+import MapDetail from '../components/contact/MapDetail';
 
 export const Contact = () => {
   return (
@@ -25,7 +25,7 @@ export const Contact = () => {
               },
             }}
           >
-           Get in touch
+            Get in touch
           </Typography>
           <Box borderBottom={2} width='5%' my={1} color='#cde2d9' />
         </Box>

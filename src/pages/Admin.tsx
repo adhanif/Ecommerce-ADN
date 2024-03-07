@@ -1,15 +1,15 @@
 import React, { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useUserProfileQuery } from '../../redux/userQuery';
+import { useUserProfileQuery } from '../redux/userQuery';
 import CloseIcon from '@mui/icons-material/Close';
 
-import { AppState } from '../../redux/store';
-import Loading from '../loading/Loading';
-import ProfileCard from '../profileCard/ProfileCard';
+import { AppState } from '../redux/store';
+import Loading from '../components/loading/Loading';
+import ProfileCard from '../components/profileCard/ProfileCard';
 import { skipToken } from '@reduxjs/toolkit/query';
 
 import AddIcon from '@mui/icons-material/Add';
-import AdminTable from './AdminTable';
+import AdminTable from '../components/adminProfile/AdminTable';
 import {
   Box,
   Container,
@@ -20,8 +20,8 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { StandardButton } from '../customStyling/buttons';
-import ProductForm from '../product/ProductCreateForm';
+import { StandardButton } from '../components/customStyling/buttons';
+import ProductForm from '../components/product/ProductCreateForm';
 
 const style = {
   position: 'absolute' as 'absolute',

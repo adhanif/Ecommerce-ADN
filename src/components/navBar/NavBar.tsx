@@ -19,7 +19,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { AppState } from '../../redux/store';
 import { logOut, removeUserInfo } from '../../redux/slices/userSlice';
-import { useUserProfileQuery } from '../../redux/userQuery';
+import {
+  useGoogleUserProfileQuery,
+  useUserProfileQuery,
+} from '../../redux/userQuery';
 import { setNotification } from '../../redux/slices/notificationSlice';
 import { skipToken } from '@reduxjs/toolkit/query';
 import ToggleColorMode from './ToggleColorMode';
@@ -35,6 +38,7 @@ function ResponsiveAppBar() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null,
   );
+  const [avatarSrc, setAvatarSrc] = React.useState('');
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -55,7 +59,16 @@ function ResponsiveAppBar() {
   const navigate = useNavigate();
 
   const token = useSelector((state: AppState) => state.user.token);
+
+  const googleToken = useSelector((state: AppState) => state.user.googleToken);
+
+ 
+  const { data: googleUserRole } = useGoogleUserProfileQuery(
+    googleToken ?? skipToken,
+  );
+
   const { data: userData } = useUserProfileQuery(token ?? skipToken);
+
   const { mode } = useTheme();
   const handleLogout = () => {
     dispatch(logOut());
@@ -68,9 +81,18 @@ function ResponsiveAppBar() {
         severity: 'success',
       }),
     );
-    navigate('/login');
+    navigate('/');
   };
 
+
+  React.useEffect(() => {
+    if (googleUserRole && googleUserRole.picture) {
+      setAvatarSrc(googleUserRole.picture);
+    } else if (userData && userData.avatar) {
+      setAvatarSrc(userData.avatar);
+    }
+  }, [googleToken, googleUserRole, token, userData, setAvatarSrc]);
+  
   return (
     <AppBar
       position='static'
@@ -207,7 +229,7 @@ function ResponsiveAppBar() {
           <>
             <ToggleColorMode />
           </>
-          {!token ? (
+          {!googleToken && !token ? (
             <>
               <Button
                 sx={{ my: 2, color: 'white', display: 'block' }}
@@ -261,7 +283,13 @@ function ResponsiveAppBar() {
               </IconButton>
               <Tooltip title='Open settings'>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt='Remy Sharp' src={userData && userData?.avatar} />
+                  <Avatar
+                    alt='Remy Sharp'
+                    src={
+                      avatarSrc
+                      // userData ? userData?.avatar : googleUserRole?.picture
+                    }
+                  />
                 </IconButton>
               </Tooltip>
               <Menu
@@ -281,11 +309,17 @@ function ResponsiveAppBar() {
                 onClose={handleCloseUserMenu}
               >
                 <MenuItem onClick={handleCloseUserMenu}>
-                  {userData && (
+                  {(userData || googleToken) && (
                     <Link
-                      to={`${
-                        userData.role === 'customer' ? '/profile' : '/admin'
-                      }`}
+                      to={
+                        userData
+                          ? `${
+                              userData.role === 'customer'
+                                ? '/profile'
+                                : '/admin'
+                            }`
+                          : '/googleprofile'
+                      }
                       style={{ textDecoration: 'none' }}
                     >
                       <Typography textAlign='center' color='text.primary'>

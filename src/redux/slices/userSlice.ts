@@ -4,12 +4,20 @@ import { AuthState, Tokens, UserInitialState } from '../../misc/types';
 
 let token: Tokens | null = null;
 
+let googleToken: string | null = null;
+
+const alreadyGoogleToken = localStorage.getItem('googleToken');
+
+if (alreadyGoogleToken) {
+  googleToken = JSON.parse(alreadyGoogleToken);
+}
+
 const alreadyToken = localStorage.getItem('token');
 
 if (alreadyToken) {
   token = JSON.parse(alreadyToken);
 }
-// UserProfileData
+
 
 let user: UserInitialState | null = null;
 const alreadyUser = localStorage.getItem('user');
@@ -20,6 +28,7 @@ if (alreadyUser) {
 const initialState: AuthState = {
   user: user,
   token: token,
+  googleToken: googleToken,
   error: null,
 };
 
@@ -36,27 +45,45 @@ export const userSlice = createSlice({
       }
     },
 
+    setGoogleToken: (state, action: PayloadAction<string>) => {
+      try {
+        localStorage.setItem('googleToken', JSON.stringify(action.payload));
+        state.googleToken = action.payload;
+      } catch (error) {
+        console.error('Error storing googleToken in local storage:', error);
+      }
+    },
+
     setError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
     },
 
     logOut: (state) => {
-      localStorage.removeItem('user');
-
+      localStorage.removeItem('token');
+      localStorage.removeItem('googleToken');
+      state.user = null;
       state.token = null;
+      state.googleToken = null;
     },
     saveUserInfo: (state, action: PayloadAction<UserInitialState | null>) => {
       localStorage.setItem('user', JSON.stringify(action.payload));
       state.user = action.payload;
     },
     removeUserInfo: (state) => {
-      localStorage.removeItem('token');
+   
+
       state.user = null;
     },
   },
 });
 
-export const { setToken, setError, logOut, saveUserInfo, removeUserInfo } =
-  userSlice.actions;
+export const {
+  setToken,
+  setError,
+  logOut,
+  saveUserInfo,
+  removeUserInfo,
+  setGoogleToken,
+} = userSlice.actions;
 
 export const userReducer = userSlice.reducer;
