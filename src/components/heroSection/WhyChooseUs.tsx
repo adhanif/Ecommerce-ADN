@@ -142,6 +142,7 @@ const WhyChooseUs = () => {
                       color='grey.600'
                       textAlign='center'
                       marginTop='7px'
+                      marginX='20px'
                     >
                       {item.paragraph}
                     </Typography>

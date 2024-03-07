@@ -1,38 +1,9 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { Product } from '../../misc/types';
-
-export type CartProduct = {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  images: string[];
-  creationAt: string;
-  updatedAt: string;
-  category: {
-    id: number;
-    name: string;
-    image: string;
-    creationAt: string;
-    updatedAt: string;
-  };
-  quantity: number;
-};
-
-export type AddToCartPayload = {
-  product: Product;
-  count: number;
-};
-
-export type increaseCartPayload = {
-  id: number;
-  count: number;
-};
-
-export type InitialCartState = {
-  products: CartProduct[];
-  loading: boolean;
-};
+import {
+  AddToCartPayload,
+  CartProduct,
+  InitialCartState,
+} from '../../misc/types';
 
 let cartProducts: CartProduct[] = [];
 
@@ -46,7 +17,6 @@ const initialState: InitialCartState = {
   products: cartProducts,
   loading: false,
 };
-// console.log(initialState);
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -112,11 +82,21 @@ const cartSlice = createSlice({
 
       localStorage.setItem('cartProducts', JSON.stringify(state.products));
     },
+
+    emptyCart: (state) => {
+      state.products = [];
+      localStorage.removeItem('cartProducts');
+    },
   },
 });
 
-export const { addToCart, increseQuantity, decreseQuantity, removeFromCart } =
-  cartSlice.actions;
+export const {
+  addToCart,
+  increseQuantity,
+  decreseQuantity,
+  removeFromCart,
+  emptyCart,
+} = cartSlice.actions;
 
 const cartReducer = cartSlice.reducer;
 export default cartReducer;

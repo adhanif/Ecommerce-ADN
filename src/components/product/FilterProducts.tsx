@@ -37,17 +37,21 @@ export default function FilterProducts({
     min: 0,
     max: 0,
   });
+  const [skip, setSkip] = useState(true);
   const [categoryId, setCategoryId] = useState('');
+
   const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setPriceRange((prev) => ({ ...prev, [name]: value }));
+    const inputValue = parseInt(value, 10) || 0;
+    const positiveValue = inputValue >= 0 ? inputValue : 0;
+
+    setPriceRange((prev) => ({ ...prev, [name]: positiveValue }));
   };
 
   const handleChangeCategory = (event: SelectChangeEvent) => {
     setCategoryId(event.target.value);
   };
 
-  const [skip, setSkip] = useState(true);
   const { data } = useFetchByPriceRangeCategoryQuery(
     [priceRange.min, priceRange.max, Number(categoryId)],
     { skip: skip },

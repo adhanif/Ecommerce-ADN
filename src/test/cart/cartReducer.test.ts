@@ -2,6 +2,7 @@ import { Product } from '../../misc/types';
 import cartReducer, {
   addToCart,
   decreseQuantity,
+  emptyCart,
   increseQuantity,
   removeFromCart,
 } from '../../redux/slices/cartSlice';
@@ -72,5 +73,16 @@ describe('cart reducer', () => {
     );
     const decreaseState = cartReducer(state, decreseQuantity(products[2].id));
     expect(decreaseState.products[0].quantity).toEqual(5);
+  });
+
+  // test4: empty the cart
+  test('Should emty the cart products', () => {
+    const count = 6;
+    const state = cartReducer(
+      initialCartState,
+      addToCart({ product: products[2], count }),
+    );
+    const emptyCartState = cartReducer(state, emptyCart());
+    expect(emptyCartState.products.length).toEqual(0);
   });
 });
