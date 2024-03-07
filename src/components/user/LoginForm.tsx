@@ -45,10 +45,7 @@ export default function UserForm() {
 
     if ('data' in response && 'access_token' in response.data) {
       dispatch(setToken(response.data));
-
-      setTimeout(() => {
-        navigate('/');
-      }, 500);
+      navigate('/');
       dispatch(
         setNotification({
           open: true,
