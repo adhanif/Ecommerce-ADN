@@ -1,50 +1,77 @@
-# Frontend project
+# E-commerce Fashion ADN
 
-This repository for the Frontend project to build an e-commerce website.
+## Overview
 
-## Requirements
+E-commerce Fashion ADN is a TypeScript and Redux Toolkit-powered frontend project that connects to the [FakeAPI](https://fakeapi.platzi.com/) to create a dynamic e-commerce platform. The project includes features like product listing, individual product pages, user profiles (accessible upon login), and a shopping cart (implemented as a page or modal).
 
-### Basic requirements
+## Technologies Used
 
-The Front end project must use TypeScript and Redux toolkit.
+- **TypeScript**: Provides static typing for enhanced code quality.
+- **Redux Toolkit**: Manages state efficiently.
+- **React**: The core library for building the user interface.
+- **React Router**: Enables navigation between pages.
+- **Styled Components**: Utilized for styling components.
+- **Axios**: Handles API requests.
+- **Yup**: Schema validation for form inputs.
+- **Lodash**: Utility library for various functionalities.
 
-1. Use the API endpoint `https://fakeapi.platzi.com/`.
+## Installation
 
-2. Create at lease 4 pages (can be more if you want): Page for all products, product page, profile page (only available if user logins), and cart page (cart page could be a page or a modal)
+1. Clone the repository.
+   ```bash
+   git clone https://github.com/adhanif/fs17-Frontend-project.git
 
-3. Create Redux store for following features:
+2. Navigate to the project directory.
+   ```bash
+   cd fs17-Frontend-project
+   
+3. Install dependencies.
+   ```bash
+   npm install
 
-   - product reducer: get all products, find a single products, filter products by categories, sort products by price. Create, update and delete a product (enable update & delete features only for admin of the webapp)
-   - user reducer: register and login
-   - cart reducer: add product to cart, remove products, update products's quantity in cart
+3. Usage
+   ```bash
+   npm install
 
-4. When adding routers to your application, set certain routes to be private. For example, route to user profile page should not be accessible if user has not logged in.
+### Redux Store
 
-5. Styling: must have responsive
+#### Product Reducer
 
-6. Implement unit testing for the reducers
+- Get all products.
+- Find a single product.
+- Filter products by categories.
+- Sort products by price.
+- Create, update, and delete a product (admin only).
 
-7. **Deploy** the application and rewrite README file.
+#### User Reducer
 
-### Additional features:
+- Register and login.
 
-- Use Context API to switch theme
-- Use pagination when fetching/displaying all the products
-- Implement performance optimization where applicable
+#### Cart Reducer
 
-## Grading (1-5)
+- Add product to cart.
+- Remove products.
+- Update product quantity in the cart.
 
-1: Late submission or not complete basic requirements
 
-2: Basic requirement + Presentation
+## API Endpoint
 
-3: Folder structure + follow convention(naming convention ,loading, error) + some additional features
+Use the API endpoint [https://fakeapi.platzi.com/](https://fakeapi.platzi.com/).
 
-4: All additional features + reusable logic + custom hook
 
-5: UI-UX (for example: send alert when user add same product) + styling (animation or transition, scroll to top) + advanced feature (google log in)
 
-## Deadline
+## Scripts
 
-- Presentation: **7/3** and **8/3/ 2024**
-- Submitting Front-end project **10am 8/3/2024**
+- `npm start`: Start the development server.
+- `npm build`: Build the production-ready application.
+- `npm test`: Run unit tests.
+- `npm eject`: Eject from create-react-app configuration.
+
+## Deployment
+
+The application is deployed on Netlify. Click the button below to visit the live site:
+ [Netlify](https://ecommerce-fashion-adn.netlify.app/).
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
