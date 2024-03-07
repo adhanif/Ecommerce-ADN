@@ -24,6 +24,7 @@ import { setNotification } from '../../redux/slices/notificationSlice';
 import { skipToken } from '@reduxjs/toolkit/query';
 import ToggleColorMode from './ToggleColorMode';
 import { useTheme } from '../contextAPI/ThemeContext';
+import { emptyCart } from '../../redux/slices/cartSlice';
 
 function ResponsiveAppBar() {
   const cartData = useSelector((state: AppState) => state.cart.products);
@@ -59,6 +60,7 @@ function ResponsiveAppBar() {
   const handleLogout = () => {
     dispatch(logOut());
     dispatch(removeUserInfo());
+    dispatch(emptyCart());
     dispatch(
       setNotification({
         open: true,
