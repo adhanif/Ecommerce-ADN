@@ -11,21 +11,21 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-import { AppState, useAppDispatch } from '../../redux/store';
+import { AppState, useAppDispatch } from '../redux/store';
 import {
   decreseQuantity,
   increseQuantity,
   removeFromCart,
-} from '../../redux/slices/cartSlice';
+} from '../redux/slices/cartSlice';
 import {
   QuantityGroupButton,
   StandardButton,
   SquareButton,
-} from '../customStyling/buttons';
-import { setNotification } from '../../redux/slices/notificationSlice';
+} from '../components/customStyling/buttons';
+import { setNotification } from '../redux/slices/notificationSlice';
 import { Link } from 'react-router-dom';
-import { StyledLink, StyledTableCell } from '../customStyling/table';
-import { convertImagesArray } from '../utils/products';
+import { StyledLink, StyledTableCell } from '../components/customStyling/table';
+import { convertImagesArray } from '../components/utils/products';
 
 export default function Cart() {
   const cartData = useSelector((state: AppState) => state.cart.products);

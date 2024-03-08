@@ -59,7 +59,7 @@ export default function FilterProducts({
 
   const handleFilter = () => {
     dispatch(setFilteredData(data));
-    setSkip(false);
+    setSkip(true);
     setIsPriceFilterActive(true);
   };
 

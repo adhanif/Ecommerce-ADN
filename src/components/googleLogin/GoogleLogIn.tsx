@@ -1,20 +1,49 @@
 import React from 'react';
+import { useGoogleLogin } from '@react-oauth/google';
+import { Stack } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+
+import GoogleIcon from '../images/google.png';
+import { StandardButton } from '../customStyling/buttons';
+import { useAppDispatch } from '../hooks/useDispatchApp';
+import { setGoogleToken } from '../../redux/slices/userSlice';
 
 export default function GoogleLogIn() {
-  //   const url = 'https://www.googleapis.com/oauth2/v1/userinfo?access_token';
-  //   const logInWithGoogleHandler = useGoogleLogin({
-  //     onSuccess: async (tokenResponse) => {
-  //       // got access token
-  //       console.log(tokenResponse.access_token);
-  //       // send request to google to get user information
-  //       const result = await fetch(
-  //         `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenResponse.access_token}`,
-  //       );
-  //       console.log(await result.json(), 'user information');
-  //       // store in redux
-  //       //
-  //     },
-  //   });
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  return <div>GoogleLogIn</div>;
+  const loginWithGoogle = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      dispatch(setGoogleToken(tokenResponse.access_token));
+
+      navigate('/');
+    },
+    onError: (error) => {
+      if (error) {
+        console.log(error);
+      }
+    },
+  });
+
+  return (
+    <>
+      <Stack
+        direction='row'
+        spacing={2}
+        justifyContent='center'
+        marginTop='15px'
+      >
+        <StandardButton
+          variant='outlined'
+          startIcon={
+            <img src={GoogleIcon} alt='Google Logo' width={24} height={24} />
+          }
+          sx={{ paddingX: '2rem' }}
+          onClick={() => loginWithGoogle()}
+        >
+          Sign in with google
+        </StandardButton>
+      </Stack>
+    </>
+  );
 }

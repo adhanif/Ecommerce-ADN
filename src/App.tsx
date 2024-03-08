@@ -8,15 +8,15 @@ import { useTheme } from './components/contextAPI/ThemeContext';
 import ProductsDataFetch from './pages/ProductsDataFetch';
 import NavBar from './components/navBar/NavBar';
 import Home from './pages/Home';
-import LoginForm from './components/user/LoginForm';
-import RegisterForm from './components/user/RegisterForm';
+import LoginForm from './pages/LoginForm';
+import RegisterForm from './pages/RegisterForm';
 import ProductDetail from './pages/ProductDetail';
-import Cart from './components/cart/Cart';
+import Cart from './pages/Cart';
 import NotificationSnackBars from './components/notification/NotificationSnackBars';
 import Footer from './components/footer/Footer';
 import PrivateRoutes from './components/utils/PrivateRoutes';
-import NoAuthorization from './components/utils/NoAuthorization';
-import { Contact } from './components/contact/Contact';
+import NoAuthorization from './pages/NoAuthorization';
+import { Contact } from './pages/Contact';
 import Scroller from './components/scroller/Scroller';
 
 function App() {
@@ -54,10 +54,15 @@ function App() {
           <Route path='/login' element={<LoginForm />}></Route>
           <Route path='/admin' element={<PrivateRoutes path='/admin' />} />
           <Route path='/profile' element={<PrivateRoutes path='/profile' />} />
+          <Route
+            path='/googleprofile'
+            element={<PrivateRoutes path='/googleprofile' />}
+          />
           <Route path='/cart' element={<Cart />}></Route>
           <Route path='/no-access' element={<NoAuthorization />}></Route>
           <Route path='/contact' element={<Contact />}></Route>
         </Routes>
+
         <Scroller />
         <Footer />
       </Box>

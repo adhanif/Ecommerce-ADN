@@ -48,7 +48,7 @@ export default function ProfileCard({ data }: { data: UserProfileData }) {
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
-                      <Typography variant='body1'>Role: {data.role}</Typography>
+                      {/* <Typography variant='body1'>Role: {data.role}</Typography> */}
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <Typography variant='body1'>

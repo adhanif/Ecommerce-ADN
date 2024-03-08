@@ -7,6 +7,7 @@ import {
   UserProfileData,
   UserRegister,
   LoginResponse,
+  UserGoogleProfile,
 } from '../misc/types';
 
 export const userQueries = createApi({
@@ -44,6 +45,13 @@ export const userQueries = createApi({
         },
       }),
     }),
+
+    googleUserProfile: builder.query<UserGoogleProfile, string>({
+      query: (body) => ({
+        url: `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${body}`,
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
@@ -51,4 +59,5 @@ export const {
   useLoginUserMutation,
   useRegisterUserMutation,
   useUserProfileQuery,
+  useGoogleUserProfileQuery,
 } = userQueries;

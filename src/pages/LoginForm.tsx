@@ -11,18 +11,20 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { UserLogin, UserRegister } from '../../misc/types';
+import { UserLogin, UserRegister } from '../misc/types';
 import {
+  useGoogleUserProfileQuery,
   useLoginUserMutation,
   useUserProfileQuery,
-} from '../../redux/userQuery';
-import { saveUserInfo, setToken } from '../../redux/slices/userSlice';
-import { useAppDispatch } from '../hooks/useDispatchApp';
-import { setNotification } from '../../redux/slices/notificationSlice';
-import { AppState } from '../../redux/store';
+} from '../redux/userQuery';
+import { saveUserInfo, setToken } from '../redux/slices/userSlice';
+import { useAppDispatch } from '../components/hooks/useDispatchApp';
+import { setNotification } from '../redux/slices/notificationSlice';
+import { AppState } from '../redux/store';
 import { skipToken } from '@reduxjs/toolkit/query';
-import Loading from '../loading/Loading';
-import { StandardButton } from '../customStyling/buttons';
+import Loading from '../components/loading/Loading';
+import { StandardButton } from '../components/customStyling/buttons';
+import GoogleLogIn from '../components/googleLogin/GoogleLogIn';
 
 export default function UserForm() {
   const navigate = useNavigate();
@@ -31,7 +33,13 @@ export default function UserForm() {
   const [loginUser, { isLoading }] = useLoginUserMutation();
 
   const token = useSelector((state: AppState) => state.user.token);
+
   const { data: userData } = useUserProfileQuery(token ?? skipToken);
+  const googleToken = useSelector((state: AppState) => state.user.googleToken);
+
+  const { data: googleUserRole } = useGoogleUserProfileQuery(
+    googleToken ?? skipToken,
+  );
 
   const {
     register,
@@ -45,6 +53,7 @@ export default function UserForm() {
 
     if ('data' in response && 'access_token' in response.data) {
       dispatch(setToken(response.data));
+
       navigate('/');
       dispatch(
         setNotification({
@@ -80,7 +89,7 @@ export default function UserForm() {
         }),
       );
     }
-  }, [userData, dispatch]);
+  }, [userData, dispatch, googleUserRole]);
 
   if (isLoading) {
     return <Loading />;
@@ -188,6 +197,7 @@ export default function UserForm() {
                   </Typography>
                 </Link>
               </Box>
+              <GoogleLogIn />
             </Box>
           </Grid>
         </Grid>

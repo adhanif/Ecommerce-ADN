@@ -132,10 +132,7 @@ export default function Footer() {
                 fullWidth
                 aria-label='Enter your email address'
                 placeholder='Your email address'
-                // inputProps={{
-                //   autoComplete: 'off',
-                //   aria-label: 'Enter your email address',
-                // }}
+            
               />
               <StandardButton
                 variant='contained'
