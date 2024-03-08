@@ -96,7 +96,7 @@ Explore the products
 
 `REACT_APP_GOOGLE_CLIENT_ID` = `Your APP_GOOGLE_CLIENT_ID`
 
-#Testing
+# Testing
 
 The testing suite for this project is implemented with Jest and utilizes msw for server mocking. During testing, two mock servers were implemented for products and users using Jest in conjunction with msw. These servers are pivotal for evaluating different facets of the application's functionality, ensuring a comprehensive testing approach.
 
