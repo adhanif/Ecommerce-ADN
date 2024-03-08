@@ -4,11 +4,47 @@
 
 E-commerce Fashion ADN is a TypeScript and Redux Toolkit-powered frontend project that connects to the [FakeAPI](https://fakeapi.platzi.com/) to create a dynamic e-commerce platform. The project includes features like product listing, individual product pages, user profiles (accessible upon login), and a shopping cart (implemented as a page or modal).
 
-## Deployment
 
-Visit the E-commerce Fashion ADN Live and explore the products
+# Table of Contents
+- [E-commerce Fashion ADN](#e-commerce-fashion-adn)
+  - [Overview](#overview)
+  - [Visit the E-commerce Fashion ADN Live](#visit-the-e-commerce-fashion-adn-live)
+  - [APP Images](#app-images)
+  - [Technologies Used (Tech Stack)](#technologies-used-tech-stack)
+  - [Getting Started](#getting-started)
+  - [Usage](#usage)
+  - [Environment Variables](#environment-variables)
+  - [Testing](#testing)
+  - [Features](#features)
+    - [Redux Store](#redux-store)
+      - [Product Reducer](#product-reducer)
+      - [User Reducer](#user-reducer)
+      - [Cart Reducer](#cart-reducer)
+    - [Google Login](#google-login)
+  - [Project Folder Structure](#project-folder-structure)
+  - [API Endpoint](#api-endpoint)
+  - [Scripts](#scripts)
+  - [Deployment](#deployment)
+  - [License](#license)
 
-[![E-commerce Fashion ADN](https://img.shields.io/badge/E-commerce_Fashion_ADN-000000?style=for-the-badge&logo=google-chrome&logoColor=white)](https://personal-weather-station.netlify.app/)
+
+
+
+
+## Visit the E-commerce Fashion ADN Live
+
+Explore the products
+
+[![Ecommerce Fashion ADN](https://img.shields.io/badge/Ecommerce_Fashion_ADN-006400?style=for-the-badge&logo=google-chrome&logoColor=000000)](https://ecommerce-fashion-adn.netlify.app/)
+
+## APP Images
+
+![App Screenshot](readmeSnaps/homepage.png)
+![App Screenshot](readmeSnaps/featured.png)
+![App Screenshot](readmeSnaps/footer.png)
+![App Screenshot](readmeSnaps/Filters.png)
+![App Screenshot](readmeSnaps/product_detail.png)
+![App Screenshot](readmeSnaps/cart.png)
 
 ## Technologies Used (Tech Stack)
 
@@ -24,7 +60,7 @@ Visit the E-commerce Fashion ADN Live and explore the products
 - **Material-UI**: Provides a rich set of pre-designed React components for faster and easier development.
 - **React Hook Form**: Form handling library for React applications.
 
-## Installation
+## Getting started
 
 1. Clone the repository.
 
@@ -34,16 +70,18 @@ Visit the E-commerce Fashion ADN Live and explore the products
    ```
 
 2. Navigate to the project directory.
+
    ```bash
    cd fs17-Frontend-project
 
    ```
+
 3. Install dependencies.
    ```bash
    npm install
    ```
 
-# Using
+# Usage
 
 1. To start the App
    ```bash
@@ -74,7 +112,7 @@ The testing suite for this project is implemented with Jest and utilizes msw for
 - **Find a single product:** Retrieves details for a specific product.
 - **Filter by categories:** Allows users to filter products by categories.
 - **Sort products by price:** Enables sorting of products based on price.
-- **CRUD operations:** Admin users can create, update, and delete products.
+- **CRUD operations:** Admin can create, update, and delete products.
 
 ### User Reducer
 
@@ -205,6 +243,12 @@ src
 - `npm start`: Start the development server.
 - `npm build`: Build the production-ready application.
 - `npm test`: Run unit tests.
+- `npm eject`: Eject from create-react-app configuration.
+
+## Deployment
+
+The application is deployed on Netlify. Click the button below to visit the live site:
+[![Ecommerce Fashion ADN](https://img.shields.io/badge/Ecommerce_Fashion_ADN-006400?style=for-the-badge&logo=google-chrome&logoColor=000000)](https://ecommerce-fashion-adn.netlify.app/)
 
 ## License
 
