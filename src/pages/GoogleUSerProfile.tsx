@@ -12,13 +12,18 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import Loading from '../components/loading/Loading';
 
 function GoogleUSerProfile() {
   const googleToken = useSelector((state: AppState) => state.user.googleToken);
 
-  const { data: googleProfileData } = useGoogleUserProfileQuery(
+  const { data: googleProfileData, isLoading } = useGoogleUserProfileQuery(
     googleToken ?? skipToken,
   );
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>

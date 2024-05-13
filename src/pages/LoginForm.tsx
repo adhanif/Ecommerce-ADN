@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   Box,
   Container,
@@ -9,19 +9,12 @@ import {
 } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
 import { UserLogin, UserRegister } from '../misc/types';
-import {
-  useGoogleUserProfileQuery,
-  useLoginUserMutation,
-  useUserProfileQuery,
-} from '../redux/userQuery';
-import { saveUserInfo, setToken } from '../redux/slices/userSlice';
+import { useLoginUserMutation } from '../redux/userQuery';
+import { setToken } from '../redux/slices/userSlice';
 import { useAppDispatch } from '../components/hooks/useDispatchApp';
 import { setNotification } from '../redux/slices/notificationSlice';
-import { AppState } from '../redux/store';
-import { skipToken } from '@reduxjs/toolkit/query';
 import Loading from '../components/loading/Loading';
 import { StandardButton } from '../components/customStyling/buttons';
 import GoogleLogIn from '../components/googleLogin/GoogleLogIn';
@@ -31,15 +24,6 @@ export default function UserForm() {
   const dispatch = useAppDispatch();
 
   const [loginUser, { isLoading }] = useLoginUserMutation();
-
-  const token = useSelector((state: AppState) => state.user.token);
-
-  const { data: userData } = useUserProfileQuery(token ?? skipToken);
-  const googleToken = useSelector((state: AppState) => state.user.googleToken);
-
-  const { data: googleUserRole } = useGoogleUserProfileQuery(
-    googleToken ?? skipToken,
-  );
 
   const {
     register,
@@ -76,20 +60,6 @@ export default function UserForm() {
       }, 1000);
     }
   };
-
-  useEffect(() => {
-    if (userData) {
-      dispatch(
-        saveUserInfo({
-          name: userData.name,
-          role: userData.role,
-          avatar: userData.avatar,
-          creationAt: userData.creationAt,
-          updatedAt: userData.updatedAt,
-        }),
-      );
-    }
-  }, [userData, dispatch, googleUserRole]);
 
   if (isLoading) {
     return <Loading />;

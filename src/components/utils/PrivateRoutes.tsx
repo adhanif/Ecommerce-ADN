@@ -11,6 +11,7 @@ import {
 } from '../../redux/userQuery';
 import { skipToken } from '@reduxjs/toolkit/query';
 import GoogleUSerProfile from '../../pages/GoogleUSerProfile';
+import Loading from '../loading/Loading';
 
 interface PrivateRouteProps {
   path?: string;
@@ -21,7 +22,7 @@ export default function PrivateRoutes({
 }: PrivateRouteProps): JSX.Element {
   const token = useSelector((state: AppState) => state.user.token);
 
-  const { data } = useUserProfileQuery(token ?? skipToken);
+  const { data, isLoading } = useUserProfileQuery(token ?? skipToken);
 
   // const role = useSelector((state: AppState) => state.user.user?.role);
   const googleToken = useSelector((state: AppState) => state.user.googleToken);
@@ -29,6 +30,10 @@ export default function PrivateRoutes({
     googleToken ?? skipToken,
   );
   const role = data?.role;
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   if (googleUserRole && path !== 'admin' && path !== 'profile') {
     return <GoogleUSerProfile />;

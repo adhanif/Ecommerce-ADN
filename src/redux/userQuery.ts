@@ -51,6 +51,7 @@ export const userQueries = createApi({
         url: `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${body}`,
         method: 'GET',
       }),
+      providesTags: ['User'],
     }),
   }),
 });

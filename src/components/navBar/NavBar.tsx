@@ -22,12 +22,14 @@ import { logOut, removeUserInfo } from '../../redux/slices/userSlice';
 import {
   useGoogleUserProfileQuery,
   useUserProfileQuery,
+  userQueries,
 } from '../../redux/userQuery';
 import { setNotification } from '../../redux/slices/notificationSlice';
 import { skipToken } from '@reduxjs/toolkit/query';
 import ToggleColorMode from './ToggleColorMode';
 import { useTheme } from '../contextAPI/ThemeContext';
 import { emptyCart } from '../../redux/slices/cartSlice';
+import Loading from '../loading/Loading';
 
 function ResponsiveAppBar() {
   const cartData = useSelector((state: AppState) => state.cart.products);
@@ -38,7 +40,8 @@ function ResponsiveAppBar() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null,
   );
-  const [avatarSrc, setAvatarSrc] = React.useState('');
+
+  const { mode } = useTheme();
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -62,18 +65,17 @@ function ResponsiveAppBar() {
 
   const googleToken = useSelector((state: AppState) => state.user.googleToken);
 
- 
-  const { data: googleUserRole } = useGoogleUserProfileQuery(
-    googleToken ?? skipToken,
-  );
+  const { data: googleUserRole, isLoading: isGoogleUserLoading } =
+    useGoogleUserProfileQuery(googleToken ?? skipToken);
 
-  const { data: userData } = useUserProfileQuery(token ?? skipToken);
+  const { data: userData, isLoading: isUserProfileLoading } =
+    useUserProfileQuery(token ?? skipToken);
 
-  const { mode } = useTheme();
   const handleLogout = () => {
     dispatch(logOut());
     dispatch(removeUserInfo());
     dispatch(emptyCart());
+    dispatch(userQueries.util.resetApiState());
     dispatch(
       setNotification({
         open: true,
@@ -84,15 +86,12 @@ function ResponsiveAppBar() {
     navigate('/');
   };
 
+  // const imagUrl = userData ? userData?.avatar : googleUserRole?.picture;
 
-  React.useEffect(() => {
-    if (googleUserRole && googleUserRole.picture) {
-      setAvatarSrc(googleUserRole.picture);
-    } else if (userData && userData.avatar) {
-      setAvatarSrc(userData.avatar);
-    }
-  }, [googleToken, googleUserRole, token, userData, setAvatarSrc]);
-  
+  if (isUserProfileLoading || isGoogleUserLoading) {
+    return <Loading />;
+  }
+
   return (
     <AppBar
       position='static'
@@ -286,8 +285,8 @@ function ResponsiveAppBar() {
                   <Avatar
                     alt='Remy Sharp'
                     src={
-                      avatarSrc
-                      // userData ? userData?.avatar : googleUserRole?.picture
+                      // avatarSrc
+                      userData ? userData?.avatar : googleUserRole?.picture
                     }
                   />
                 </IconButton>
