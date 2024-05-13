@@ -52,7 +52,7 @@ export default function AdminTable() {
     },
     [setCurrentPage],
   );
-  // console.log("allProducts");
+
   useEffect(() => {
     if (allProducts) {
       setMainData(allProducts);
@@ -83,9 +83,6 @@ export default function AdminTable() {
     setSelectedItem(null);
   };
 
-  if (mainData) {
-    // console.log(convertImagesArray());
-  }
   return (
     <>
       <Grid

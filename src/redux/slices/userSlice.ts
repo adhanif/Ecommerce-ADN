@@ -18,7 +18,6 @@ if (alreadyToken) {
   token = JSON.parse(alreadyToken);
 }
 
-
 let user: UserInitialState | null = null;
 const alreadyUser = localStorage.getItem('user');
 if (alreadyUser) {
@@ -61,6 +60,7 @@ export const userSlice = createSlice({
     logOut: (state) => {
       localStorage.removeItem('token');
       localStorage.removeItem('googleToken');
+      localStorage.removeItem('user');
       state.user = null;
       state.token = null;
       state.googleToken = null;
@@ -70,8 +70,6 @@ export const userSlice = createSlice({
       state.user = action.payload;
     },
     removeUserInfo: (state) => {
-   
-
       state.user = null;
     },
   },
