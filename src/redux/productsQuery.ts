@@ -17,7 +17,8 @@ export type MyFormData = FormData;
 export const productQueries = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://api.escuelajs.co/api/v1',
+    // baseUrl: 'https://api.escuelajs.co/api/v1',
+    baseUrl: 'http://localhost:5227/api/v1',
   }),
   tagTypes: ['Products'],
 
