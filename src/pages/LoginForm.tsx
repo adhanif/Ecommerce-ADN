@@ -34,7 +34,7 @@ export default function UserForm() {
 
   const login: SubmitHandler<UserLogin> = async (data) => {
     const response = await loginUser(data);
-
+    console.log(response);
     if ('data' in response && 'access_token' in response.data) {
       dispatch(setToken(response.data));
 

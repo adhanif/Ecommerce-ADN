@@ -146,7 +146,7 @@ export default function UserForm() {
                   })}
                 />
 
-                <Typography
+                {/* <Typography
                   variant='caption'
                   sx={{ color: 'red' }}
                   marginTop={1}
@@ -167,7 +167,7 @@ export default function UserForm() {
                       message: 'Invalid URL format',
                     },
                   })}
-                />
+                /> */}
 
                 <StandardButton
                   type='submit'

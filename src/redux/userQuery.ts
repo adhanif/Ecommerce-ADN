@@ -13,7 +13,8 @@ import {
 export const userQueries = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://api.escuelajs.co/api/v1',
+    // baseUrl: 'https://api.escuelajs.co/api/v1',
+    baseUrl: 'http://localhost:5227/api/v1',
   }),
   tagTypes: ['User'],
   endpoints: (builder) => ({

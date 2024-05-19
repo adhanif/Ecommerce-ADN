@@ -132,7 +132,7 @@ export default function ProductDetail() {
     return <Loading />;
   }
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <>

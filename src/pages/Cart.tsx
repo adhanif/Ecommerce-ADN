@@ -119,7 +119,6 @@ export default function Cart() {
             <Typography
               component='h2'
               variant='h4'
-              // textAlign='center'
               fontWeight='700'
             >
               Cart
