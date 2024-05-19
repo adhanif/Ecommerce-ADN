@@ -49,10 +49,7 @@ describe('cart reducer', () => {
       addToCart({ product: products[0], count }),
     );
 
-    const deleteItemState = cartReducer(
-      state,
-      removeFromCart(Number(products[0].id)),
-    );
+    const deleteItemState = cartReducer(state, removeFromCart(products[0].id));
     expect(deleteItemState.products).toHaveLength(0);
   });
 
@@ -63,7 +60,7 @@ describe('cart reducer', () => {
       initialCartState,
       addToCart({ product: products[1], count }),
     );
-    const increaseState = cartReducer(state, increseQuantity(Number(products[1].id)));
+    const increaseState = cartReducer(state, increseQuantity(products[1].id));
     expect(increaseState.products[0].quantity).toEqual(3);
   });
 
@@ -74,7 +71,7 @@ describe('cart reducer', () => {
       initialCartState,
       addToCart({ product: products[2], count }),
     );
-    const decreaseState = cartReducer(state, decreseQuantity(Number(products[2].id)));
+    const decreaseState = cartReducer(state, decreseQuantity(products[2].id));
     expect(decreaseState.products[0].quantity).toEqual(5);
   });
 

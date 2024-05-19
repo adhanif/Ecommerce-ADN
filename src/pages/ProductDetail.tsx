@@ -36,7 +36,6 @@ import { addToCart } from '../redux/slices/cartSlice';
 import QuantityControlButton from '../components/cart/QuantityControlButton';
 import { setNotification } from '../redux/slices/notificationSlice';
 import { convertBinaryToDataUrl } from '../components/utils/products';
-import { useSelector } from 'react-redux';
 
 export default function ProductDetail() {
   const { id } = useParams<{ id: string }>();
@@ -132,6 +131,8 @@ export default function ProductDetail() {
   if (isLoading) {
     return <Loading />;
   }
+
+  console.log(data);
 
   return (
     <>
@@ -273,7 +274,18 @@ export default function ProductDetail() {
                 <Typography variant='body2' color='grey.600'>
                   {data.description}
                 </Typography>
-
+                <Typography
+                  variant='body2'
+                  color='grey.600'
+                  mt={1}
+                  sx={{
+                    color: '#b12704',
+                    fontSize: '14px',
+                    fontWeight: '700',
+                  }}
+                >
+                  Only {data.inventory} left in stock.
+                </Typography>
                 <QuantityControlButton
                   count={count}
                   handleMinus={handleMinus}

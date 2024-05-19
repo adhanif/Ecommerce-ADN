@@ -165,20 +165,44 @@ export type SelectOptions = {
   label: string;
 };
 
+// export type CartProduct = {
+//   id: string;
+//   title: string;
+//   price: number;
+//   description: string;
+//   images: string[];
+//   createdDate: string;
+//   updatedDate: string;
+//   inventory: number;
+//   category: {
+//     id: number;
+//     name: string;
+//     image: string;
+//     // creationAt: string;
+//     // updatedAt: string;
+//   };
+//   quantity: number;
+// };
+
 export type CartProduct = {
-  id: number;
+  id: string;
   title: string;
   price: number;
   description: string;
-  images: string[];
-  creationAt: string;
-  updatedAt: string;
+  images: {
+    productId: string;
+    data: string;
+    id: string;
+    createdDate: string;
+    updatedDate: string;
+  }[];
+  createdDate: string;
+  updatedDate: string;
+  inventory: number;
   category: {
-    id: number;
+    id: string;
     name: string;
     image: string;
-    creationAt: string;
-    updatedAt: string;
   };
   quantity: number;
 };
