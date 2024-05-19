@@ -284,10 +284,10 @@ function ResponsiveAppBar() {
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar
                     alt='Remy Sharp'
-                    src={
-                      // avatarSrc
-                      userData ? userData?.avatar : googleUserRole?.picture
-                    }
+                    // src={
+                    //   // avatarSrc
+                    //   userData ? userData?.avatar : googleUserRole?.picture
+                    // }
                   />
                 </IconButton>
               </Tooltip>
@@ -313,7 +313,7 @@ function ResponsiveAppBar() {
                       to={
                         userData
                           ? `${
-                              userData.role === 'customer'
+                              userData.role === 'Customer'
                                 ? '/profile'
                                 : '/admin'
                             }`

@@ -18,12 +18,13 @@ export const userQueries = createApi({
   }),
   tagTypes: ['User'],
   endpoints: (builder) => ({
-    loginUser: builder.mutation<LoginResponse, UserLogin>({
+    loginUser: builder.mutation<string, UserLogin>({
       query: (body) => {
         return {
           url: '/auth/login/',
           method: 'POST',
           body,
+          responseHandler: (response: { text: () => any }) => response.text(),
         };
       },
       invalidatesTags: ['User'],
@@ -37,12 +38,12 @@ export const userQueries = createApi({
       }),
       invalidatesTags: ['User'],
     }),
-    userProfile: builder.query<UserProfileData, Tokens>({
-      query: (body) => ({
+    userProfile: builder.query<UserProfileData, string>({
+      query: (access_token) => ({
         url: '/auth/profile',
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${body.access_token}`,
+          Authorization: `Bearer ${access_token}`,
         },
       }),
     }),

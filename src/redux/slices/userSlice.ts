@@ -2,7 +2,8 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import { AuthState, Tokens, UserInitialState } from '../../misc/types';
 
-let token: Tokens | null = null;
+// let token: Tokens | null = null;
+let token: string | null = null;
 
 let googleToken: string | null = null;
 
@@ -35,7 +36,7 @@ export const userSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setToken: (state, action: PayloadAction<Tokens>) => {
+    setToken: (state, action: PayloadAction<string>) => {
       try {
         localStorage.setItem('token', JSON.stringify(action.payload));
         state.token = action.payload;

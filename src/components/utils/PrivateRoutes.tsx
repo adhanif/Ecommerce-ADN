@@ -31,19 +31,22 @@ export default function PrivateRoutes({
   );
   const role = data?.role;
 
+
+
+
   if (isLoading) {
     return <Loading />;
   }
 
-  if (googleUserRole && path !== 'admin' && path !== 'profile') {
+  if (googleUserRole && path !== 'Admin' && path !== 'profile') {
     return <GoogleUSerProfile />;
-  } else if (role === 'admin') {
+  } else if (role === 'Admin') {
     if (path === '/admin') {
       return <Admin />;
     } else {
       return <Navigate to='/no-access' replace />;
     }
-  } else if (role === 'customer') {
+  } else if (role === 'Customer') {
     if (path === '/profile') {
       return <UserProfile />;
     } else {

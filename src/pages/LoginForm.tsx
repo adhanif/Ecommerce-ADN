@@ -34,8 +34,7 @@ export default function UserForm() {
 
   const login: SubmitHandler<UserLogin> = async (data) => {
     const response = await loginUser(data);
-    console.log(response);
-    if ('data' in response && 'access_token' in response.data) {
+    if ('data' in response) {
       dispatch(setToken(response.data));
 
       navigate('/');
@@ -48,17 +47,17 @@ export default function UserForm() {
       );
     }
 
-    if ('error' in response && 'status' in response.error) {
-      setTimeout(() => {
-        dispatch(
-          setNotification({
-            open: true,
-            message: '401 unauthorized',
-            severity: 'error',
-          }),
-        );
-      }, 1000);
-    }
+    // if ('error' in response && 'status' in response.error) {
+    //   setTimeout(() => {
+    //     dispatch(
+    //       setNotification({
+    //         open: true,
+    //         message: '401 unauthorized',
+    //         severity: 'error',
+    //       }),
+    //     );
+    //   }, 1000);
+    // }
   };
 
   if (isLoading) {

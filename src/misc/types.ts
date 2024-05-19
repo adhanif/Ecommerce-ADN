@@ -96,13 +96,12 @@ export type InitialStateUser = {
 };
 
 export type UserProfileData = {
-  id: number;
+  id: string;
   email: string;
-  password: string;
   name: string;
   role: string;
-  avatar: string;
-  creationAt: string;
+  avatar: string | null;
+  createdAt: string;
   updatedAt: string;
 };
 
@@ -120,15 +119,15 @@ export type Tokens = {
 };
 export type AuthState = {
   user: UserInitialState | null;
-  token: Tokens | null;
+  token: string | null;
   googleToken?: string | null;
   error: string | null;
 };
 
 export type LoginResponse = {
   access_token: string;
-  refresh_token: string;
-  error?: any;
+  // refresh_token: string;
+  // error?: any;
 };
 
 export type Available = {
