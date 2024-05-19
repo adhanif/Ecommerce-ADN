@@ -25,17 +25,17 @@ const cartSlice = createSlice({
     addToCart: (state, action: PayloadAction<AddToCartPayload>) => {
       const { count, product } = action.payload;
       const existingProduct = state.products.find((cartProduct) => {
-        return cartProduct.id === product.id;
+        return cartProduct.id === Number(product.id);
       });
 
       if (existingProduct) {
         state.products = state.products.map((item) => {
-          return item.id === product.id ? { ...item, quantity: count } : item;
+          return item.id === Number(product.id) ? { ...item, quantity: count } : item;
         });
       } else {
         state.products = [
           ...state.products,
-          { ...product, quantity: count || 0 },
+          // { ...product, quantity: count || 0 },
         ];
       }
       localStorage.setItem('cartProducts', JSON.stringify(state.products));

@@ -74,7 +74,7 @@ export default function ProductEditForm(props: ProductEditFormProps) {
       description: data.description,
     };
     try {
-      await updateProduct([item.id, updatedObject]);
+      // await updateProduct([item.id, updatedObject]);
       handleCloseModal();
     } catch (error) {
       console.log(error);

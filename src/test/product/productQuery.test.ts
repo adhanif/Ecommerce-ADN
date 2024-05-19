@@ -43,7 +43,7 @@ describe('test ProductQuery component', () => {
 
     if ('data' in result) {
       const productResult = result.data as unknown as Product[];
-      const item = productResult.find((item) => item.id === 2);
+      const item = productResult.find((item) => Number(item.id) === 2);
       expect(item).toBe(undefined);
     }
   });

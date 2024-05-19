@@ -24,11 +24,13 @@ export const handler = [
       const id = Number(req.params.productId);
 
       const productToBeDeleted = mockProducts.find(
-        (product) => product.id === id,
+        (product) => Number(product.id) === id,
       );
 
       if (productToBeDeleted) {
-        mockProducts = mockProducts.filter((product) => product.id !== id);
+        mockProducts = mockProducts.filter(
+          (product) => Number(product.id) !== id,
+        );
         return HttpResponse.json(mockProducts, { status: 200 });
       }
 

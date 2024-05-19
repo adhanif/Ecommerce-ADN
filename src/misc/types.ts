@@ -1,20 +1,42 @@
 export type Category = {
-  id: number;
+  id: string;
   name: string;
   image: string;
   creationAt: string;
   updatedAt: string;
 };
 
+// export type Product = {
+//   id: number;
+//   title: string;
+//   price: number;
+//   description: string;
+//   images: string[];
+//   creationAt: string;
+//   updatedAt: string;
+//   category: Category;
+// };
+
 export type Product = {
-  id: number;
+  id: string;
   title: string;
-  price: number;
   description: string;
-  images: string[];
-  creationAt: string;
-  updatedAt: string;
-  category: Category;
+  price: number;
+  inventory: number;
+  images: {
+    productId: string;
+    data: string;
+    id: string;
+    createdDate: string;
+    updatedDate: string;
+  }[];
+  category: {
+    id: string;
+    name: string;
+    image: string;
+  };
+  createdDate: string;
+  updatedDate: string;
 };
 
 export type UpdateProduct = {
@@ -45,7 +67,7 @@ export type CreateProductMockServer = {
 export type InitialState = {
   products: Product[];
   loading: boolean;
-  error?: string;
+  error?: string | null;
 };
 
 export type UserFormProps = {
