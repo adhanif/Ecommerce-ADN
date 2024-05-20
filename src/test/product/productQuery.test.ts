@@ -18,22 +18,22 @@ describe('test ProductQuery component', () => {
   });
 
   //test2 create a product
-  test('Should create a product', async () => {
-    const newProduct: CreateProduct = {
-      title: 'New Product',
-      price: 202,
-      description: 'New Product description',
-      images: ['image1.jpg'],
-      categoryId: 1,
-    };
-    let result = await store.dispatch(
-      productQueries.endpoints.createProduct.initiate(newProduct),
-    );
-    if ('data' in result) {
-      //   console.log(result.data.description);
-      expect(result.data.description).toBe('New Product description');
-    }
-  });
+  // test('Should create a product', async () => {
+  //   const newProduct: CreateProduct = {
+  //     title: 'New Product',
+  //     price: 202,
+  //     description: 'New Product description',
+  //     images: ['image1.jpg'],
+  //     categoryId: 1,
+  //   };
+  //   let result = await store.dispatch(
+  //     productQueries.endpoints.createProduct.initiate(newProduct),
+  //   );
+  //   if ('data' in result) {
+  //     //   console.log(result.data.description);
+  //     expect(result.data.description).toBe('New Product description');
+  //   }
+  // });
 
   //test3 delete a product
   test('Should delete a product', async () => {

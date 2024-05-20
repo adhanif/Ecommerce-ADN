@@ -10,6 +10,7 @@ import {
   UserGoogleProfile,
 } from '../misc/types';
 
+
 export const userQueries = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({

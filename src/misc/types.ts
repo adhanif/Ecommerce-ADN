@@ -51,7 +51,7 @@ export type CreateProduct = {
   title: string;
   price: number;
   description: string;
-  images: string[] | string;
+  images: string[];
   categoryId: number;
 };
 
@@ -145,11 +145,11 @@ export type TokenRequestBody = {
 };
 
 export type productCategory = {
-  id: number;
+  id: string;
   name: string;
   image: string;
-  creationAt: string;
-  updatedAt: string;
+  // creationAt: string;
+  // updatedAt: string;
 };
 
 export type QuantityControlButtonProps = {
