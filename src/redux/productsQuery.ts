@@ -62,6 +62,14 @@ export const productQueries = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://localhost:5227/api/v1',
+    prepareHeaders: (headers, { getState }) => {
+      // Get token from localStorage
+      const token = getAccessToken();
+      if (token) {
+        headers.set('Authorization', token);
+        return headers;
+      }
+    },
   }),
   tagTypes: ['Products'],
 
@@ -123,18 +131,8 @@ export const productQueries = createApi({
 
       invalidatesTags: ['Products'],
     }),
-    // createProduct: builder.mutation<Product, FormData>({
-    //   query: (body) => ({
-    //     url: '/products/form-create',
-    //     method: 'POST',
-    //     body: body,
-    //     // headers: {
-    //     //   'content-Type': 'multipart/form-data',
-    //     // },
-    //   }),
-    //   invalidatesTags: ['Products'],
-    // }),
-    deleteProduct: builder.mutation<boolean, number>({
+
+    deleteProduct: builder.mutation<boolean, string>({
       query: (id) => ({
         url: `/products/${id}`,
         method: 'DELETE',

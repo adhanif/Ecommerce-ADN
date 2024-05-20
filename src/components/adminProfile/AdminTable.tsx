@@ -60,7 +60,7 @@ export default function AdminTable() {
   }, [allProducts]);
 
   const handleDelete = (item: Product) => {
-    // deleteProduct(item.id);
+    deleteProduct(item.id);
 
     dispatch(
       setNotification({

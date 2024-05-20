@@ -36,11 +36,6 @@ const style = {
 };
 
 type Inputs = {
-  // title: string;
-  // price: number;
-  // description: string;
-  // categoryId?: number | string;
-  // files: FileList[];
   title: string;
   description: string;
   price: number;
@@ -49,12 +44,6 @@ type Inputs = {
   images: FileList | null;
 };
 
-const selectOptions: SelectOptions[] = [
-  { id: 1, label: 'Clothes' },
-  { id: 2, label: 'Electronics' },
-  { id: 3, label: 'Furniture' },
-  { id: 4, label: 'Shoes' },
-];
 
 type ProductEditFormProps = {
   handleCloseModal: () => void;
