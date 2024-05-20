@@ -41,7 +41,7 @@ const cartSlice = createSlice({
       localStorage.setItem('cartProducts', JSON.stringify(state.products));
     },
 
-    removeFromCart: (state, action: PayloadAction<number>) => {
+    removeFromCart: (state, action: PayloadAction<string>) => {
       const id = action.payload;
       state.products = state.products.filter(
         (cartProduct) => cartProduct.id !== id,
@@ -50,7 +50,7 @@ const cartSlice = createSlice({
       localStorage.setItem('cartProducts', JSON.stringify(state.products));
     },
 
-    increseQuantity: (state, action: PayloadAction<number>) => {
+    increseQuantity: (state, action: PayloadAction<string>) => {
       const id = action.payload;
 
       const existingProduct = state.products.find(
@@ -66,7 +66,7 @@ const cartSlice = createSlice({
       localStorage.setItem('cartProducts', JSON.stringify(state.products));
     },
 
-    decreseQuantity: (state, action: PayloadAction<number>) => {
+    decreseQuantity: (state, action: PayloadAction<string>) => {
       const id = action.payload;
 
       const existingProduct = state.products.find(

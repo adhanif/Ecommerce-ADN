@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { useGetOneProductQuery } from '../redux/productsQuery';
+import {
+  useFetchAllProductsQuery,
+  useGetOneProductQuery,
+} from '../redux/productsQuery';
 import {
   Container,
   Grid,
@@ -28,31 +31,65 @@ import {
   ArrowGroupButton,
   SquareButton,
 } from '../components/customStyling/buttons';
-import { useAppDispatch } from '../redux/store';
+import { AppState, useAppDispatch } from '../redux/store';
 import { addToCart } from '../redux/slices/cartSlice';
 import QuantityControlButton from '../components/cart/QuantityControlButton';
 import { setNotification } from '../redux/slices/notificationSlice';
-import { convertImagesArray } from '../components/utils/products';
+import { convertBinaryToDataUrl } from '../components/utils/products';
 
 export default function ProductDetail() {
-  const productId = useParams();
+  const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
+
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-
   const [count, setCount] = useState(0);
+  const [isId, setIsId] = useState<string | null>(null);
+  const [productId, setProductId] = useState<string | null>(null);
+  const { data, isLoading } = useGetOneProductQuery(productId || '');
+  const { data: allProducts } = useFetchAllProductsQuery();
 
-  const [previousId, setPreviousId] = useState(Number(productId.id));
+  useEffect(() => {
+    if (id) {
+      setProductId(id);
+    }
+  }, [id]);
 
-  const { data, isLoading } = useGetOneProductQuery(previousId);
+  useEffect(() => {
+    if (allProducts && allProducts.length > 0) {
+      const currentIndex = allProducts.findIndex(
+        (product) => product.id === isId,
+      );
+      if (currentIndex !== -1) {
+        const nextIndex = (currentIndex + 1) % allProducts.length;
+        setIsId(allProducts[nextIndex].id);
+      }
+    }
+  }, [allProducts, isId]);
 
   const handleNext = () => {
-    setPreviousId(previousId + 1);
+    if (allProducts && allProducts.length > 0 && productId) {
+      const currentIndex = allProducts.findIndex(
+        (product) => product.id === productId,
+      );
+      if (currentIndex !== -1) {
+        const nextIndex = (currentIndex + 1) % allProducts.length;
+        setProductId(allProducts[nextIndex].id);
+      }
+    }
   };
 
   const handlePrevious = () => {
-    setPreviousId(previousId - 1);
+    if (allProducts && allProducts.length > 0 && productId) {
+      const currentIndex = allProducts.findIndex(
+        (product) => product.id === productId,
+      );
+      if (currentIndex !== -1) {
+        const previousIndex =
+          (currentIndex - 1 + allProducts.length) % allProducts.length;
+        setProductId(allProducts[previousIndex].id);
+      }
+    }
   };
-
   const handlePlus = () => {
     setCount(count + 1);
   };
@@ -87,13 +124,19 @@ export default function ProductDetail() {
     }
   };
 
+  if (!id) {
+    return <Loading />;
+  }
+
   if (isLoading) {
     return <Loading />;
   }
 
+  // console.log(data);
+
   return (
     <>
-      {data && (
+      {data && data.images && data.category && (
         <Container>
           <Grid
             container
@@ -105,25 +148,26 @@ export default function ProductDetail() {
           >
             <Grid item xs={12} sm={12} md={5} lg={5} marginRight={1}>
               <ImageList cols={2} gap={6} rowHeight={200}>
-                {convertImagesArray(data.images).map((image, index) => (
-                  <ImageListItem
-                    key={index}
-                    cols={index === 0 ? 2 : 1}
-                    rows={index === 0 ? 2 : 1}
-                  >
-                    <img
-                      src={image}
-                      style={{
-                        cursor: 'pointer',
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                      }}
-                      alt={data.title}
-                      onClick={() => handleImageClick(image)}
-                    />
-                  </ImageListItem>
-                ))}
+                {data.images &&
+                  data.images.map((image, index) => (
+                    <ImageListItem
+                      key={index}
+                      cols={index === 0 ? 2 : 1}
+                      rows={index === 0 ? 2 : 1}
+                    >
+                      <img
+                        src={convertBinaryToDataUrl(image.data)}
+                        style={{
+                          cursor: 'pointer',
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                        }}
+                        alt={data.title}
+                        onClick={() => handleImageClick(image.data)}
+                      />
+                    </ImageListItem>
+                  ))}
               </ImageList>
               <Modal open={Boolean(selectedImage)} onClose={handleCloseModal}>
                 <Stack display='flex'>
@@ -141,7 +185,7 @@ export default function ProductDetail() {
                   </IconButton>
                   {selectedImage && (
                     <img
-                      src={selectedImage}
+                      src={convertBinaryToDataUrl(selectedImage)}
                       alt={selectedImage}
                       style={{
                         maxWidth: '50%',
@@ -213,7 +257,7 @@ export default function ProductDetail() {
               </Grid>
               <Grid>
                 <Typography variant='h4' marginTop={5} marginBottom={5}>
-                  {data.title.toLocaleUpperCase()}
+                  {data.title && data.title.toLocaleUpperCase()}
                 </Typography>
                 <Typography
                   variant='h6'
@@ -230,7 +274,18 @@ export default function ProductDetail() {
                 <Typography variant='body2' color='grey.600'>
                   {data.description}
                 </Typography>
-
+                <Typography
+                  variant='body2'
+                  color='grey.600'
+                  mt={1}
+                  sx={{
+                    color: '#b12704',
+                    fontSize: '14px',
+                    fontWeight: '700',
+                  }}
+                >
+                  Only {data.inventory} left in stock.
+                </Typography>
                 <QuantityControlButton
                   count={count}
                   handleMinus={handleMinus}

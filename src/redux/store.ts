@@ -4,7 +4,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import productReducer from './slices/productSlice';
 import { userReducer } from './slices/userSlice';
 import { userQueries } from './userQuery';
-import { productQueries } from './productsQuery';
+import { createUpdateproductQueries, productQueries } from './productsQuery';
 import cartReducer from './slices/cartSlice';
 
 import notificationReducer from './slices/notificationSlice';
@@ -17,11 +17,14 @@ const store = configureStore({
     notification: notificationReducer,
     [userQueries.reducerPath]: userQueries.reducer,
     [productQueries.reducerPath]: productQueries.reducer,
+    [createUpdateproductQueries.reducerPath]:
+      createUpdateproductQueries.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       userQueries.middleware,
       productQueries.middleware,
+      createUpdateproductQueries.middleware,
     ),
 });
 

@@ -25,7 +25,10 @@ import {
 import { setNotification } from '../redux/slices/notificationSlice';
 import { Link } from 'react-router-dom';
 import { StyledLink, StyledTableCell } from '../components/customStyling/table';
-import { convertImagesArray } from '../components/utils/products';
+import {
+  convertBinaryToDataUrl,
+  convertImagesArray,
+} from '../components/utils/products';
 
 export default function Cart() {
   const cartData = useSelector((state: AppState) => state.cart.products);
@@ -37,7 +40,7 @@ export default function Cart() {
     return curr.price * curr.quantity + total;
   }, 0);
 
-  const handleIncreaseQuantity = (id: number) => {
+  const handleIncreaseQuantity = (id: string) => {
     dispatch(increseQuantity(id));
     dispatch(
       setNotification({
@@ -48,7 +51,7 @@ export default function Cart() {
     );
   };
 
-  const handleDecreaseQuantity = (id: number) => {
+  const handleDecreaseQuantity = (id: string) => {
     dispatch(decreseQuantity(id));
     dispatch(
       setNotification({
@@ -59,7 +62,7 @@ export default function Cart() {
     );
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     dispatch(removeFromCart(id));
     dispatch(
       setNotification({
@@ -116,7 +119,6 @@ export default function Cart() {
             <Typography
               component='h2'
               variant='h4'
-              // textAlign='center'
               fontWeight='700'
             >
               Cart
@@ -157,7 +159,9 @@ export default function Cart() {
                             align='center'
                           >
                             <img
-                              src={convertImagesArray(item.images)[0]}
+                              src={
+                                convertBinaryToDataUrl(item.images[0].data)
+                              }
                               alt={item.title}
                               width='40'
                               height='40'

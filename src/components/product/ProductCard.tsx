@@ -6,9 +6,11 @@ import { CardContent, CardMedia, Rating, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 import { Product } from '../../misc/types';
-import { convertImagesArray } from '../utils/products';
+import { convertBinaryToDataUrl } from '../utils/products';
 
 export default function ProductCard({ product }: { product: Product }) {
+ 
+ 
   return (
     <Card
       sx={{
@@ -22,7 +24,7 @@ export default function ProductCard({ product }: { product: Product }) {
           <CardMedia
             component='img'
             height='230'
-            image={convertImagesArray(product.images)[0]}
+            image={convertBinaryToDataUrl(product.images[0].data)}
             alt={product.title}
             sx={{
               objectFit: 'cover',

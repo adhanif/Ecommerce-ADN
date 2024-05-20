@@ -29,7 +29,6 @@ import { sortData } from '../components/utils/products';
 
 export default function ProductsDataFetch() {
   const [mainData, setMainData] = useState<Product[]>([]);
-
   const searchQuery = useRef<TextFieldProps>(null);
 
   const [formSubmitted, setFormSubmitted] = useState(false);

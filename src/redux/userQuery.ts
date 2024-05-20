@@ -10,19 +10,22 @@ import {
   UserGoogleProfile,
 } from '../misc/types';
 
+
 export const userQueries = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://api.escuelajs.co/api/v1',
+    // baseUrl: 'https://api.escuelajs.co/api/v1',
+    baseUrl: 'http://localhost:5227/api/v1',
   }),
   tagTypes: ['User'],
   endpoints: (builder) => ({
-    loginUser: builder.mutation<LoginResponse, UserLogin>({
+    loginUser: builder.mutation<string, UserLogin>({
       query: (body) => {
         return {
           url: '/auth/login/',
           method: 'POST',
           body,
+          responseHandler: (response: { text: () => any }) => response.text(),
         };
       },
       invalidatesTags: ['User'],
@@ -36,12 +39,12 @@ export const userQueries = createApi({
       }),
       invalidatesTags: ['User'],
     }),
-    userProfile: builder.query<UserProfileData, Tokens>({
-      query: (body) => ({
+    userProfile: builder.query<UserProfileData, string>({
+      query: (access_token) => ({
         url: '/auth/profile',
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${body.access_token}`,
+          Authorization: `Bearer ${access_token}`,
         },
       }),
     }),

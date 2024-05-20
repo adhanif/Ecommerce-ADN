@@ -1,20 +1,42 @@
 export type Category = {
-  id: number;
+  id: string;
   name: string;
   image: string;
   creationAt: string;
   updatedAt: string;
 };
 
+// export type Product = {
+//   id: number;
+//   title: string;
+//   price: number;
+//   description: string;
+//   images: string[];
+//   creationAt: string;
+//   updatedAt: string;
+//   category: Category;
+// };
+
 export type Product = {
-  id: number;
+  id: string;
   title: string;
-  price: number;
   description: string;
-  images: string[];
-  creationAt: string;
-  updatedAt: string;
-  category: Category;
+  price: number;
+  inventory: number;
+  images: {
+    productId: string;
+    data: string;
+    id: string;
+    createdDate: string;
+    updatedDate: string;
+  }[];
+  category: {
+    id: string;
+    name: string;
+    image: string;
+  };
+  createdDate: string;
+  updatedDate: string;
 };
 
 export type UpdateProduct = {
@@ -29,7 +51,7 @@ export type CreateProduct = {
   title: string;
   price: number;
   description: string;
-  images: string[] | string;
+  images: string[];
   categoryId: number;
 };
 
@@ -45,7 +67,7 @@ export type CreateProductMockServer = {
 export type InitialState = {
   products: Product[];
   loading: boolean;
-  error?: string;
+  error?: string | null;
 };
 
 export type UserFormProps = {
@@ -74,13 +96,12 @@ export type InitialStateUser = {
 };
 
 export type UserProfileData = {
-  id: number;
+  id: string;
   email: string;
-  password: string;
   name: string;
   role: string;
-  avatar: string;
-  creationAt: string;
+  avatar: string | null;
+  createdAt: string;
   updatedAt: string;
 };
 
@@ -98,15 +119,15 @@ export type Tokens = {
 };
 export type AuthState = {
   user: UserInitialState | null;
-  token: Tokens | null;
+  token: string | null;
   googleToken?: string | null;
   error: string | null;
 };
 
 export type LoginResponse = {
   access_token: string;
-  refresh_token: string;
-  error?: any;
+  // refresh_token: string;
+  // error?: any;
 };
 
 export type Available = {
@@ -124,11 +145,11 @@ export type TokenRequestBody = {
 };
 
 export type productCategory = {
-  id: number;
+  id: string;
   name: string;
   image: string;
-  creationAt: string;
-  updatedAt: string;
+  // creationAt: string;
+  // updatedAt: string;
 };
 
 export type QuantityControlButtonProps = {
@@ -143,20 +164,44 @@ export type SelectOptions = {
   label: string;
 };
 
+// export type CartProduct = {
+//   id: string;
+//   title: string;
+//   price: number;
+//   description: string;
+//   images: string[];
+//   createdDate: string;
+//   updatedDate: string;
+//   inventory: number;
+//   category: {
+//     id: number;
+//     name: string;
+//     image: string;
+//     // creationAt: string;
+//     // updatedAt: string;
+//   };
+//   quantity: number;
+// };
+
 export type CartProduct = {
-  id: number;
+  id: string;
   title: string;
   price: number;
   description: string;
-  images: string[];
-  creationAt: string;
-  updatedAt: string;
+  images: {
+    productId: string;
+    data: string;
+    id: string;
+    createdDate: string;
+    updatedDate: string;
+  }[];
+  createdDate: string;
+  updatedDate: string;
+  inventory: number;
   category: {
-    id: number;
+    id: string;
     name: string;
     image: string;
-    creationAt: string;
-    updatedAt: string;
   };
   quantity: number;
 };

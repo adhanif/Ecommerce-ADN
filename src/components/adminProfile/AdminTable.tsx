@@ -60,7 +60,7 @@ export default function AdminTable() {
   }, [allProducts]);
 
   const handleDelete = (item: Product) => {
-    deleteProduct(item.id);
+    // deleteProduct(item.id);
 
     dispatch(
       setNotification({
@@ -127,7 +127,7 @@ export default function AdminTable() {
                   <TableCell align='left'>
                     <Grid display='flex' alignItems='center'>
                       <img
-                        src={convertImagesArray(item.images)[0]}
+                        // src={convertImagesArray(item.images[0])}
                         alt={item.title}
                         width='40'
                         height='40'

@@ -13,11 +13,53 @@ export type ImageResponse = {
 };
 
 export type MyFormData = FormData;
+// Function to get the access token from localStorage
+const getAccessToken = () => {
+  const token = localStorage.getItem('accessToken');
+  return token ? `Bearer ${token}` : '';
+};
+
+export const createUpdateproductQueries = createApi({
+  reducerPath: 'api2',
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'http://localhost:5227/api/v1',
+    prepareHeaders: (headers, { getState }) => {
+      // Get token from localStorage
+      const token = getAccessToken();
+      if (token) {
+        headers.set('Authorization', token);
+      }
+      headers.set('Content-Type', 'multipart/form-data');
+      return headers;
+    },
+  }),
+  tagTypes: ['createProducts'],
+  endpoints: (builder) => ({
+    createUpdateProduct: builder.mutation<Product, FormData>({
+      query: (body) => ({
+        url: '/products/form-create',
+        method: 'POST',
+        body: body,
+      }),
+      invalidatesTags: ['createProducts'],
+    }),
+  }),
+});
+export const { useCreateUpdateProductMutation } = createUpdateproductQueries;
 
 export const productQueries = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://api.escuelajs.co/api/v1',
+    baseUrl: 'http://localhost:5227/api/v1',
+    prepareHeaders: (headers, { getState }) => {
+      // Get token from localStorage
+      const token = getAccessToken();
+      if (token) {
+        headers.set('Authorization', token);
+      }
+      headers.set('Content-Type', 'application/json');
+      return headers;
+    },
   }),
   tagTypes: ['Products'],
 
@@ -26,11 +68,14 @@ export const productQueries = createApi({
       query: () => ({
         url: '/products',
         method: 'GET',
+        headers: {
+          'content-Type': 'application/json',
+        },
       }),
       providesTags: ['Products'],
     }),
 
-    getOneProduct: builder.query<Product, number>({
+    getOneProduct: builder.query<Product, string>({
       query: (productId) => ({
         url: `/products/${productId}`,
         method: 'GET',
@@ -56,6 +101,7 @@ export const productQueries = createApi({
       }),
       providesTags: ['Products'],
     }),
+
     fetchBySearch: builder.query<Product[], string | null>({
       query: (searchQuery) => ({
         url: `/products/?title=${searchQuery}`,
@@ -75,11 +121,14 @@ export const productQueries = createApi({
 
       invalidatesTags: ['Products'],
     }),
-    createProduct: builder.mutation<Product, CreateProduct>({
+    createProduct: builder.mutation<Product, FormData>({
       query: (body) => ({
-        url: '/products/',
+        url: '/products/form-create',
         method: 'POST',
         body: body,
+        // headers: {
+        //   'content-Type': 'multipart/form-data',
+        // },
       }),
       invalidatesTags: ['Products'],
     }),

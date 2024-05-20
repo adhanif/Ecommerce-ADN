@@ -59,9 +59,7 @@ describe('User Query', () => {
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTY3Mjc2NjAyOCwiZXhwIjoxNjc0NDk0MDI4fQ.kCak9sLJr74frSRVQp0_27BY4iBCgQSmoT3vQVWKzJg';
 
     const response = await store.dispatch(
-      userQueries.endpoints.userProfile.initiate({
-        access_token: validAccessToken,
-      }),
+      userQueries.endpoints.userProfile.initiate(validAccessToken),
     );
     if ('data' in response) {
       expect(response.data).toHaveProperty('email', 'dani@gmail.com');

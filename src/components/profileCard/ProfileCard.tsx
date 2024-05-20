@@ -28,7 +28,7 @@ export default function ProfileCard({ data }: { data: UserProfileData }) {
                 <Stack marginRight={2}>
                   <Avatar
                     alt={data.name}
-                    src={data.avatar}
+                    // src={data.avatar}
                     sx={{ width: 100, height: 100, marginBottom: 2 }}
                   />
                 </Stack>
@@ -52,7 +52,7 @@ export default function ProfileCard({ data }: { data: UserProfileData }) {
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <Typography variant='body1'>
-                        Created At: {new Date(data.creationAt).toLocaleString()}
+                        Created At: {new Date(data.createdAt).toLocaleString()}
                       </Typography>
                     </Grid>
                     <Grid item xs={12} sm={6}>

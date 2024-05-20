@@ -31,3 +31,10 @@ export function convertImagesArray(inputArray: string[]): string[] {
     })
     .flat();
 }
+
+export function convertBinaryToDataUrl(
+  binaryData: string,
+  mimeType = 'image/jpeg',
+): string {
+  return `data:${mimeType};base64,${binaryData}`;
+}
