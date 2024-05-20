@@ -13,9 +13,15 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
-import { useUpdateProductMutation } from '../../redux/productsQuery';
+import {
+  useFetchAllCategoriesQuery,
+  useFetchAllProductsQuery,
+  useUpdateProductMutation,
+} from '../../redux/productsQuery';
 import { StandardButton } from '../customStyling/buttons';
 import { Product, SelectOptions } from '../../misc/types';
+import { useAppDispatch } from '../hooks/useDispatchApp';
+import { setNotification } from '../../redux/slices/notificationSlice';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -31,18 +37,13 @@ const style = {
 
 type Inputs = {
   title: string;
-  price: number;
   description: string;
-  categoryId?: number | string;
-  files: FileList[];
+  price: number;
+  inventory: number;
+  categoryId: string;
+  images: FileList | null;
 };
 
-const selectOptions: SelectOptions[] = [
-  { id: 1, label: 'Clothes' },
-  { id: 2, label: 'Electronics' },
-  { id: 3, label: 'Furniture' },
-  { id: 4, label: 'Shoes' },
-];
 
 type ProductEditFormProps = {
   handleCloseModal: () => void;
@@ -52,7 +53,9 @@ type ProductEditFormProps = {
 export default function ProductEditForm(props: ProductEditFormProps) {
   const { handleCloseModal, item } = props;
   const [updateProduct] = useUpdateProductMutation();
-
+  const { data: categoriesData } = useFetchAllCategoriesQuery();
+  const { refetch: refetchAllProducts } = useFetchAllProductsQuery();
+  const dispatch = useAppDispatch();
   const {
     handleSubmit,
     control,
@@ -62,19 +65,40 @@ export default function ProductEditForm(props: ProductEditFormProps) {
       title: item.title,
       price: item.price,
       description: item.description,
+      inventory: item.inventory,
       categoryId: '',
-      files: [],
+      images: null,
     },
   });
 
   const onSubmit = async (data: Inputs) => {
-    const updatedObject = {
-      title: data.title,
-      price: data.price,
-      description: data.description,
-    };
+    const formData = new FormData();
+    formData.append('title', data.title);
+    formData.append('price', data.price.toString());
+    formData.append('description', data.description);
+    formData.append(
+      'categoryId',
+      data.categoryId.toString() || item.category.id,
+    );
+    formData.append('inventory', data.inventory.toString());
+    if (data.images) {
+      for (let i = 0; i < data.images.length; i++) {
+        formData.append('images', data.images[i]);
+      }
+    }
+
     try {
-      // await updateProduct([item.id, updatedObject]);
+      const res = await updateProduct([item.id, formData]);
+      if ('data' in res) {
+        dispatch(
+          setNotification({
+            open: true,
+            message: `Product ${item.title} has been updated!`,
+            severity: 'success',
+          }),
+        );
+      }
+      refetchAllProducts();
       handleCloseModal();
     } catch (error) {
       console.log(error);
@@ -168,11 +192,12 @@ export default function ProductEditForm(props: ProductEditFormProps) {
                     render={({ field }) => (
                       <FormControl fullWidth size='small'>
                         <Select {...field}>
-                          {selectOptions.map((category) => (
-                            <MenuItem key={category.id} value={category.id}>
-                              {category.label}
-                            </MenuItem>
-                          ))}
+                          {categoriesData &&
+                            categoriesData.map((category) => (
+                              <MenuItem key={category.id} value={category.id}>
+                                {category.name}
+                              </MenuItem>
+                            ))}
                         </Select>
                       </FormControl>
                     )}
@@ -184,6 +209,34 @@ export default function ProductEditForm(props: ProductEditFormProps) {
                     marginTop={1}
                   >
                     {errors.categoryId?.message}
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={12} sm={12} md={12}>
+                  <Typography variant='subtitle2' color='text.primary'>
+                    Inventory
+                  </Typography>
+
+                  <Controller
+                    name='inventory'
+                    control={control}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        type='number'
+                        size='small'
+                        variant='outlined'
+                        color='primary'
+                        fullWidth
+                      />
+                    )}
+                  />
+                  <Typography
+                    variant='caption'
+                    sx={{ color: 'red' }}
+                    marginTop={1}
+                  >
+                    {errors.inventory?.message}
                   </Typography>
                 </Grid>
 
@@ -219,9 +272,9 @@ export default function ProductEditForm(props: ProductEditFormProps) {
 
                 <Grid item xs={12} sm={12} md={12} marginTop='2rem'>
                   <Controller
-                    name='files'
+                    name='images'
                     control={control}
-                    // rules={{ required: 'Attched the images!' }}
+                    // rules={{ required: 'Attach the images!' }}
                     render={({ field }) => (
                       <input
                         type='file'
@@ -233,21 +286,16 @@ export default function ProductEditForm(props: ProductEditFormProps) {
                       />
                     )}
                   />
-                  {errors.files && (
+                  {errors.images && (
                     <Typography
                       variant='caption'
                       sx={{ color: 'red' }}
                       marginTop={1}
                       role='alert'
                     >
-                      {errors.files.message}
+                      {errors.images.message}
                     </Typography>
                   )}
-                  {/* <input
-                  type='file'
-                  multiple
-                  {...register('files', { required: 'Files are required' })}
-                /> */}
                 </Grid>
                 <Grid item xs={12} sm={12} md={3} marginTop='2rem'>
                   <StandardButton variant='contained' type='submit' fullWidth>

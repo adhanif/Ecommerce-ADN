@@ -1,10 +1,22 @@
 import store from '../../redux/store';
 import { productServer } from '../shared/productServer';
-import { productQueries } from '../../redux/productsQuery';
+import {
+  createUpdateproductQueries,
+  productQueries,
+} from '../../redux/productsQuery';
 import { CreateProduct, Product } from '../../misc/types';
 
 beforeAll(() => productServer.listen());
 afterAll(() => productServer.close());
+
+interface formDataProduct {
+  title: string;
+  price: number;
+  description: string;
+  inventory: number;
+  categoryId: string;
+  images: FileList | null;
+}
 
 describe('test ProductQuery component', () => {
   //test1 fetch all the products
@@ -12,33 +24,42 @@ describe('test ProductQuery component', () => {
     const { data } = await store.dispatch(
       productQueries.endpoints.fetchAllProducts.initiate(),
     );
-    // console.log('API response:', data); /
-    // console.log(store.getState().api.queries['fetchAllProducts(undefined)']);
     expect(data).toHaveLength(3);
   });
 
-  //test2 create a product
-  // test('Should create a product', async () => {
-  //   const newProduct: CreateProduct = {
-  //     title: 'New Product',
-  //     price: 202,
-  //     description: 'New Product description',
-  //     images: ['image1.jpg'],
-  //     categoryId: 1,
-  //   };
-  //   let result = await store.dispatch(
-  //     productQueries.endpoints.createProduct.initiate(newProduct),
-  //   );
-  //   if ('data' in result) {
-  //     //   console.log(result.data.description);
-  //     expect(result.data.description).toBe('New Product description');
-  //   }
-  // });
+  // test2 create a product
+  test('Should create a product', async () => {
+    const newProduct: formDataProduct = {
+      title: 'New Product',
+      price: 202,
+      description: 'New Product description',
+      images: null,
+      categoryId: '1',
+      inventory: 10,
+    };
+
+    // Create a new FormData object
+    const formData = new FormData();
+
+    // Append fields to the FormData object
+    formData.append('title', newProduct.title);
+    formData.append('price', newProduct.price.toString());
+    formData.append('description', newProduct.description);
+    formData.append('categoryId', newProduct.categoryId);
+    formData.append('inventory', newProduct.inventory.toString());
+    let result = await store.dispatch(
+      createUpdateproductQueries.endpoints.createProduct.initiate(formData),
+    );
+    if ('data' in result) {
+      //   console.log(result.data.description);
+      expect(result.data.description).toBe('New Product description');
+    }
+  });
 
   //test3 delete a product
   test('Should delete a product', async () => {
     let result = await store.dispatch(
-      productQueries.endpoints.deleteProduct.initiate(2),
+      productQueries.endpoints.deleteProduct.initiate('2'),
     );
 
     if ('data' in result) {

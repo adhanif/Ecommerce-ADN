@@ -1,5 +1,6 @@
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
+
 import {
   Container,
   FormControl,
@@ -11,25 +12,21 @@ import {
 } from '@mui/material';
 
 import {
-  useCreateProductMutation,
   useFetchAllCategoriesQuery,
-  useUploadImagesMutation,
-  useCreateUpdateProductMutation,
+  useCreateProductMutation,
+  useFetchAllProductsQuery,
 } from '../../redux/productsQuery';
 import { StandardButton } from '../customStyling/buttons';
 import { useAppDispatch } from '../../redux/store';
 import { setNotification } from '../../redux/slices/notificationSlice';
-import { CreateProduct } from '../../misc/types';
-import { write } from 'fs';
 
 type Inputs = {
-  images: any;
   title: string;
-  price: number;
   description: string;
-  categoryId: string;
-  files: FileList | null;
+  price: number;
   inventory: number;
+  categoryId: string;
+  images: FileList | null;
 };
 
 interface ProductFormProps {
@@ -38,8 +35,8 @@ interface ProductFormProps {
 
 const ProductForm: React.FC<ProductFormProps> = ({ setOpen }) => {
   const { data: categories } = useFetchAllCategoriesQuery();
+  const { refetch: refetchAllProducts } = useFetchAllProductsQuery();
   const [createProduct] = useCreateProductMutation();
-  const [createUpdateProduct] = useCreateUpdateProductMutation();
   const dispatch = useAppDispatch();
 
   const {
@@ -50,11 +47,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ setOpen }) => {
   } = useForm<Inputs>({
     defaultValues: {
       title: '',
-      price: 1,
       description: '',
+      price: 0,
+      inventory: 0,
       categoryId: '',
       images: null,
-      inventory: 0,
     },
   });
 
@@ -67,95 +64,37 @@ const ProductForm: React.FC<ProductFormProps> = ({ setOpen }) => {
       formData.append('categoryId', data.categoryId?.toString() || '');
       formData.append('inventory', data.inventory.toString());
 
-      console.log(data.categoryId);
-
       if (data.images) {
         for (let i = 0; i < data.images.length; i++) {
           formData.append('images', data.images[i]);
         }
       }
 
-      // Convert the entries iterator to an array for logging
-      const formDataEntries: [string, FormDataEntryValue][] = Array.from(
-        formData.entries(),
-      );
-      console.log('FormData:');
-      formDataEntries.forEach(([key, value]) => {
-        console.log(key, typeof value);
-      });
-      // const res = await createProduct(formData);
-      const res = await createUpdateProduct(formData);
+      const res = await createProduct(formData);
 
-      // if ('data' in res && 'images' in res.data) {
-      //   dispatch(
-      //     setNotification({
-      //       open: true,
-      //       message: 'Product has been created!',
-      //       severity: 'success',
-      //     }),
-      //   );
-      //   setOpen(false);
-      // }
+      if ('data' in res) {
+        dispatch(
+          setNotification({
+            open: true,
+            message: 'Product has been created!',
+            severity: 'success',
+          }),
+        );
+        setOpen(false);
+        refetchAllProducts();
+      }
     } catch (error) {
       console.error('Error creating product:', error);
     }
 
     reset({
       title: '',
-      price: 1,
       description: '',
+      price: 0,
+      inventory: 0,
       categoryId: '',
-      files: null,
+      images: null,
     });
-
-    // const images: string[] = [];
-    // try {
-    //   for (let i = 0; i < data.files.length; i++) {
-    //     const filenew = data.files[i];
-    //     if (filenew instanceof File) {
-    //       const formData = new FormData();
-    //       formData.append('file', filenew);
-    //       const result = await uploadImages(formData);
-    //       if ('data' in result && 'location' in result.data) {
-    //         const location = result.data.location;
-    //         images.push(location);
-    //       }
-    //     }
-    //   }
-    // } catch (error) {
-    //   console.error('Error uploading file:', error);
-    // }
-
-    // try {
-    //   const res = await createProduct({
-    //     title: data.title,
-    //     price: data.price,
-    //     description: data.description,
-    //     images: images,
-    //     categoryId: Number(data.categoryId),
-    //   });
-
-    //   if ('data' in res && 'images' in res.data) {
-    //     dispatch(
-    //       setNotification({
-    //         open: true,
-    //         message: 'Product has been created!',
-    //         severity: 'success',
-    //       }),
-    //     );
-    //     setOpen(false);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
-    // //
-    // reset({
-    //   title: '',
-    //   price: 1,
-    //   description: '',
-    //   categoryId: '',
-    //   files: [],
-    // });
   };
 
   return (
@@ -248,7 +187,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ setOpen }) => {
                 </Typography>
               </Grid>
 
-              <Grid item xs={12} sm={12} md={6}>
+              <Grid item xs={12} sm={12} md={12}>
                 <Typography variant='subtitle2' color='text.primary'>
                   Inventory
                 </Typography>
@@ -267,6 +206,13 @@ const ProductForm: React.FC<ProductFormProps> = ({ setOpen }) => {
                     />
                   )}
                 />
+                <Typography
+                  variant='caption'
+                  sx={{ color: 'red' }}
+                  marginTop={1}
+                >
+                  {errors.inventory?.message}
+                </Typography>
               </Grid>
 
               <Grid item xs={12} sm={12} md={12} marginTop='1rem'>
@@ -315,14 +261,14 @@ const ProductForm: React.FC<ProductFormProps> = ({ setOpen }) => {
                     />
                   )}
                 />
-                {errors.files && (
+                {errors.images && (
                   <Typography
                     variant='caption'
                     sx={{ color: 'red' }}
                     marginTop={1}
                     role='alert'
                   >
-                    {errors.files.message}
+                    {errors.images.message}
                   </Typography>
                 )}
               </Grid>
