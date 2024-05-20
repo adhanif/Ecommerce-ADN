@@ -6,16 +6,44 @@ export type Category = {
   updatedAt: string;
 };
 
-// export type Product = {
-//   id: number;
-//   title: string;
-//   price: number;
-//   description: string;
-//   images: string[];
-//   creationAt: string;
-//   updatedAt: string;
-//   category: Category;
-// };
+export type AddressUser = {
+  name: string;
+  email: string;
+  avatar: string | null;
+  role: string;
+  addresses: string[];
+  id: string;
+  createdDate: string;
+  updatedDate: string;
+};
+
+export type OrderProduct = {
+  productId: string;
+  title: string;
+  price: number;
+  quantity: number;
+};
+
+export type ProductItem = {
+  ProductId: string;
+  Quantity: number;
+};
+
+export type Order = {
+  Total: number;
+  Address: string;
+  OrderProducts: ProductItem[];
+};
+
+export type OrderResponse = {
+  user: AddressUser;
+  orderProducts: OrderProduct[];
+  address: string;
+  total: number;
+  id: string;
+  createdDate: string;
+  updatedDate: string;
+};
 
 export type Product = {
   id: string;

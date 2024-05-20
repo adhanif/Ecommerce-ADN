@@ -6,7 +6,6 @@ import {
   UserLogin,
   UserProfileData,
   UserRegister,
-  LoginResponse,
   UserGoogleProfile,
 } from '../misc/types';
 

@@ -1,8 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {
-  CreateProduct,
   Product,
-  UpdateProduct,
   productCategory,
 } from '../misc/types';
 
