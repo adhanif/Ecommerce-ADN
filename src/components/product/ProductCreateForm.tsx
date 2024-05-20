@@ -206,6 +206,13 @@ const ProductForm: React.FC<ProductFormProps> = ({ setOpen }) => {
                     />
                   )}
                 />
+                <Typography
+                  variant='caption'
+                  sx={{ color: 'red' }}
+                  marginTop={1}
+                >
+                  {errors.inventory?.message}
+                </Typography>
               </Grid>
 
               <Grid item xs={12} sm={12} md={12} marginTop='1rem'>

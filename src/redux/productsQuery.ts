@@ -45,11 +45,11 @@ export const createUpdateproductQueries = createApi({
       }),
       invalidatesTags: ['Products'],
     }),
-    updateProduct: builder.mutation<Product, [number, UpdateProduct]>({
-      query: ([id, body]) => ({
-        url: `/products/${id}`,
-        method: 'PUT',
-        body: body,
+    updateProduct: builder.mutation<Product, [string, FormData]>({
+      query: ([id, formData]) => ({
+        url: `/products/${id}/form-update`,
+        method: 'PATCH',
+        body: formData,
       }),
       invalidatesTags: ['Products'],
     }),
