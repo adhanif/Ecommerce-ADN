@@ -21,6 +21,7 @@ import { AppState } from '../../redux/store';
 import { logOut, removeUserInfo } from '../../redux/slices/userSlice';
 import {
   useGoogleUserProfileQuery,
+  useUserLogoutMutation,
   useUserProfileQuery,
   userQueries,
 } from '../../redux/userQuery';
@@ -69,8 +70,11 @@ function ResponsiveAppBar() {
 
   const { data: userData, isLoading: isUserProfileLoading } =
     useUserProfileQuery(token ?? skipToken);
+  const [userLogout] = useUserLogoutMutation();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    const res = await userLogout({});
+    console.log(res);
     dispatch(logOut());
     dispatch(removeUserInfo());
     dispatch(emptyCart());
