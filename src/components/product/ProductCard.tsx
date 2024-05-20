@@ -9,8 +9,6 @@ import { Product } from '../../misc/types';
 import { convertBinaryToDataUrl } from '../utils/products';
 
 export default function ProductCard({ product }: { product: Product }) {
- 
- 
   return (
     <Card
       sx={{
@@ -24,7 +22,9 @@ export default function ProductCard({ product }: { product: Product }) {
           <CardMedia
             component='img'
             height='230'
-            image={convertBinaryToDataUrl(product.images[0].data)}
+            image={
+              product.images && convertBinaryToDataUrl(product.images[0].data)
+            }
             alt={product.title}
             sx={{
               objectFit: 'cover',

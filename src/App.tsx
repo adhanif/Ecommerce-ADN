@@ -19,8 +19,6 @@ import NoAuthorization from './pages/NoAuthorization';
 import { Contact } from './pages/Contact';
 import Scroller from './components/scroller/Scroller';
 
-
-
 function App() {
   const { mode } = useTheme();
 
@@ -46,7 +44,7 @@ function App() {
         }}
       >
         <NavBar />
-
+     
         <NotificationSnackBars />
         <Routes>
           <Route path='/' element={<Home />}></Route>
