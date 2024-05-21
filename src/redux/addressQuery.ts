@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Address } from '../misc/types';
+import { update } from 'lodash';
 
 const getAccessToken = () => {
   const token = localStorage.getItem('token');
@@ -15,6 +16,28 @@ export type AddressBody = {
   phoneNumber: string;
   userId: string;
 };
+
+export interface UpdateAddress {
+  id: string;
+  street: string;
+  city: string;
+  zipCode: string;
+  country: string;
+  phoneNumber: string;
+}
+
+export interface UpdateAddressResponse {
+  street: string;
+  city: string;
+  zipCode: string;
+  country: string;
+  phoneNumber: string;
+  userId: string;
+  user: null;
+  id: string;
+  createdDate: string;
+  updatedDate: string;
+}
 
 export const addressQueries = createApi({
   reducerPath: 'addressApi',
@@ -40,14 +63,34 @@ export const addressQueries = createApi({
       }),
       invalidatesTags: ['Address'],
     }),
-    // fetchOrders: builder.query<OrderResponse[], string>({
-    //   query: (userId) => ({
-    //     url: `/orders/user/${userId}`,
-    //     method: 'GET',
-    //   }),
-    //   providesTags: ['Order'],
-    // }),
+    fetchAllAddresses: builder.query<UpdateAddressResponse[], string>({
+      query: (userId) => ({
+        url: `/addresses/user/${userId}`,
+        method: 'GET',
+      }),
+      providesTags: ['Address'],
+    }),
+    updateAddress: builder.mutation<UpdateAddressResponse, UpdateAddress>({
+      query: (body) => ({
+        url: `/addresses/${body.id}`,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: ['Address'],
+    }),
+    deleteAddress: builder.mutation<Address, string>({
+      query: (id) => ({
+        url: `/addresses/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Address'],
+    }),
   }),
 });
 
-export const { useCreateAddressMutation } = addressQueries;
+export const {
+  useCreateAddressMutation,
+  useFetchAllAddressesQuery,
+  useUpdateAddressMutation,
+  useDeleteAddressMutation,
+} = addressQueries;

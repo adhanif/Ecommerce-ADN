@@ -1,22 +1,19 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  Card,
-  CardContent,
-  Grid,
-  TextField,
-  Typography,
-  Button,
-} from '@mui/material';
+import { Card, CardContent, Grid, TextField, Typography } from '@mui/material';
 
 import IconButton from '@mui/material/IconButton';
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
-import { useCreateAddressMutation } from '../../redux/addressQuery';
 import { useForm, Controller } from 'react-hook-form';
-import { StandardButton } from '../customStyling/buttons';
-import { setNotification } from '../../redux/slices/notificationSlice';
+
 import { useAppDispatch } from '../hooks/useDispatchApp';
+import { setNotification } from '../../redux/slices/notificationSlice';
+import { StandardButton } from '../customStyling/buttons';
+import {
+  useCreateAddressMutation,
+  useFetchAllAddressesQuery,
+} from '../../redux/addressQuery';
+import { AddressCard } from './AddressCard';
 
 export interface AddressProps {
   userId: string;
@@ -52,7 +49,8 @@ export const Address: React.FC<AddressProps> = ({ userId }) => {
   });
 
   const [createAddress] = useCreateAddressMutation();
-
+  const { data } = useFetchAllAddressesQuery(userId);
+  console.log(data);
   const handleEditToggle = () => {
     setEditable(!editable);
   };
@@ -86,11 +84,11 @@ export const Address: React.FC<AddressProps> = ({ userId }) => {
             <Grid item xs={12} sm={6}>
               <Typography
                 gutterBottom
-                variant='h6'
+                // variant='h6'
                 component='div'
                 fontWeight={1000}
               >
-                Address
+                New Address
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6} style={{ textAlign: 'end' }}>
@@ -263,7 +261,17 @@ export const Address: React.FC<AddressProps> = ({ userId }) => {
           </Grid>
         </CardContent>
       </Card>
+      <Grid marginTop={5}>
+        <Typography
+          variant='h6'
+          component='div'
+          fontWeight={1000}
+          marginBottom={3}
+        >
+          Address History
+        </Typography>
+        <AddressCard userId={userId} />
+      </Grid>
     </Grid>
   );
 };
-
