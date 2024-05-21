@@ -18,6 +18,22 @@ import { setNotification } from '../redux/slices/notificationSlice';
 import Loading from '../components/loading/Loading';
 import { StandardButton } from '../components/customStyling/buttons';
 import GoogleLogIn from '../components/googleLogin/GoogleLogIn';
+import { SerializedError } from '@reduxjs/toolkit';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+
+const errorMessage = (error: FetchBaseQueryError | SerializedError) => {
+  if ('data' in error && typeof error.data === 'string') {
+    try {
+      const parsedData = JSON.parse(error.data);
+      return parsedData.error || 'An unknown error occurred';
+    } catch (e) {
+      return error.data;
+    }
+  } else if ('message' in error) {
+    return error.message;
+  }
+  return 'An unknown error occurred';
+};
 
 export default function UserForm() {
   const navigate = useNavigate();
@@ -46,18 +62,21 @@ export default function UserForm() {
         }),
       );
     }
-
-    // if ('error' in response && 'status' in response.error) {
-    //   setTimeout(() => {
-    //     dispatch(
-    //       setNotification({
-    //         open: true,
-    //         message: '401 unauthorized',
-    //         severity: 'error',
-    //       }),
-    //     );
-    //   }, 1000);
-    // }
+    if ('error' in response && 'status' in response.error) {
+      if (response.error.data) {
+        const error = response.error;
+        console.log(error.status);
+        setTimeout(() => {
+          dispatch(
+            setNotification({
+              open: true,
+              message: `${error.status}` + errorMessage(error),
+              severity: 'error',
+            }),
+          );
+        }, 1000);
+      }
+    }
   };
 
   if (isLoading) {

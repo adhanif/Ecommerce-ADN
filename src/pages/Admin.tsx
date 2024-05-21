@@ -22,6 +22,7 @@ import {
 } from '@mui/material';
 import { StandardButton } from '../components/customStyling/buttons';
 import ProductForm from '../components/product/ProductCreateForm';
+import AllUsersTable from '../components/adminProfile/AllUsersTable';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -78,6 +79,7 @@ export default function Admin() {
             justifyContent='space-between'
             alignItems='center'
           >
+            <AllUsersTable />
             <Grid item>
               <Typography variant='h4' fontWeight='700'>
                 All Products

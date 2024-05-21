@@ -6,12 +6,15 @@ import { userReducer } from './slices/userSlice';
 import { userQueries } from './userQuery';
 import { createUpdateproductQueries, productQueries } from './productsQuery';
 import cartReducer from './slices/cartSlice';
+import orderReducer from './slices/orderSlice';
 
 import notificationReducer from './slices/notificationSlice';
+import { orderQueries } from './orderQuery';
 
 const store = configureStore({
   reducer: {
     cart: cartReducer,
+    order: orderReducer,
     products: productReducer,
     user: userReducer,
     notification: notificationReducer,
@@ -19,12 +22,14 @@ const store = configureStore({
     [productQueries.reducerPath]: productQueries.reducer,
     [createUpdateproductQueries.reducerPath]:
       createUpdateproductQueries.reducer,
+    [orderQueries.reducerPath]: orderQueries.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       userQueries.middleware,
       productQueries.middleware,
       createUpdateproductQueries.middleware,
+      orderQueries.middleware,
     ),
 });
 

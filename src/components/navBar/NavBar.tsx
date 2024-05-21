@@ -21,6 +21,7 @@ import { AppState } from '../../redux/store';
 import { logOut, removeUserInfo } from '../../redux/slices/userSlice';
 import {
   useGoogleUserProfileQuery,
+  useUserLogoutMutation,
   useUserProfileQuery,
   userQueries,
 } from '../../redux/userQuery';
@@ -69,20 +70,36 @@ function ResponsiveAppBar() {
 
   const { data: userData, isLoading: isUserProfileLoading } =
     useUserProfileQuery(token ?? skipToken);
+  const [userLogout] = useUserLogoutMutation();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    const res = await userLogout({});
+    console.log(res);
     dispatch(logOut());
     dispatch(removeUserInfo());
     dispatch(emptyCart());
     dispatch(userQueries.util.resetApiState());
-    dispatch(
-      setNotification({
-        open: true,
-        message: 'Logout Successfull',
-        severity: 'success',
-      }),
-    );
-    navigate('/');
+    if (
+      'data' in res &&
+      'message' in res.data &&
+      res.data.message === 'Logged out successfully'
+    ) {
+      dispatch(
+        setNotification({
+          open: true,
+          message: 'Logout Successful',
+          severity: 'success',
+        }),
+      );
+    } else {
+      dispatch(
+        setNotification({
+          open: true,
+          message: 'Logout Failed',
+          severity: 'error',
+        }),
+      );
+    }
   };
 
   // const imagUrl = userData ? userData?.avatar : googleUserRole?.picture;

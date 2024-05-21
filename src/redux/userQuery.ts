@@ -6,16 +6,29 @@ import {
   UserLogin,
   UserProfileData,
   UserRegister,
-  LoginResponse,
   UserGoogleProfile,
 } from '../misc/types';
 
+export type MyFormData = FormData;
+// Function to get the access token from localStorage
+const getAccessToken = () => {
+  const token = localStorage.getItem('token');
+  const formattedToken = token ? token.replace(/^"(.*)"$/, '$1') : '';
+  return formattedToken ? `Bearer ${formattedToken}` : '';
+};
 
 export const userQueries = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
-    // baseUrl: 'https://api.escuelajs.co/api/v1',
     baseUrl: 'http://localhost:5227/api/v1',
+    prepareHeaders: (headers, { getState }) => {
+      // Get token from localStorage
+      const token = getAccessToken();
+      if (token) {
+        headers.set('Authorization', token);
+        return headers;
+      }
+    },
   }),
   tagTypes: ['User'],
   endpoints: (builder) => ({
@@ -49,6 +62,13 @@ export const userQueries = createApi({
       }),
     }),
 
+    userLogout: builder.mutation({
+      query: () => ({
+        url: '/auth/logout',
+        method: 'POST',
+      }),
+      invalidatesTags: ['User'],
+    }),
     googleUserProfile: builder.query<UserGoogleProfile, string>({
       query: (body) => ({
         url: `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${body}`,
@@ -64,4 +84,5 @@ export const {
   useRegisterUserMutation,
   useUserProfileQuery,
   useGoogleUserProfileQuery,
+  useUserLogoutMutation,
 } = userQueries;
