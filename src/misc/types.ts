@@ -6,7 +6,7 @@ export type Category = {
   updatedAt: string;
 };
 
-export type AddressUser = {
+export type Address = {
   name: string;
   email: string;
   avatar: string | null;
@@ -36,7 +36,7 @@ export type Order = {
 };
 
 export type OrderResponse = {
-  user: AddressUser;
+  user: Address;
   orderProducts: OrderProduct[];
   address: string;
   total: number;

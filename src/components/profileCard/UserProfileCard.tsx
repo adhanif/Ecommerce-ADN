@@ -22,8 +22,9 @@ import { logOut, removeUserInfo } from '../../redux/slices/userSlice';
 import { emptyCart } from '../../redux/slices/cartSlice';
 import { setNotification } from '../../redux/slices/notificationSlice';
 import FetchAllOrdersUser from '../order/FetchAllOrdersUser';
+import { Address } from '../address/Address';
 
-export default function ProfileCard({ data }: { data: UserProfileData }) {
+export default function UserProfileCard({ data }: { data: UserProfileData }) {
   const [userLogout] = useUserLogoutMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -194,7 +195,7 @@ export default function ProfileCard({ data }: { data: UserProfileData }) {
             <FetchAllOrdersUser userId={data.id} />
           )}
           {selectedComponent === 'userInfo' && '<UserInfo />'}
-          {selectedComponent === 'Address' && '<Address />'}
+          {selectedComponent === 'Address' && <Address userId={data.id} />}
           {!selectedComponent && (
             <Typography>Select an option to view details</Typography>
           )}

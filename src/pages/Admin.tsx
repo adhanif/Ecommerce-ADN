@@ -5,7 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import { AppState } from '../redux/store';
 import Loading from '../components/loading/Loading';
-import ProfileCard from '../components/profileCard/ProfileCard';
+import ProfileCard from '../components/profileCard/UserProfileCard';
 import { skipToken } from '@reduxjs/toolkit/query';
 
 import AddIcon from '@mui/icons-material/Add';

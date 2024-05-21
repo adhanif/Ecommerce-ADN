@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { AppState } from '../redux/store';
 import Loading from '../components/loading/Loading';
-import ProfileCard from '../components/profileCard/ProfileCard';
+import ProfileCard from '../components/profileCard/UserProfileCard';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { Container, Grid } from '@mui/material';
 
