@@ -18,6 +18,7 @@ import PrivateRoutes from './components/utils/PrivateRoutes';
 import NoAuthorization from './pages/NoAuthorization';
 import { Contact } from './pages/Contact';
 import Scroller from './components/scroller/Scroller';
+import CheckOutOrder from './components/order/CheckOutOrder';
 
 function App() {
   const { mode } = useTheme();
@@ -44,7 +45,7 @@ function App() {
         }}
       >
         <NavBar />
-     
+
         <NotificationSnackBars />
         <Routes>
           <Route path='/' element={<Home />}></Route>
@@ -59,6 +60,7 @@ function App() {
             element={<PrivateRoutes path='/googleprofile' />}
           />
           <Route path='/cart' element={<Cart />}></Route>
+          <Route path='/checkout' element={<CheckOutOrder />}></Route>
           <Route path='/no-access' element={<NoAuthorization />}></Route>
           <Route path='/contact' element={<Contact />}></Route>
         </Routes>

@@ -12,7 +12,6 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import TextField from '@mui/material/TextField';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
@@ -30,7 +29,7 @@ import {
   SquareButton,
 } from '../components/customStyling/buttons';
 import { setNotification } from '../redux/slices/notificationSlice';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { StyledLink, StyledTableCell } from '../components/customStyling/table';
 import { convertBinaryToDataUrl } from '../components/utils/products';
 import { useCreateOrderMutation } from '../redux/orderQuery';
@@ -58,6 +57,7 @@ export default function Cart() {
   const [createOrder] = useCreateOrderMutation();
   const [address, setAddress] = useState<Address>(initialAddress);
   const [editable, setEditable] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const handleEditToggle = () => {
     setEditable(!editable);
@@ -118,6 +118,7 @@ export default function Cart() {
 
   const handleCheckOut = async () => {
     if (token) {
+      navigate('/checkut');
       const orderData: Order = {
         Total: total,
         Address: formatAddress(address),
@@ -137,7 +138,6 @@ export default function Cart() {
         );
         dispatch(emptyCart());
         setAddress(initialAddress);
-        // Optionally, reset cart state or navigate to a success page
       } catch (error) {
         console.error('Error placing order:', error);
         dispatch(
@@ -439,7 +439,7 @@ export default function Cart() {
                             fullWidth
                             onClick={handleCheckOut}
                           >
-                            Order Now
+                            Checkout
                           </StandardButton>
                         </Grid>
                       </TableCell>
