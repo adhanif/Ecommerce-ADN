@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { Box, Container, Divider, Grid, Typography } from '@mui/material';
 import Table from '@mui/material/Table';
@@ -10,16 +10,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import SaveIcon from '@mui/icons-material/Save';
-import TextField from '@mui/material/TextField';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 import { AppState, useAppDispatch } from '../redux/store';
 import {
   decreseQuantity,
-  emptyCart,
   increseQuantity,
   removeFromCart,
 } from '../redux/slices/cartSlice';
@@ -32,48 +26,12 @@ import { setNotification } from '../redux/slices/notificationSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import { StyledLink, StyledTableCell } from '../components/customStyling/table';
 import { convertBinaryToDataUrl } from '../components/utils/products';
-import { useCreateOrderMutation } from '../redux/orderQuery';
-import { Order } from '../misc/types';
-
-interface Address {
-  street: string;
-  city: string;
-  // state: string;
-  zip: string;
-  country: string;
-}
 
 export default function Cart() {
-  const initialAddress: Address = {
-    street: '',
-    city: '',
-    zip: '',
-    country: '',
-  };
-
   const cartData = useSelector((state: AppState) => state.cart.products);
   const token = useSelector((state: AppState) => state.user.token);
   const dispatch = useAppDispatch();
-  const [createOrder] = useCreateOrderMutation();
-  const [address, setAddress] = useState<Address>(initialAddress);
-  const [editable, setEditable] = useState<boolean>(false);
   const navigate = useNavigate();
-
-  const handleEditToggle = () => {
-    setEditable(!editable);
-  };
-
-  const handleSave = () => {
-    setEditable(false); // Exit edit mode after saving
-  };
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setAddress({
-      ...address,
-      [name]: value,
-    });
-  };
 
   const total = cartData.reduce((total, curr) => {
     return curr.price * curr.quantity + total;
@@ -112,43 +70,19 @@ export default function Cart() {
     );
   };
 
-  const formatAddress = (address: Address): string => {
-    return `${address.street}, ${address.city}, ${address.zip}, ${address.country}`;
-  };
-
   const handleCheckOut = async () => {
-    if (token) {
-      navigate('/checkut');
-      const orderData: Order = {
-        Total: total,
-        Address: formatAddress(address),
-        OrderProducts: cartData.map((item) => ({
-          ProductId: item.id,
-          Quantity: item.quantity,
-        })),
-      };
-      try {
-        const res = await createOrder(orderData);
-        dispatch(
-          setNotification({
-            open: true,
-            message: 'Your order was successfull',
-            severity: 'success',
-          }),
-        );
-        dispatch(emptyCart());
-        setAddress(initialAddress);
-      } catch (error) {
-        console.error('Error placing order:', error);
-        dispatch(
-          setNotification({
-            open: true,
-            message: 'Failed to place order',
-            severity: 'error',
-          }),
-        );
-      }
-    } else {
+    if (cartData.length === 0) {
+      dispatch(
+        setNotification({
+          open: true,
+          message: 'Cart is empty',
+          severity: 'error',
+        }),
+      );
+      return;
+    }
+
+    if (!token) {
       dispatch(
         setNotification({
           open: true,
@@ -156,7 +90,9 @@ export default function Cart() {
           severity: 'error',
         }),
       );
+      return;
     }
+    navigate('/checkout');
   };
 
   return (
@@ -318,88 +254,6 @@ export default function Cart() {
                     </TableBody>
                   </Table>
                 </TableContainer>
-              </Grid>
-              <Grid item xs={12} sm={12} md={12} marginTop='2rem'>
-                <Card>
-                  <CardContent>
-                    <Grid container spacing={2} alignItems='center'>
-                      <Grid item>
-                        <Typography gutterBottom variant='h6' component='div'>
-                          Shipping Address
-                        </Typography>
-                      </Grid>
-                      <Grid item>
-                        {!editable ? (
-                          <IconButton
-                            // edge='end'
-                            aria-label='edit'
-                            onClick={handleEditToggle}
-                            color='inherit'
-                          >
-                            <BorderColorIcon />
-                          </IconButton>
-                        ) : (
-                          <IconButton
-                            edge='end'
-                            aria-label='save'
-                            onClick={handleSave}
-                            color='inherit'
-                          >
-                            <SaveIcon />
-                          </IconButton>
-                        )}
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextField
-                          size='small'
-                          fullWidth
-                          id='street'
-                          name='street'
-                          label='Street Address'
-                          value={address.street}
-                          onChange={handleChange}
-                          disabled={!editable}
-                        />
-                      </Grid>
-                      <Grid item xs={6}>
-                        <TextField
-                          fullWidth
-                          id='city'
-                          name='city'
-                          label='City'
-                          size='small'
-                          value={address.city}
-                          onChange={handleChange}
-                          disabled={!editable}
-                        />
-                      </Grid>
-                      <Grid item xs={6}>
-                        <TextField
-                          fullWidth
-                          id='zip'
-                          name='zip'
-                          label='ZIP Code'
-                          size='small'
-                          value={address.zip}
-                          onChange={handleChange}
-                          disabled={!editable}
-                        />
-                      </Grid>
-                      <Grid item xs={6}>
-                        <TextField
-                          fullWidth
-                          id='country'
-                          name='country'
-                          label='Country'
-                          size='small'
-                          value={address.country}
-                          onChange={handleChange}
-                          disabled={!editable}
-                        />
-                      </Grid>
-                    </Grid>
-                  </CardContent>
-                </Card>
               </Grid>
             </Grid>
             <Grid item xs={12} sm={12} md={3}>
