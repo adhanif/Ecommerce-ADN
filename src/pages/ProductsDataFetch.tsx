@@ -26,10 +26,12 @@ import FilterProducts from '../components/product/FilterProducts';
 import { AppState } from '../redux/store';
 import { StandardButton } from '../components/customStyling/buttons';
 import { sortData } from '../components/utils/products';
+import { skipToken } from '@reduxjs/toolkit/query';
 
 export default function ProductsDataFetch() {
   const [mainData, setMainData] = useState<Product[]>([]);
-  const searchQuery = useRef<TextFieldProps>(null);
+  // const searchQuery = useRef<string>(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [sortBy, setSortBy] = useState('');
@@ -37,14 +39,15 @@ export default function ProductsDataFetch() {
 
   const { data: allData, isLoading } = useFetchAllProductsQuery();
 
-  const { data: searchData } = useFetchBySearchQuery(
-    searchQuery.current && typeof searchQuery.current.value === 'string'
-      ? searchQuery.current.value
-      : '',
+  const { data: searchData, isSuccess } = useFetchBySearchQuery(
+    formSubmitted === false ? skipToken : searchQuery,
   );
   if (formSubmitted) {
   }
-
+ 
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+  };
   const priceFilterData: Product[] = useSelector(
     (state: AppState) => state.products.products,
   );
@@ -74,7 +77,8 @@ export default function ProductsDataFetch() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setFormSubmitted(true);
+
+    searchQuery !== '' && setFormSubmitted(true);
     setCurrentPage(1);
   };
 
@@ -179,12 +183,11 @@ export default function ProductsDataFetch() {
                   <Grid container alignItems='flex-end'>
                     <Grid item xs={12} md={8}>
                       <TextField
-                        // value={searchQuery}
+                        onChange={handleSearchChange}
                         size='small'
                         label='Search by title'
                         variant='outlined'
                         fullWidth
-                        inputRef={searchQuery}
                       />
                     </Grid>
                     <Grid item xs={12} md={3}>
@@ -192,6 +195,7 @@ export default function ProductsDataFetch() {
                         variant='contained'
                         type='submit'
                         fullWidth
+                        // disabled={searchQuery.length === 0 ? true : false}
                       >
                         Search
                       </StandardButton>

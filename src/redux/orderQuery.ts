@@ -31,7 +31,14 @@ export const orderQueries = createApi({
       }),
       invalidatesTags: ['Order'],
     }),
+    fetchOrders: builder.query<OrderResponse[], string>({
+      query: (userId) => ({
+        url: `/orders/user/${userId}`,
+        method: 'GET',
+      }),
+      providesTags: ['Order'],
+    }),
   }),
 });
 
-export const { useCreateOrderMutation } = orderQueries;
+export const { useCreateOrderMutation, useFetchOrdersQuery } = orderQueries;

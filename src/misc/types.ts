@@ -129,8 +129,8 @@ export type UserProfileData = {
   name: string;
   role: string;
   avatar: string | null;
-  createdAt: string;
-  updatedAt: string;
+  createdDate: string;
+  updatedDate: string;
 };
 
 export type UserInitialState = {

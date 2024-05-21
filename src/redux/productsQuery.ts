@@ -1,8 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import {
-  Product,
-  productCategory,
-} from '../misc/types';
+import { Product, productCategory } from '../misc/types';
 
 export type ImageResponse = {
   originalname: string;
@@ -93,10 +90,10 @@ export const productQueries = createApi({
 
     fetchByPriceRangeCategory: builder.query<
       Product[],
-      [number | null, number | null, number | null]
+      [string | null, number | null, number | null]
     >({
-      query: ([min, max, id]) => ({
-        url: `/products/?price_min=${min}&price_max=${max}&categoryId=${id}`,
+      query: ([id, min, max]) => ({
+        url: `/products/?category_id=${id}&min_price=${min}&max_price=${max}`,
         method: 'GET',
       }),
       providesTags: ['Products'],
@@ -110,7 +107,7 @@ export const productQueries = createApi({
       providesTags: ['Products'],
     }),
 
-    fetchBySearch: builder.query<Product[], string | null>({
+    fetchBySearch: builder.query<Product[], string>({
       query: (searchQuery) => ({
         url: `/products/?title=${searchQuery}`,
         method: 'GET',

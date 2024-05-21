@@ -1,17 +1,69 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Avatar,
   Box,
   Card,
   CardContent,
   Grid,
+  IconButton,
   Stack,
   Typography,
 } from '@mui/material';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import LogoutIcon from '@mui/icons-material/Logout';
+import HomeIcon from '@mui/icons-material/Home';
 
 import { UserProfileData } from '../../misc/types';
+import { useUserLogoutMutation } from '../../redux/userQuery';
+import { useAppDispatch } from '../hooks/useDispatchApp';
+import { Link, useNavigate } from 'react-router-dom';
+import { logOut, removeUserInfo } from '../../redux/slices/userSlice';
+import { emptyCart } from '../../redux/slices/cartSlice';
+import { setNotification } from '../../redux/slices/notificationSlice';
+import FetchAllOrdersUser from '../order/FetchAllOrdersUser';
 
 export default function ProfileCard({ data }: { data: UserProfileData }) {
+  const [userLogout] = useUserLogoutMutation();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [selectedComponent, setSelectedComponent] = useState<
+    'orderHistory' | 'userInfo' | 'Address' | null
+  >('orderHistory');
+
+  const handleClick = (component: 'orderHistory' | 'userInfo' | 'Address') => {
+    setSelectedComponent(component);
+  };
+
+  const handleLogout = async () => {
+    const res = await userLogout({});
+    dispatch(logOut());
+    dispatch(removeUserInfo());
+    dispatch(emptyCart());
+
+    if (
+      'data' in res &&
+      'message' in res.data &&
+      res.data.message === 'Logged out successfully'
+    ) {
+      dispatch(
+        setNotification({
+          open: true,
+          message: 'Logout Successful',
+          severity: 'success',
+        }),
+      );
+      navigate('/login');
+    } else {
+      dispatch(
+        setNotification({
+          open: true,
+          message: 'Logout Failed',
+          severity: 'error',
+        }),
+      );
+    }
+  };
   return (
     <>
       <Grid
@@ -19,52 +71,133 @@ export default function ProfileCard({ data }: { data: UserProfileData }) {
         display='flex'
         justifyContent='center'
         marginBottom='5rem'
-        marginTop='3rem'
+        spacing={5}
+        // marginTop='3rem'
       >
-        <Grid item xs={12} sm={8} md={8}>
-          <Card>
-            <CardContent>
-              <Grid display='flex' alignItems='center'>
-                <Stack marginRight={2}>
-                  <Avatar
-                    alt={data.name}
-                    // src={data.avatar}
-                    sx={{ width: 100, height: 100, marginBottom: 2 }}
-                  />
-                </Stack>
+        <Grid item xs={12} sm={12} md={3}>
+          <Grid item xs={12} marginBottom={5}>
+            <Card sx={{ padding: '10px' }}>
+              <CardContent sx={{ padding: '0 !important' }}>
+                <Grid display='flex' alignItems='center'>
+                  <Stack marginRight={2}>
+                    <Avatar
+                      alt={data.name}
+                      // src={data.avatar}
+                      sx={{ width: 50, height: 50 }}
+                    />
+                  </Stack>
 
-                <Box sx={{ mt: 3 }}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      <Typography variant='h5' gutterBottom fontWeight='1000'>
-                        {data.name.toLocaleUpperCase()}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      {' '}
-                      <Typography variant='body1'>
-                        Email: {data.email}
-                      </Typography>
-                    </Grid>
-
-                    <Grid item xs={12} sm={6}>
-                      {/* <Typography variant='body1'>Role: {data.role}</Typography> */}
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Typography variant='body1'>
-                        Created At: {new Date(data.createdAt).toLocaleString()}
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <Typography variant='body1'>
-                        Updated At: {new Date(data.updatedAt).toLocaleString()}
-                      </Typography>
-                    </Grid>
+                  <Grid item xs={12}>
+                    <Typography>Hi,</Typography>
+                    <Typography fontWeight={700}>
+                      {data.name.toLocaleUpperCase()}
+                    </Typography>
                   </Grid>
-                </Box>
-              </Grid>
-            </CardContent>
-          </Card>
+                </Grid>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12}>
+            <Card sx={{ padding: '10px' }}>
+              <Box
+                alignItems='center'
+                display='flex'
+                flexDirection='row'
+                sx={{
+                  cursor: 'pointer',
+                  '&:hover': {
+                    backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                  },
+                }}
+                onClick={() => handleClick('orderHistory')}
+              >
+                <IconButton
+                  size='small'
+                  aria-label='show 17 new notifications'
+                  color='inherit'
+                >
+                  <LocalShippingIcon />
+                </IconButton>
+                <Typography marginLeft={2}>Order History</Typography>
+              </Box>
+
+              <Box
+                alignItems='center'
+                display='flex'
+                flexDirection='row'
+                sx={{
+                  cursor: 'pointer',
+                  '&:hover': {
+                    backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                  },
+                }}
+                onClick={() => handleClick('userInfo')}
+              >
+                <IconButton
+                  size='small'
+                  aria-label='show 17 new notifications'
+                  color='inherit'
+                >
+                  <AccountBoxIcon />
+                </IconButton>
+                <Typography marginLeft={2}>User Info</Typography>
+              </Box>
+
+              <Box
+                alignItems='center'
+                display='flex'
+                flexDirection='row'
+                sx={{
+                  cursor: 'pointer',
+                  '&:hover': {
+                    backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                  },
+                }}
+                onClick={() => handleClick('Address')}
+              >
+                <IconButton
+                  size='small'
+                  aria-label='show 17 new notifications'
+                  color='inherit'
+                >
+                  <HomeIcon />
+                </IconButton>
+                <Typography marginLeft={2}>Address</Typography>
+              </Box>
+
+              <Box
+                alignItems='center'
+                display='flex'
+                flexDirection='row'
+                sx={{
+                  cursor: 'pointer',
+                  '&:hover': {
+                    backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                  },
+                }}
+                onClick={() => handleLogout()}
+              >
+                <IconButton
+                  size='small'
+                  aria-label='show 17 new notifications'
+                  color='inherit'
+                >
+                  <LogoutIcon />
+                </IconButton>
+                <Typography marginLeft={2}>Logout</Typography>
+              </Box>
+            </Card>
+          </Grid>
+        </Grid>
+        <Grid item xs={12} sm={12} md={9}>
+          {selectedComponent === 'orderHistory' && (
+            <FetchAllOrdersUser userId={data.id} />
+          )}
+          {selectedComponent === 'userInfo' && '<UserInfo />'}
+          {selectedComponent === 'Address' && '<Address />'}
+          {!selectedComponent && (
+            <Typography>Select an option to view details</Typography>
+          )}
         </Grid>
       </Grid>
     </>

@@ -74,7 +74,6 @@ function ResponsiveAppBar() {
 
   const handleLogout = async () => {
     const res = await userLogout({});
-    console.log(res);
     dispatch(logOut());
     dispatch(removeUserInfo());
     dispatch(emptyCart());

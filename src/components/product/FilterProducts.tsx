@@ -32,6 +32,7 @@ export default function FilterProducts({
   setIsPriceFilterActive,
 }: setIsPriceFilterActiveProps) {
   const { data: dataCategories } = useFetchAllCategoriesQuery();
+
   const dispatch = useAppDispatch();
   const [priceRange, setPriceRange] = useState<PriceRange>({
     min: 0,
@@ -53,8 +54,8 @@ export default function FilterProducts({
   };
 
   const { data } = useFetchByPriceRangeCategoryQuery(
-    [priceRange.min, priceRange.max, Number(categoryId)],
-    { skip: skip },
+    [categoryId, priceRange.min, priceRange.max],
+    // { skip: skip },
   );
 
   const handleFilter = () => {
