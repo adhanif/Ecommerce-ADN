@@ -38,21 +38,8 @@ const style = {
 };
 
 export default function Admin() {
-  const [open, setOpen] = useState(false);
-
   const token = useSelector((state: AppState) => state.user.token);
   const { isLoading, data } = useUserProfileQuery(token ?? skipToken);
-  // const memoizedData = useMemo(() => data, [data]);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setOpen(false);
-  };
-
-  const memoizedSetOpen = useMemo(() => setOpen, [setOpen]);
 
   if (isLoading) {
     return <Loading />;
@@ -70,54 +57,8 @@ export default function Admin() {
               <Divider />
             </Grid>
           </Box>
-
           {/* {data && <UserProfileCard data={data} />} */}
           {data && <AdminProfileCard data={data} />}
-
-          {/* <AdminUsersTable /> */}
-
-          {/* <Grid
-            marginBottom='4rem'
-            container
-            display='flex'
-            justifyContent='space-between'
-            alignItems='center'
-          >
-            <Grid item>
-              <Typography variant='h4' fontWeight='700'>
-                All Products
-              </Typography>
-            </Grid>
-            <Grid item>
-              <StandardButton
-                variant='contained'
-                startIcon={<AddIcon />}
-                onClick={handleOpen}
-              >
-                Add Product
-              </StandardButton>
-            </Grid>
-          </Grid> */}
-
-          {/* <AdminProductTable /> */}
-
-          {/* <Modal open={open} onClose={handleCloseModal}>
-            <Stack display='flex' sx={style}>
-              <IconButton
-                aria-label='close'
-                onClick={handleCloseModal}
-                style={{
-                  position: 'absolute',
-                  top: 10,
-                  right: 10,
-                  color: 'text.primary',
-                }}
-              >
-                <CloseIcon />
-              </IconButton>
-              <ProductForm setOpen={memoizedSetOpen} />
-            </Stack>
-          </Modal> */}
         </Box>
       </Container>
     </>

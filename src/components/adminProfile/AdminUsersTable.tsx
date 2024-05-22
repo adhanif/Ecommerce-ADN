@@ -104,7 +104,7 @@ export default function AdminUsersTable() {
         justifyContent='space-between'
         alignItems='center'
         marginBottom='1rem'
-        marginTop='3rem'
+       
       >
         <Grid item>
           <Typography variant='subtitle2'>{`Showing ${

@@ -121,7 +121,7 @@ const ProductForm: React.FC = () => {
 
   return (
     <>
-      <Grid marginTop={5}>
+      <Grid>
         <Grid marginBottom={2}>
           <StandardButton
             variant='contained'

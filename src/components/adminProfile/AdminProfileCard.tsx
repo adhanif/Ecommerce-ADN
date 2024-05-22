@@ -27,17 +27,18 @@ import FetchAllOrdersUser from '../order/FetchAllOrdersUser';
 import ProductForm from '../product/ProductCreateForm';
 import AdminUsersTable from './AdminUsersTable';
 import AdminOrdersTable from './AdminOrdersTable';
+import AdminInfoCard from './AdminInfoCard';
 
 export default function AdminProfileCard({ data }: { data: UserProfileData }) {
   const [userLogout] = useUserLogoutMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [selectedComponent, setSelectedComponent] = useState<
-    'userInfo' | 'Address' | 'products' | 'users' | 'orders' | null
-  >('userInfo');
+    'adminInfo' | 'Address' | 'products' | 'users' | 'orders' | null
+  >('adminInfo');
 
   const handleClick = (
-    component: 'userInfo' | 'Address' | 'products' | 'users' | 'orders',
+    component: 'adminInfo' | 'Address' | 'products' | 'users' | 'orders',
   ) => {
     setSelectedComponent(component);
   };
@@ -79,7 +80,7 @@ export default function AdminProfileCard({ data }: { data: UserProfileData }) {
         justifyContent='center'
         marginBottom='5rem'
         spacing={5}
-        // marginTop='3rem'
+        marginTop='3rem'
       >
         <Grid item xs={12} sm={12} md={3}>
           <Grid item xs={12} marginBottom={5}>
@@ -182,7 +183,7 @@ export default function AdminProfileCard({ data }: { data: UserProfileData }) {
                     backgroundColor: 'rgba(0, 0, 0, 0.04)',
                   },
                 }}
-                onClick={() => handleClick('userInfo')}
+                onClick={() => handleClick('adminInfo')}
               >
                 <IconButton
                   size='small'
@@ -245,6 +246,7 @@ export default function AdminProfileCard({ data }: { data: UserProfileData }) {
           {/* {selectedComponent === 'orderHistory' && (
             <FetchAllOrdersUser userId={data.id} />
           )} */}
+          {selectedComponent === 'adminInfo' && <AdminInfoCard />}
           {selectedComponent === 'orders' && <AdminOrdersTable />}
           {selectedComponent === 'users' && <AdminUsersTable />}
           {selectedComponent === 'Address' && '<Address userId={data.id}/>'}

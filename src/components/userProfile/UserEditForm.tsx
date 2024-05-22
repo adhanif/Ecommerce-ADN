@@ -2,10 +2,7 @@ import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import {
   Container,
-  FormControl,
   Grid,
-  MenuItem,
-  Select,
   TextField,
   Typography,
   IconButton,
@@ -14,13 +11,12 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 
 import { StandardButton } from '../customStyling/buttons';
-import { User, UserUpdate } from '../../misc/types';
+import { UserUpdate } from '../../misc/types';
 import { useAppDispatch } from '../hooks/useDispatchApp';
 import { setNotification } from '../../redux/slices/notificationSlice';
 import {
   UserAddress,
   useUpdateUserByAdminMutation,
-  useUpdateUserMutation,
 } from '../../redux/userQuery';
 
 const style = {
@@ -80,10 +76,8 @@ export default function UserEditForm(props: UserEditFormProps) {
 
   const onSubmit = async (data: Inputs) => {
     const updateData: UserUpdate = {
-      email: data.email, // Ensure email is always defined
+      email: data.email,
     };
-
-    // Add optional fields if they are provided
 
     if (
       data.avatar !== null &&
@@ -98,8 +92,6 @@ export default function UserEditForm(props: UserEditFormProps) {
     }
     try {
       const res = await updateUserByAdmin([item.id, data]);
-      console.log(item.id);
-      console.log(res);
       if ('data' in res) {
         dispatch(
           setNotification({
