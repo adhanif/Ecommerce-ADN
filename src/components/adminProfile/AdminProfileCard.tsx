@@ -28,6 +28,7 @@ import ProductForm from '../product/ProductCreateForm';
 import AdminUsersTable from './AdminUsersTable';
 import AdminOrdersTable from './AdminOrdersTable';
 import AdminInfoCard from './AdminInfoCard';
+import { Address } from '../userProfile/UserAddress';
 
 export default function AdminProfileCard({ data }: { data: UserProfileData }) {
   const [userLogout] = useUserLogoutMutation();
@@ -249,7 +250,7 @@ export default function AdminProfileCard({ data }: { data: UserProfileData }) {
           {selectedComponent === 'adminInfo' && <AdminInfoCard />}
           {selectedComponent === 'orders' && <AdminOrdersTable />}
           {selectedComponent === 'users' && <AdminUsersTable />}
-          {selectedComponent === 'Address' && '<Address userId={data.id}/>'}
+          {selectedComponent === 'Address' && <Address userId={data.id} />}
           {!selectedComponent && (
             <Typography>Select an option to view details</Typography>
           )}
