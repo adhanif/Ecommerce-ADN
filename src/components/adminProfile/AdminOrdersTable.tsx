@@ -19,12 +19,19 @@ import {
   Delete,
 } from '@mui/icons-material';
 import { StyledTableCell } from '../customStyling/table';
-import { useFetchAllOrdersQuery } from '../../redux/orderQuery';
-
+import {
+  useDeleteOrderMutation,
+  useFetchAllOrdersQuery,
+} from '../../redux/orderQuery';
+import Loading from '../loading/Loading';
+import { useAppDispatch } from '../hooks/useDispatchApp';
+import { setNotification } from '../../redux/slices/notificationSlice';
 
 const AdminOrdersTable: React.FC = () => {
   const [openOrderIds, setOpenOrderIds] = useState<string[]>([]);
-  const { data: allOrders } = useFetchAllOrdersQuery();
+  const { data: allOrders, isLoading } = useFetchAllOrdersQuery();
+  const [deleteOrder] = useDeleteOrderMutation();
+  const dispatch = useAppDispatch();
 
   const handleToggle = (orderId: string) => {
     setOpenOrderIds((prev) =>
@@ -34,13 +41,26 @@ const AdminOrdersTable: React.FC = () => {
     );
   };
 
-  const handleDelete = (orderId: string) => {
-    
-    console.log(`Delete order with ID: ${orderId}`);
-    
+  const handleDelete = async (orderId: string) => {
+    const res = await deleteOrder(orderId);
+    if ('data' in res) {
+      dispatch(
+        setNotification({
+          open: true,
+          message: `Order has been deleted!`,
+          severity: 'success',
+        }),
+      );
+    }
   };
 
-
+  if (isLoading) {
+    return (
+      <>
+        <Loading />
+      </>
+    );
+  }
 
   return (
     <TableContainer component={Paper}>
