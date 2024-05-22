@@ -8,7 +8,7 @@ import Loading from '../components/loading/Loading';
 import { skipToken } from '@reduxjs/toolkit/query';
 
 import AddIcon from '@mui/icons-material/Add';
-import AdminTable from '../components/adminProfile/AdminTable';
+import AdminTable from '../components/adminProfile/AdminProductTable';
 import {
   Box,
   Container,
@@ -21,8 +21,9 @@ import {
 } from '@mui/material';
 import { StandardButton } from '../components/customStyling/buttons';
 import ProductForm from '../components/product/ProductCreateForm';
-import AllUsersTable from '../components/adminProfile/AllUsersTable';
+import AdminUsersTable from '../components/adminProfile/AdminUsersTable';
 import UserProfileCard from '../components/userProfile/UserProfileCard';
+import AdminProfileCard from '../components/adminProfile/AdminProfileCard';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -41,7 +42,7 @@ export default function Admin() {
 
   const token = useSelector((state: AppState) => state.user.token);
   const { isLoading, data } = useUserProfileQuery(token ?? skipToken);
-  const memoizedData = useMemo(() => data, [data]);
+  // const memoizedData = useMemo(() => data, [data]);
 
   const handleOpen = () => {
     setOpen(true);
@@ -59,27 +60,29 @@ export default function Admin() {
 
   return (
     <>
-      <Container sx={{ marginTop: '5rem' }}>
+      <Container sx={{ marginTop: '3rem' }}>
         <Box marginBottom='10rem'>
           <Box display='flex' justifyContent='center'>
             <Grid item>
-              <Typography variant='h4' fontWeight='700'>
+              <Typography variant='h4' fontWeight='700' textAlign='center'>
                 Admin Dashboard
               </Typography>
               <Divider />
             </Grid>
           </Box>
 
-          {memoizedData && <UserProfileCard data={memoizedData} />}
+          {/* {data && <UserProfileCard data={data} />} */}
+          {data && <AdminProfileCard data={data} />}
 
-          <Grid
+          <AdminUsersTable />
+
+          {/* <Grid
             marginBottom='4rem'
             container
             display='flex'
             justifyContent='space-between'
             alignItems='center'
           >
-            <AllUsersTable />
             <Grid item>
               <Typography variant='h4' fontWeight='700'>
                 All Products
@@ -94,11 +97,11 @@ export default function Admin() {
                 Add Product
               </StandardButton>
             </Grid>
-          </Grid>
+          </Grid> */}
 
-          <AdminTable />
+          {/* <AdminProductTable /> */}
 
-          <Modal open={open} onClose={handleCloseModal}>
+          {/* <Modal open={open} onClose={handleCloseModal}>
             <Stack display='flex' sx={style}>
               <IconButton
                 aria-label='close'
@@ -114,7 +117,7 @@ export default function Admin() {
               </IconButton>
               <ProductForm setOpen={memoizedSetOpen} />
             </Stack>
-          </Modal>
+          </Modal> */}
         </Box>
       </Container>
     </>
