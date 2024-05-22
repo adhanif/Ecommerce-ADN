@@ -59,7 +59,7 @@ export default function AdminUsersTable() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
+  const endIndex = Math.min(startIndex + itemsPerPage, mainData.length);
   const slicedData = mainData.slice(startIndex, endIndex);
 
   const handlePageChange = useCallback(
@@ -70,19 +70,16 @@ export default function AdminUsersTable() {
   );
 
   const handleDelete = (item: AdminUsers) => {
-    // Implement your delete logic
     setMainData(mainData.filter((user) => user.id !== item.id));
 
     const res = deleteUser(item.id);
-    console.log(res);
-
-    // dispatch(
-    //   setNotification({
-    //     open: true,
-    //     message: `Product has been deleted!`,
-    //     severity: 'success',
-    //   }),
-    // );
+    dispatch(
+      setNotification({
+        open: true,
+        message: `User has been deleted!`,
+        severity: 'success',
+      }),
+    );
   };
 
   const handleEdit = (item: User) => {
@@ -107,6 +104,7 @@ export default function AdminUsersTable() {
         justifyContent='space-between'
         alignItems='center'
         marginBottom='1rem'
+        marginTop='3rem'
       >
         <Grid item>
           <Typography variant='subtitle2'>{`Showing ${

@@ -74,7 +74,7 @@ export default function Admin() {
           {/* {data && <UserProfileCard data={data} />} */}
           {data && <AdminProfileCard data={data} />}
 
-          <AdminUsersTable />
+          {/* <AdminUsersTable /> */}
 
           {/* <Grid
             marginBottom='4rem'

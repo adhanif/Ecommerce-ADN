@@ -25,17 +25,19 @@ import { emptyCart } from '../../redux/slices/cartSlice';
 import { setNotification } from '../../redux/slices/notificationSlice';
 import FetchAllOrdersUser from '../order/FetchAllOrdersUser';
 import ProductForm from '../product/ProductCreateForm';
+import AdminUsersTable from './AdminUsersTable';
+import AdminOrdersTable from './AdminOrdersTable';
 
 export default function AdminProfileCard({ data }: { data: UserProfileData }) {
   const [userLogout] = useUserLogoutMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [selectedComponent, setSelectedComponent] = useState<
-    'orderHistory' | 'userInfo' | 'Address' | 'products' | 'users' | null
-  >('orderHistory');
+    'userInfo' | 'Address' | 'products' | 'users' | 'orders' | null
+  >('userInfo');
 
   const handleClick = (
-    component: 'orderHistory' | 'userInfo' | 'Address' | 'products' | 'users',
+    component: 'userInfo' | 'Address' | 'products' | 'users' | 'orders',
   ) => {
     setSelectedComponent(component);
   };
@@ -136,7 +138,7 @@ export default function AdminProfileCard({ data }: { data: UserProfileData }) {
                     backgroundColor: 'rgba(0, 0, 0, 0.04)',
                   },
                 }}
-                onClick={() => handleClick('orderHistory')}
+                onClick={() => handleClick('users')}
               >
                 <IconButton
                   size='small'
@@ -158,7 +160,7 @@ export default function AdminProfileCard({ data }: { data: UserProfileData }) {
                     backgroundColor: 'rgba(0, 0, 0, 0.04)',
                   },
                 }}
-                onClick={() => handleClick('orderHistory')}
+                onClick={() => handleClick('orders')}
               >
                 <IconButton
                   size='small'
@@ -243,9 +245,9 @@ export default function AdminProfileCard({ data }: { data: UserProfileData }) {
           {/* {selectedComponent === 'orderHistory' && (
             <FetchAllOrdersUser userId={data.id} />
           )} */}
-          {selectedComponent === 'users' && '<fetchAllUsers/>'}
-          {/* {selectedComponent === 'userInfo' && <UserInfo user={data} />}
-          {selectedComponent === 'Address' && <Address userId={data.id} />} */}
+          {selectedComponent === 'orders' && <AdminOrdersTable />}
+          {selectedComponent === 'users' && <AdminUsersTable />}
+          {selectedComponent === 'Address' && '<Address userId={data.id}/>'}
           {!selectedComponent && (
             <Typography>Select an option to view details</Typography>
           )}
