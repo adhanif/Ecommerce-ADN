@@ -22,7 +22,8 @@ import { logOut, removeUserInfo } from '../../redux/slices/userSlice';
 import { emptyCart } from '../../redux/slices/cartSlice';
 import { setNotification } from '../../redux/slices/notificationSlice';
 import FetchAllOrdersUser from '../order/FetchAllOrdersUser';
-import { Address } from '../address/Address';
+import { Address } from './UserAddress';
+import { UserInfo } from './UserInfoCard';
 
 export default function UserProfileCard({ data }: { data: UserProfileData }) {
   const [userLogout] = useUserLogoutMutation();
@@ -83,7 +84,7 @@ export default function UserProfileCard({ data }: { data: UserProfileData }) {
                   <Stack marginRight={2}>
                     <Avatar
                       alt={data.name}
-                      // src={data.avatar}
+                      src={(data && data.avatar) || undefined}
                       sx={{ width: 50, height: 50 }}
                     />
                   </Stack>
@@ -194,7 +195,7 @@ export default function UserProfileCard({ data }: { data: UserProfileData }) {
           {selectedComponent === 'orderHistory' && (
             <FetchAllOrdersUser userId={data.id} />
           )}
-          {selectedComponent === 'userInfo' && '<UserInfo />'}
+          {selectedComponent === 'userInfo' && <UserInfo user={data} />}
           {selectedComponent === 'Address' && <Address userId={data.id} />}
           {!selectedComponent && (
             <Typography>Select an option to view details</Typography>

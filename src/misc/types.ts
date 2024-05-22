@@ -133,6 +133,37 @@ export type UserProfileData = {
   updatedDate: string;
 };
 
+export type UserUpdateAddress = {
+  street: string;
+  city: string;
+  country: string;
+  zipCode: string;
+  phoneNumber: string;
+  userId: string;
+  user: null;
+  id: string;
+  createdDate: string;
+  updatedDate: string;
+};
+
+export type UserUpdateResponse = {
+  id: string;
+  email: string;
+  name: string;
+  role: string;
+  avatar: string | null;
+  createdDate: string;
+  updatedDate: string;
+  addresses: UserUpdateAddress[];
+};
+
+export type UserUpdate = {
+  email: string;
+  password?: string | null;
+  avatar?: string | null;
+  name?: string | null;
+};
+
 export type UserInitialState = {
   name: string;
   role: string;

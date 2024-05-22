@@ -90,6 +90,7 @@ function ResponsiveAppBar() {
           severity: 'success',
         }),
       );
+      navigate('/login');
     } else {
       dispatch(
         setNotification({
@@ -299,10 +300,7 @@ function ResponsiveAppBar() {
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar
                     alt='Remy Sharp'
-                    // src={
-                    //   // avatarSrc
-                    //   userData ? userData?.avatar : googleUserRole?.picture
-                    // }
+                    src={(userData && userData.avatar) || undefined}
                   />
                 </IconButton>
               </Tooltip>

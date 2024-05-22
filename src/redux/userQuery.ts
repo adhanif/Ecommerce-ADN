@@ -7,9 +7,12 @@ import {
   UserProfileData,
   UserRegister,
   UserGoogleProfile,
+  UserUpdateResponse,
+  UserUpdate,
 } from '../misc/types';
 
 export type MyFormData = FormData;
+
 // Function to get the access token from localStorage
 const getAccessToken = () => {
   const token = localStorage.getItem('token');
@@ -59,6 +62,7 @@ export const userQueries = createApi({
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
+        providesTags: ['User'],
       }),
     }),
 
@@ -66,6 +70,15 @@ export const userQueries = createApi({
       query: () => ({
         url: '/auth/logout',
         method: 'POST',
+      }),
+      invalidatesTags: ['User'],
+    }),
+
+    updateUser: builder.mutation<UserUpdateResponse, UserUpdate>({
+      query: (body) => ({
+        url: '/users/profile',
+        method: 'PATCH',
+        body,
       }),
       invalidatesTags: ['User'],
     }),
@@ -85,4 +98,5 @@ export const {
   useUserProfileQuery,
   useGoogleUserProfileQuery,
   useUserLogoutMutation,
+  useUpdateUserMutation,
 } = userQueries;

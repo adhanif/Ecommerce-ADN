@@ -9,11 +9,8 @@ import { useForm, Controller } from 'react-hook-form';
 import { useAppDispatch } from '../hooks/useDispatchApp';
 import { setNotification } from '../../redux/slices/notificationSlice';
 import { StandardButton } from '../customStyling/buttons';
-import {
-  useCreateAddressMutation,
-  useFetchAllAddressesQuery,
-} from '../../redux/addressQuery';
-import { AddressCard } from './AddressCard';
+import { useCreateAddressMutation } from '../../redux/addressQuery';
+import { AddressCard } from './UserAddressCard';
 
 export interface AddressProps {
   userId: string;
@@ -49,8 +46,6 @@ export const Address: React.FC<AddressProps> = ({ userId }) => {
   });
 
   const [createAddress] = useCreateAddressMutation();
-  const { data } = useFetchAllAddressesQuery(userId);
-  console.log(data);
   const handleEditToggle = () => {
     setEditable(!editable);
   };

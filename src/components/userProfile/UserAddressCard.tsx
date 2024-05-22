@@ -10,7 +10,6 @@ import { useForm, Controller } from 'react-hook-form';
 
 import { useAppDispatch } from '../hooks/useDispatchApp';
 import { setNotification } from '../../redux/slices/notificationSlice';
-import { StandardButton } from '../customStyling/buttons';
 import {
   useUpdateAddressMutation,
   useDeleteAddressMutation,
@@ -138,11 +137,11 @@ export const AddressCard: React.FC<AddressProps> = ({ userId }) => {
                   <Grid item xs={12} sm={6}>
                     <Typography
                       gutterBottom
-                    //   variant='h6'
+                      //   variant='h6'
                       component='div'
                       fontWeight={1000}
                     >
-                      Address {i+1}
+                      Address {i + 1}
                     </Typography>
                   </Grid>
                   <Grid item xs={12} sm={6} style={{ textAlign: 'end' }}>
@@ -302,7 +301,10 @@ export const AddressCard: React.FC<AddressProps> = ({ userId }) => {
                   )}
                   {!editable && (
                     <Grid item xs={12}>
-                      <Typography>{`${address.street}, ${address.city}, ${address.zipCode}, ${address.country}`}</Typography>
+                      <Typography>{`Street: ${address.street}`}</Typography>
+                      <Typography>{`City: ${address.city}`}</Typography>
+                      <Typography>{`Zip Code: ${address.zipCode}`}</Typography>
+                      <Typography>{`Country: ${address.country}`}</Typography>
                       <Typography>{`Phone Number: ${address.phoneNumber}`}</Typography>
                     </Grid>
                   )}

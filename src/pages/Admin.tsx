@@ -5,7 +5,6 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import { AppState } from '../redux/store';
 import Loading from '../components/loading/Loading';
-import ProfileCard from '../components/profileCard/UserProfileCard';
 import { skipToken } from '@reduxjs/toolkit/query';
 
 import AddIcon from '@mui/icons-material/Add';
@@ -23,6 +22,7 @@ import {
 import { StandardButton } from '../components/customStyling/buttons';
 import ProductForm from '../components/product/ProductCreateForm';
 import AllUsersTable from '../components/adminProfile/AllUsersTable';
+import UserProfileCard from '../components/userProfile/UserProfileCard';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -70,7 +70,7 @@ export default function Admin() {
             </Grid>
           </Box>
 
-          {memoizedData && <ProfileCard data={memoizedData} />}
+          {memoizedData && <UserProfileCard data={memoizedData} />}
 
           <Grid
             marginBottom='4rem'

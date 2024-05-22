@@ -31,9 +31,6 @@ export default function PrivateRoutes({
   );
   const role = data?.role;
 
-
-
-
   if (isLoading) {
     return <Loading />;
   }

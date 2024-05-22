@@ -108,7 +108,6 @@ const CheckOutOrder = () => {
 
     try {
       const res = await createOrder(orderData);
-      console.log(res);
       if ('data' in res && 'orderProducts' in res.data) {
         dispatch(
           setNotification({

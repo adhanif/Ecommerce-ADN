@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { AppState } from '../redux/store';
 import Loading from '../components/loading/Loading';
-import ProfileCard from '../components/profileCard/UserProfileCard';
+import UserProfileCard from '../components/userProfile/UserProfileCard';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { Container, Grid } from '@mui/material';
 
@@ -21,7 +21,7 @@ export default function UserProfile() {
     <>
       <Container>
         <Grid marginTop='8rem' marginBottom='8rem' container>
-          {data && <ProfileCard data={data} />}
+          {data && <UserProfileCard data={data} />}
         </Grid>
       </Container>
     </>
