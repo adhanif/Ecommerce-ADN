@@ -38,7 +38,26 @@ export const orderQueries = createApi({
       }),
       providesTags: ['Order'],
     }),
+    fetchAllOrders: builder.query<OrderResponse[], void>({
+      query: () => ({
+        url: '/orders',
+        method: 'GET',
+      }),
+      providesTags: ['Order'],
+    }),
+    deleteOrder: builder.mutation<OrderResponse, string>({
+      query: (orderId) => ({
+        url: `/orders/${orderId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Order'],
+    }),
   }),
 });
 
-export const { useCreateOrderMutation, useFetchOrdersQuery } = orderQueries;
+export const {
+  useCreateOrderMutation,
+  useFetchOrdersQuery,
+  useFetchAllOrdersQuery,
+  useDeleteOrderMutation,
+} = orderQueries;

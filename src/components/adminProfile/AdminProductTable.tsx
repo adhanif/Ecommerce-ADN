@@ -30,9 +30,9 @@ import { Product } from '../../misc/types';
 import { setNotification } from '../../redux/slices/notificationSlice';
 import { useAppDispatch } from '../hooks/useDispatchApp';
 import ProductEditForm from '../product/ProductEditForm';
-import { convertBinaryToDataUrl, convertImagesArray } from '../utils/products';
+import { convertBinaryToDataUrl } from '../utils/products';
 
-export default function AdminTable() {
+export default function AdminProductTable() {
   const [mainData, setMainData] = useState<Product[]>([]);
   const { data: allProducts } = useFetchAllProductsQuery();
   const [selectedItem, setSelectedItem] = useState<Product | null>(null);
@@ -43,7 +43,8 @@ export default function AdminTable() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
+
+  const endIndex = Math.min(startIndex + itemsPerPage, mainData.length);
   const slicedData = mainData.slice(startIndex, endIndex);
 
   const handlePageChange = useCallback(

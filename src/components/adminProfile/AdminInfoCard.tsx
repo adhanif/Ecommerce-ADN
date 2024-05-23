@@ -43,12 +43,15 @@ export interface User {
   avatar?: string | null;
 }
 
-export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
+const AdminInfoCard = () => {
   const [editable, setEditable] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const token = useSelector((state: AppState) => state.user.token);
 
-  const { refetch } = useUserProfileQuery(token ?? skipToken);
+  const {
+    data: userData,
+    refetch,
+  } = useUserProfileQuery(token ?? skipToken);
 
   const {
     control,
@@ -57,11 +60,11 @@ export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
     formState: { errors },
   } = useForm<User>({
     defaultValues: {
-      id: user.id,
-      name: user.name || '',
-      email: user.email || '',
+      id: userData && userData.id,
+      name: (userData && userData.name) || '',
+      email: (userData && userData.email) || '',
       password: '',
-      avatar: user.avatar,
+      avatar: userData && userData.avatar,
     },
   });
 
@@ -69,7 +72,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
 
   const handleEditToggle = () => {
     setEditable(!editable);
-    reset(user); // Reset the form with current user data
+    // reset(user); // Reset the form with current user data
   };
 
   const handleClose = () => {
@@ -129,7 +132,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
       <Grid item xs={12}>
         <Box marginBottom='2rem'>
           <Typography component='h2' variant='h4' fontWeight='700'>
-            User Profile
+            Admin Profile
           </Typography>
           <Divider />
         </Box>
@@ -138,7 +141,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
             <Grid container spacing={2} alignItems='center'>
               <Grid item xs={12} sm={6}>
                 <Typography gutterBottom component='div' fontWeight={1000}>
-                  User Information
+                  Admin Information
                 </Typography>
               </Grid>
               <Grid item xs={12} sm={6} style={{ textAlign: 'end' }}>
@@ -169,7 +172,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
                   </>
                 )}
               </Grid>
-              {editable ? (
+              {userData && editable ? (
                 <Grid item xs={12}>
                   <form onSubmit={handleSubmit(onSubmit)}>
                     <Grid container spacing={2}>
@@ -177,7 +180,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
                         <Controller
                           name='name'
                           control={control}
-                          defaultValue={user.name}
+                          defaultValue={userData.name}
                           render={({ field }) => (
                             <TextField
                               {...field}
@@ -197,7 +200,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
                         <Controller
                           name='email'
                           control={control}
-                          defaultValue={user.email}
+                          defaultValue={userData.email}
                           rules={{ required: 'Email is required' }}
                           render={({ field }) => (
                             <TextField
@@ -247,7 +250,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
                         <Controller
                           name='avatar'
                           control={control}
-                          defaultValue={user.avatar || ''}
+                          defaultValue={userData.avatar || ''}
                           render={({ field }) => (
                             <TextField
                               {...field}
@@ -267,25 +270,28 @@ export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
                   </form>
                 </Grid>
               ) : (
-                <Grid display='flex' item xs={12} alignItems='center'>
-                  <Grid item marginRight={2}>
-                    {user.avatar && (
-                      <img
-                        src={user.avatar}
-                        alt={`${user.name}'s avatar`}
-                        style={{
-                          width: '50px',
-                          height: '50px',
-                          borderRadius: '50%',
-                        }}
-                      />
-                    )}
+                userData && (
+                  <Grid display='flex' item xs={12} alignItems='center'>
+                    <Grid item marginRight={2}>
+                      {userData.avatar && (
+                        <img
+                          src={userData.avatar}
+                          alt={`${userData.name}'s avatar`}
+                          style={{
+                            width: '50px',
+                            height: '50px',
+                            borderRadius: '50%',
+                          }}
+                        />
+                      )}
+                    </Grid>
+                    <Grid item>
+                      <Typography>{`Name: ${userData.name}`}</Typography>
+                      <Typography>{`Email: ${userData.email}`}</Typography>
+                      <Typography>{`Role: ${userData.role}`}</Typography>
+                    </Grid>
                   </Grid>
-                  <Grid>
-                    <Typography>{`Name: ${user.name}`}</Typography>
-                    <Typography>{`Email: ${user.email}`}</Typography>
-                  </Grid>
-                </Grid>
+                )
               )}
             </Grid>
           </CardContent>
@@ -294,3 +300,5 @@ export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
     </Grid>
   );
 };
+
+export default AdminInfoCard;

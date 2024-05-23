@@ -1,7 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import {
-  Tokens,
   User,
   UserLogin,
   UserProfileData,
@@ -11,6 +10,35 @@ import {
   UserUpdate,
 } from '../misc/types';
 
+export type UserAddress = {
+  street: string;
+  city: string;
+  country: string;
+  zipCode: string;
+  phoneNumber: string;
+  userId: string;
+  user: null;
+  id: string;
+  createdDate: string;
+  updatedDate: string;
+};
+export type AdminUsers = {
+  name: string;
+  email: string;
+  avatar: string | null;
+  role: string;
+  addresses: UserAddress[];
+  id: string;
+  createdDate: string;
+  updatedDate: string;
+};
+
+type UpdateUserAdmin = {
+  name: string;
+  email: string;
+  role: string;
+  avatar: string | null;
+};
 export type MyFormData = FormData;
 
 // Function to get the access token from localStorage
@@ -82,12 +110,37 @@ export const userQueries = createApi({
       }),
       invalidatesTags: ['User'],
     }),
+
+    updateUserByAdmin: builder.mutation<
+      UserUpdateResponse,
+      [string, UpdateUserAdmin]
+    >({
+      query: ([userId, body]) => ({
+        url: `/users/${userId}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: ['User'],
+    }),
+    getAllUsers: builder.query<AdminUsers[], void>({
+      query: () => '/users',
+      providesTags: ['User'],
+    }),
+
     googleUserProfile: builder.query<UserGoogleProfile, string>({
       query: (body) => ({
         url: `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${body}`,
         method: 'GET',
       }),
       providesTags: ['User'],
+    }),
+
+    deleteUser: builder.mutation<boolean, string>({
+      query: (userId) => ({
+        url: `/users/${userId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['User'],
     }),
   }),
 });
@@ -99,4 +152,7 @@ export const {
   useGoogleUserProfileQuery,
   useUserLogoutMutation,
   useUpdateUserMutation,
+  useGetAllUsersQuery,
+  useUpdateUserByAdminMutation,
+  useDeleteUserMutation,
 } = userQueries;
