@@ -69,17 +69,18 @@ export default function AdminUsersTable() {
     [setCurrentPage],
   );
 
-  const handleDelete = (item: AdminUsers) => {
+  const handleDelete = async (item: AdminUsers) => {
     setMainData(mainData.filter((user) => user.id !== item.id));
-
-    const res = deleteUser(item.id);
-    dispatch(
-      setNotification({
-        open: true,
-        message: `User has been deleted!`,
-        severity: 'success',
-      }),
-    );
+    const res = await deleteUser(item.id);
+    if ('data' in res) {
+      dispatch(
+        setNotification({
+          open: true,
+          message: `User has been deleted!`,
+          severity: 'success',
+        }),
+      );
+    }
   };
 
   const handleEdit = (item: User) => {
@@ -104,7 +105,6 @@ export default function AdminUsersTable() {
         justifyContent='space-between'
         alignItems='center'
         marginBottom='1rem'
-       
       >
         <Grid item>
           <Typography variant='subtitle2'>{`Showing ${

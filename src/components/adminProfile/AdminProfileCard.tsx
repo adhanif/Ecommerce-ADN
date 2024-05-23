@@ -19,11 +19,10 @@ import GroupIcon from '@mui/icons-material/Group';
 import { UserProfileData } from '../../misc/types';
 import { useUserLogoutMutation } from '../../redux/userQuery';
 import { useAppDispatch } from '../hooks/useDispatchApp';
-import { Link, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import { logOut, removeUserInfo } from '../../redux/slices/userSlice';
 import { emptyCart } from '../../redux/slices/cartSlice';
 import { setNotification } from '../../redux/slices/notificationSlice';
-import FetchAllOrdersUser from '../order/FetchAllOrdersUser';
 import ProductForm from '../product/ProductCreateForm';
 import AdminUsersTable from './AdminUsersTable';
 import AdminOrdersTable from './AdminOrdersTable';
@@ -244,9 +243,6 @@ export default function AdminProfileCard({ data }: { data: UserProfileData }) {
         </Grid>
         <Grid item xs={12} sm={12} md={9}>
           {selectedComponent === 'products' && <ProductForm />}
-          {/* {selectedComponent === 'orderHistory' && (
-            <FetchAllOrdersUser userId={data.id} />
-          )} */}
           {selectedComponent === 'adminInfo' && <AdminInfoCard />}
           {selectedComponent === 'orders' && <AdminOrdersTable />}
           {selectedComponent === 'users' && <AdminUsersTable />}

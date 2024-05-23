@@ -48,7 +48,7 @@ export const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
   const dispatch = useAppDispatch();
   const token = useSelector((state: AppState) => state.user.token);
 
-  const { isLoading, data, refetch } = useUserProfileQuery(token ?? skipToken);
+  const { refetch } = useUserProfileQuery(token ?? skipToken);
 
   const {
     control,

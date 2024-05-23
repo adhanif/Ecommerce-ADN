@@ -50,7 +50,6 @@ const AdminInfoCard = () => {
 
   const {
     data: userData,
-    isLoading,
     refetch,
   } = useUserProfileQuery(token ?? skipToken);
 
