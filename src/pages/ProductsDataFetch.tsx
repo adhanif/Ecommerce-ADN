@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect,  useState } from 'react';
 import {
   Box,
   Container,
@@ -9,7 +9,6 @@ import {
   Select,
   SelectChangeEvent,
   TextField,
-  TextFieldProps,
   Typography,
 } from '@mui/material';
 import { Link } from 'react-router-dom';

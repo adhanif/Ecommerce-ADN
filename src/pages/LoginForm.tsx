@@ -17,7 +17,6 @@ import { useAppDispatch } from '../components/hooks/useDispatchApp';
 import { setNotification } from '../redux/slices/notificationSlice';
 import Loading from '../components/loading/Loading';
 import { StandardButton } from '../components/customStyling/buttons';
-import GoogleLogIn from '../components/googleLogin/GoogleLogIn';
 import { SerializedError } from '@reduxjs/toolkit';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 
@@ -184,7 +183,6 @@ export default function UserForm() {
                   </Typography>
                 </Link>
               </Box>
-              {/* <GoogleLogIn /> */}
             </Box>
           </Grid>
         </Grid>

@@ -35,10 +35,9 @@ import Loading from '../loading/Loading';
 
 export default function AdminProductTable() {
   const [mainData, setMainData] = useState<Product[]>([]);
-  const { data: allProducts,  isLoading } = useFetchAllProductsQuery();
+  const { data: allProducts, isLoading } = useFetchAllProductsQuery();
   const [selectedItem, setSelectedItem] = useState<Product | null>(null);
-  const [deleteProduct ] =
-    useDeleteProductMutation();
+  const [deleteProduct] = useDeleteProductMutation();
   const dispatch = useAppDispatch();
 
   //pagination
@@ -62,15 +61,17 @@ export default function AdminProductTable() {
     }
   }, [allProducts]);
 
-  const handleDelete = (item: Product) => {
-    const res = deleteProduct(item.id);
-    dispatch(
-      setNotification({
-        open: true,
-        message: `Product has been deleted!`,
-        severity: 'success',
-      }),
-    );
+  const handleDelete = async (item: Product) => {
+    const res = await deleteProduct(item.id);
+    if ('data' in res) {
+      dispatch(
+        setNotification({
+          open: true,
+          message: `Product has been deleted!`,
+          severity: 'success',
+        }),
+      );
+    }
   };
 
   //for Edit

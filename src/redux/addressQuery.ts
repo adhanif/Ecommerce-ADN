@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Address } from '../misc/types';
-import { update } from 'lodash';
 
 const getAccessToken = () => {
   const token = localStorage.getItem('token');

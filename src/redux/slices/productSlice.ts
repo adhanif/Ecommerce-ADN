@@ -7,11 +7,6 @@ const initialState: InitialState = {
   loading: false,
 };
 
-interface ProductState {
-  products: Product[];
-  loading: boolean;
-  error: string | null;
-}
 //API url
 
 const productSlice = createSlice({

@@ -31,7 +31,7 @@ import {
   ArrowGroupButton,
   SquareButton,
 } from '../components/customStyling/buttons';
-import { AppState, useAppDispatch } from '../redux/store';
+import { useAppDispatch } from '../redux/store';
 import { addToCart } from '../redux/slices/cartSlice';
 import QuantityControlButton from '../components/cart/QuantityControlButton';
 import { setNotification } from '../redux/slices/notificationSlice';

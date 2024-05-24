@@ -19,7 +19,7 @@ import {
   useUpdateProductMutation,
 } from '../../redux/productsQuery';
 import { StandardButton } from '../customStyling/buttons';
-import { Product, SelectOptions } from '../../misc/types';
+import { Product } from '../../misc/types';
 import { useAppDispatch } from '../hooks/useDispatchApp';
 import { setNotification } from '../../redux/slices/notificationSlice';
 import Loading from '../loading/Loading';

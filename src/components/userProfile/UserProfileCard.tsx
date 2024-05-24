@@ -17,7 +17,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import { UserProfileData } from '../../misc/types';
 import { useUserLogoutMutation } from '../../redux/userQuery';
 import { useAppDispatch } from '../hooks/useDispatchApp';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { logOut, removeUserInfo } from '../../redux/slices/userSlice';
 import { emptyCart } from '../../redux/slices/cartSlice';
 import { setNotification } from '../../redux/slices/notificationSlice';

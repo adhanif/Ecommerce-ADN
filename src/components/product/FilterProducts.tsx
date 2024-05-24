@@ -38,7 +38,7 @@ export default function FilterProducts({
     min: 0,
     max: 0,
   });
-  const [skip, setSkip] = useState(true);
+
   const [categoryId, setCategoryId] = useState('');
 
   const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,7 +60,6 @@ export default function FilterProducts({
 
   const handleFilter = () => {
     dispatch(setFilteredData(data));
-    setSkip(true);
     setIsPriceFilterActive(true);
   };
 

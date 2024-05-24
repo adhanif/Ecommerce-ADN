@@ -59,12 +59,7 @@ export const AddressCard: React.FC<AddressProps> = ({ userId }) => {
     },
   });
 
-  const {
-    data: addresses,
-    isLoading,
-    error,
-    refetch,
-  } = useFetchAllAddressesQuery(userId);
+  const { data: addresses, isLoading } = useFetchAllAddressesQuery(userId);
 
   const [updateAddress] = useUpdateAddressMutation();
   const [deleteAddress] = useDeleteAddressMutation();
@@ -76,7 +71,6 @@ export const AddressCard: React.FC<AddressProps> = ({ userId }) => {
   };
 
   const handleDelete = async (id: string) => {
-   
     try {
       const res = await deleteAddress(id);
       if ('data' in res) {

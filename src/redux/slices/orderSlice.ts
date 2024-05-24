@@ -1,6 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Order } from '../../misc/types';
-import { set } from 'lodash';
 
 export type InitialStateOrder = {
   orders: Order[];

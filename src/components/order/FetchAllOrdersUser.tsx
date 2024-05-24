@@ -9,7 +9,7 @@ interface FetchAllOrdersUserProps {
 }
 
 const FetchAllOrdersUser: React.FC<FetchAllOrdersUserProps> = ({ userId }) => {
-  const { data, error, isLoading } = useFetchOrdersQuery(userId);
+  const { data, isLoading } = useFetchOrdersQuery(userId);
 
   if (isLoading) {
     return (

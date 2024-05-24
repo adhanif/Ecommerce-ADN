@@ -20,7 +20,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../redux/store';
 import { logOut, removeUserInfo } from '../../redux/slices/userSlice';
 import {
-  useGoogleUserProfileQuery,
   useUserLogoutMutation,
   useUserProfileQuery,
   userQueries,
