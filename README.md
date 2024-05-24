@@ -2,40 +2,37 @@
 
 ## Overview
 
-E-commerce Fashion ADN is a TypeScript and Redux Toolkit-powered frontend project that connects to the [FakeAPI](https://fakeapi.platzi.com/) to create a dynamic e-commerce platform. The project includes features like product listing, individual product pages, user profiles (accessible upon login), and a shopping cart (implemented as a page or modal).
-
-
-# Table of Contents
-- [E-commerce Fashion ADN](#e-commerce-fashion-adn)
-  - [Overview](#overview)
-  - [Visit the E-commerce Fashion ADN Live](#visit-the-e-commerce-fashion-adn-live)
-  - [APP Images](#app-images)
-  - [Technologies Used (Tech Stack)](#technologies-used-tech-stack)
-  - [Getting Started](#getting-started)
-  - [Usage](#usage)
-  - [Environment Variables](#environment-variables)
-  - [Testing](#testing)
-  - [Features](#features)
-    - [Redux Store](#redux-store)
-      - [Product Reducer](#product-reducer)
-      - [User Reducer](#user-reducer)
-      - [Cart Reducer](#cart-reducer)
-    - [Google Login](#google-login)
-  - [Project Folder Structure](#project-folder-structure)
-  - [API Endpoint](#api-endpoint)
-  - [Scripts](#scripts)
-  - [Deployment](#deployment)
-  - [License](#license)
-
-
-
-
-
-## Visit the E-commerce Fashion ADN Live
-
-Explore the products
+E-commerce Fashion ADN is a cutting-edge frontend project powered by TypeScript and Redux Toolkit, designed to deliver a dynamic e-commerce experience. From fashion to electronics and more, this platform is tailored to meet the diverse shopping needs of users, providing a seamless and intuitive journey. Customers can easily create orders and explore products with advanced sorting options. Meanwhile, administrators enjoy full control over orders, users, products, and other crucial aspects of the e-commerce operations, ensuring efficient management. Experience the innovation firsthand by exploring our live demo at
 
 [![Ecommerce Fashion ADN](https://img.shields.io/badge/Ecommerce_Fashion_ADN-006400?style=for-the-badge&logo=google-chrome&logoColor=000000)](https://ecommerce-fashion-adn.netlify.app/)
+
+### Backend
+
+The backend repository serves as the backbone of the e-commerce platform, handling server-side logic, database interactions, and API endpoints. It is built on ASP.NET Core and follows Clean Architecture principles, ensuring maintainability and scalability. The database used is PostgreSQL, providing robust data storage and retrieval capabilities. This setup enables efficient management of user sessions, product data, and orders. For more details, you can explore the backend repository
+
+# Table of Contents
+
+<details>
+  <summary><strong>E-commerce Fashion ADN</strong></summary>
+
+- [Overview](#overview)
+- [App Images](#app-images)
+- [Technologies Used (Tech Stack)](#technologies-used-tech-stack)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+- [Environment Variables](#environment-variables)
+- [Testing](#testing)
+- [Features](#features)
+  - [Redux Store](#redux-store)
+    - [Product Reducer](#product-reducer)
+    - [User Reducer](#user-reducer)
+    - [Cart Reducer](#cart-reducer)
+- [Project Folder Structure](#project-folder-structure)
+- [API Endpoint](#api-endpoint)
+- [Scripts](#scripts)
+- [Deployment](#deployment)
+- [License](#license)
+</details>
 
 ## APP Images
 
@@ -45,6 +42,10 @@ Explore the products
 ![App Screenshot](readmeSnaps/Filters.png)
 ![App Screenshot](readmeSnaps/product_detail.png)
 ![App Screenshot](readmeSnaps/cart.png)
+![App Screenshot](readmeSnaps/checkoutOrder.png)
+![App Screenshot](readmeSnaps/AdminProducts.png)
+![App Screenshot](readmeSnaps/users.png)
+![App Screenshot](readmeSnaps/orders.png)
 
 ## Technologies Used (Tech Stack)
 
@@ -124,107 +125,118 @@ The testing suite for this project is implemented with Jest and utilizes msw for
 - **Remove from cart:** Removes products from the cart.
 - **Update product quantity in the cart.**
 
-## Google Login
-
-- **Google OAuth Integration:** Users can log in using their Google accounts.
-
 # Project Folder Structure
 
-src  
+📁 src  
+├─ 📁 components
+
+📁src  
 ├─ 📁 components  
 │ ├─ 📁 adminProfile  
-│ │ └─ 📄AdminTable.tsx  
+│ │ ├─ 📄 AdminInfoCard.tsx  
+│ │ ├─ 📄 AdminOrdersTable.tsx  
+│ │ ├─ 📄 AdminProductTable.tsx  
+│ │ ├─ 📄 AdminProfileCard.tsx  
+│ │ └─ 📄 AdminUsersTable.tsx  
 │ ├─ 📁 cart  
-│ │ └─ 📄QuantityControlButton.tsx  
+│ │ └─ QuantityControlButton.tsx  
 │ ├─ 📁 contact  
-│ │ ├─ 📄ContactForm.tsx  
-│ │ └─ 📄MapDetail.tsx  
+│ │ ├─ 📄 ContactForm.tsx  
+│ │ └─ 📄 MapDetail.tsx  
 │ ├─ 📁 contextAPI  
-│ │ └─ 📄ThemeContext.tsx  
+│ │ └─ 📄 ThemeContext.tsx  
 │ ├─ 📁 customStyling  
-│ │ ├─ 📄buttons.ts  
-│ │ └─ 📄table.ts  
+│ │ ├─ 📄 buttons.ts  
+│ │ └─ 📄 table.ts  
 │ ├─ 📁 featuredProducts  
-│ │ ├─ 📄FeaturedProductCard.tsx  
-│ │ └─ 📄FeaturedProducts.tsx  
+│ │ ├─ 📄 FeaturedProductCard.tsx  
+│ │ └─ 📄 FeaturedProducts.tsx  
 │ ├─ 📁 footer  
-│ │ └─ 📄Footer.tsx  
-│ ├─ 📁 googleLogin  
-│ │ └─ 📄GoogleLogIn.tsx  
+│ │ └─ 📄 Footer.tsx  
 │ ├─ 📁 heroSection  
-│ │ ├─ 📄HeroSection.tsx  
-│ │ └─ 📄WhyChooseUs.tsx  
+│ │ ├─ 📄 HeroSection.tsx  
+│ │ └─ 📄 WhyChooseUs.tsx  
 │ ├─ 📁 hooks  
-│ │ └─ 📄useDispatchApp.ts  
+│ │ └─ 📄 useDispatchApp.ts  
 │ ├─ 📁 images  
-│ │ ├─ 📄american.png  
-│ │ ├─ 📄cap.jpeg  
-│ │ ├─ 📄car.jpg  
-│ │ ├─ 📄discover.png  
-│ │ ├─ 📄google.png  
-│ │ ├─ 📄hero1.jpg  
-│ │ ├─ 📄hero2.jpg  
-│ │ ├─ 📄hoddie.jpeg  
-│ │ ├─ 📄master.png  
-│ │ ├─ 📄remote.jpeg  
-│ │ └─ 📄visa.png  
+│ │ ├─ 📄 american.png  
+│ │ ├─ 📄 cap.jpeg  
+│ │ ├─ 📄 car.jpg  
+│ │ ├─ 📄 discover.png  
+│ │ ├─ 📄 google.png  
+│ │ ├─ 📄 hero1.jpg  
+│ │ ├─ 📄 hero2.jpg  
+│ │ ├─ 📄 hoddie.jpeg  
+│ │ ├─ 📄 master.png  
+│ │ ├─ 📄 remote.jpeg  
+│ │ └─ 📄 visa.png  
 │ ├─ 📁 loading  
-│ │ └─ 📄Loading.tsx  
+│ │ └─ 📄 Loading.tsx  
 │ ├─ 📁 navBar  
-│ │ ├─ 📄NavBar.tsx  
-│ │ └─ 📄ToggleColorMode.tsx  
+│ │ ├─ 📄 NavBar.tsx  
+│ │ └─ 📄 ToggleColorMode.tsx  
 │ ├─ 📁 notification  
-│ │ └─ 📄NotificationSnackBars.tsx  
+│ │ └─ 📄 NotificationSnackBars.tsx  
+│ ├─ 📁 order  
+│ │ ├─ 📄 CheckOutOrder.tsx  
+│ │ ├─ 📄 FetchAllOrdersUser.tsx  
+│ │ └─ 📄 OrdersTable.tsx  
 │ ├─ 📁 product  
-│ │ ├─ 📄FilterProducts.tsx  
-│ │ ├─ 📄ProductCard.tsx  
-│ │ ├─ 📄ProductCreateForm.tsx  
-│ │ └─ 📄ProductEditForm.tsx  
-│ ├─ 📁 profileCard  
-│ │ └─ 📄ProfileCard.tsx  
+│ │ ├─ 📄 FilterProducts.tsx  
+│ │ ├─ 📄 ProductCard.tsx  
+│ │ ├─ 📄 ProductCreateForm.tsx  
+│ │ └─ 📄 ProductEditForm.tsx  
 │ ├─ 📁 scroller  
-│ │ └─ 📄Scroller.tsx  
+│ │ └─ 📄 Scroller.tsx  
 │ ├─ 📁 theme  
-│ │ └─ 📄ThemeContext.ts  
+│ │ └─ 📄 ThemeContext.ts  
+│ ├─ 📁 userProfile  
+│ │ ├─ 📄 UserAddress.tsx  
+│ │ ├─ 📄 UserAddressCard.tsx  
+│ │ ├─ 📄 UserEditForm.tsx  
+│ │ ├─ 📄 UserInfoCard.tsx  
+│ │ └─ 📄 UserProfileCard.tsx  
 │ └─ 📁 utils  
-│ ├─ 📄PrivateRoutes.tsx  
-│ └─ 📄products.ts  
+│ ├─ 📄 PrivateRoutes.tsx  
+│ └─ 📄 products.ts  
 ├─ 📁 misc  
-│ └─ 📄types.ts  
+│ └─ 📄 types.ts  
 ├─ 📁 pages  
-│ ├─ 📄Admin.tsx  
-│ ├─ 📄Cart.tsx  
-│ ├─ 📄Contact.tsx  
-│ ├─ 📄GoogleUSerProfile.tsx  
-│ ├─ 📄Home.tsx  
-│ ├─ 📄LoginForm.tsx  
-│ ├─ 📄NoAuthorization.tsx  
-│ ├─ 📄ProductDetail.tsx  
-│ ├─ 📄ProductsDataFetch.tsx  
-│ ├─ 📄RegisterForm.tsx  
-│ └─ 📄UserProfile.tsx  
+│ ├─ 📄 Admin.tsx  
+│ ├─ 📄 Cart.tsx  
+│ ├─ 📄 Contact.tsx  
+│ ├─ 📄 GoogleUSerProfile.tsx  
+│ ├─ 📄 Home.tsx  
+│ ├─ 📄 LoginForm.tsx  
+│ ├─ 📄 NoAuthorization.tsx  
+│ ├─ 📄 ProductDetail.tsx  
+│ ├─ 📄 ProductsDataFetch.tsx  
+│ ├─ 📄 RegisterForm.tsx  
+│ └─ 📄 UserProfile.tsx  
 ├─ 📁 redux  
 │ ├─ 📁 slices  
-│ │ ├─ 📄cartSlice.ts  
-│ │ ├─ 📄notificationSlice.ts  
-│ │ ├─ 📄productSlice.ts  
-│ │ └─ userSlice.ts  
-│ ├─ 📄productsQuery.ts  
-│ ├─ 📄store.ts  
-│ └─ 📄userQuery.ts  
+│ │ ├─ 📄 addressSlice.ts  
+│ │ ├─ 📄 cartSlice.ts  
+│ │ ├─ 📄 notificationSlice.ts  
+│ │ ├─ 📄 orderSlice.ts  
+│ │ ├─ 📄 productSlice.ts  
+│ │ └─ 📄 userSlice.ts  
+│ ├─ 📄 addressQuery.ts  
+│ ├─ 📄 orderQuery.ts  
+│ ├─ 📄 productsQuery.ts  
+│ ├─ 📄 store.ts  
+│ └─ 📄 userQuery.ts  
 ├─ 📁 test  
 │ ├─ 📁 cart  
-│ │ └─ 📄cartReducer.test.ts  
+│ │ └─ 📄 cartReducer.test.ts  
 │ ├─ 📁 notification  
-│ │ └─ 📄notificationReducer.test.ts  
+│ │ └─ 📄 notificationReducer.test.ts  
 │ ├─ 📁 product  
-│ │ └─ 📄productQuery.test.ts  
-│ ├─ 📁 shared  
-│ │ ├─ 📄mockData.ts  
-│ │ ├─ 📄productServer.ts  
-│ │ └─ 📄userServer.ts  
-│ └─ 📁 user  
-│ └─ 📄userQuery.test.ts  
+│ │ └─ 📄 productQuery.test.ts  
+│ └─ 📁 shared  
+│ ├─ 📄 mockData.ts  
+│ ├─ 📄 productServer.ts  
+│ └─ 📄 userServer.ts  
 ├─ 📄 App.css  
 ├─ 📄 App.tsx  
 ├─ 📄 index.css  
