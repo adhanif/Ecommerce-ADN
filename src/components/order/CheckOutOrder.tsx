@@ -29,6 +29,8 @@ import { Order } from '../../misc/types';
 import { setNotification } from '../../redux/slices/notificationSlice';
 import { useCreateOrderMutation } from '../../redux/orderQuery';
 import { emptyCart } from '../../redux/slices/cartSlice';
+import Loading from '../loading/Loading';
+import { useFetchAllProductsQuery } from '../../redux/productsQuery';
 
 interface Address {
   street: string;
@@ -48,8 +50,9 @@ const CheckOutOrder = () => {
   const cartData = useSelector((state: AppState) => state.cart.products);
   const [address, setAddress] = useState<Address>(initialAddress);
   const [editable, setEditable] = useState<boolean>(false);
+  const { refetch } = useFetchAllProductsQuery();
   const dispatch = useAppDispatch();
-  const [createOrder] = useCreateOrderMutation();
+  const [createOrder, { isLoading }] = useCreateOrderMutation();
   const navigate = useNavigate();
 
   const total = cartData.reduce((total, curr) => {
@@ -116,6 +119,8 @@ const CheckOutOrder = () => {
             severity: 'success',
           }),
         );
+
+        refetch();
         dispatch(emptyCart());
         setAddress(initialAddress);
         setEditable(false);
@@ -132,6 +137,13 @@ const CheckOutOrder = () => {
       );
     }
   };
+  if (isLoading) {
+    return (
+      <>
+        <Loading />
+      </>
+    );
+  }
 
   const shippingAddressContent = () => {
     if (!editable) {

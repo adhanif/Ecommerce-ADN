@@ -39,7 +39,7 @@ export default function ProductsDataFetch() {
 
   const { data: allData, isLoading } = useFetchAllProductsQuery();
 
-  const { data: searchData, isSuccess } = useFetchBySearchQuery(
+  const { data: searchData } = useFetchBySearchQuery(
     formSubmitted === false ? skipToken : searchQuery,
   );
   if (formSubmitted) {

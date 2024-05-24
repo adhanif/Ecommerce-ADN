@@ -19,7 +19,7 @@ import GroupIcon from '@mui/icons-material/Group';
 import { UserProfileData } from '../../misc/types';
 import { useUserLogoutMutation } from '../../redux/userQuery';
 import { useAppDispatch } from '../hooks/useDispatchApp';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { logOut, removeUserInfo } from '../../redux/slices/userSlice';
 import { emptyCart } from '../../redux/slices/cartSlice';
 import { setNotification } from '../../redux/slices/notificationSlice';
@@ -28,9 +28,10 @@ import AdminUsersTable from './AdminUsersTable';
 import AdminOrdersTable from './AdminOrdersTable';
 import AdminInfoCard from './AdminInfoCard';
 import { Address } from '../userProfile/UserAddress';
+import Loading from '../loading/Loading';
 
 export default function AdminProfileCard({ data }: { data: UserProfileData }) {
-  const [userLogout] = useUserLogoutMutation();
+  const [userLogout, { isLoading }] = useUserLogoutMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [selectedComponent, setSelectedComponent] = useState<
@@ -72,6 +73,15 @@ export default function AdminProfileCard({ data }: { data: UserProfileData }) {
       );
     }
   };
+
+  if (isLoading) {
+    return (
+      <>
+        <Loading />
+      </>
+    );
+  }
+
   return (
     <>
       <Grid

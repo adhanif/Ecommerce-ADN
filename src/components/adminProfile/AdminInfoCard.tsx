@@ -25,6 +25,7 @@ import { UserUpdate } from '../../misc/types';
 import { AppState } from '../../redux/store';
 import { useSelector } from 'react-redux';
 import { skipToken } from '@reduxjs/toolkit/query';
+import Loading from '../loading/Loading';
 
 export interface UserInfoProps {
   user: {
@@ -51,6 +52,7 @@ const AdminInfoCard = () => {
   const {
     data: userData,
     refetch,
+    isLoading,
   } = useUserProfileQuery(token ?? skipToken);
 
   const {
@@ -126,6 +128,14 @@ const AdminInfoCard = () => {
       );
     }
   };
+
+  if (isLoading) {
+    return (
+      <>
+        <Loading />
+      </>
+    );
+  }
 
   return (
     <Grid container spacing={2}>

@@ -25,6 +25,7 @@ import { StyledTableCell, StyledTableRow } from '../customStyling/table';
 import UserEditForm from '../userProfile/UserEditForm';
 import { useAppDispatch } from '../hooks/useDispatchApp';
 import { setNotification } from '../../redux/slices/notificationSlice';
+import Loading from '../loading/Loading';
 
 export type UserAddress = {
   street: string;
@@ -51,7 +52,7 @@ export type User = {
 
 export default function AdminUsersTable() {
   const [mainData, setMainData] = useState<User[]>([]);
-  const { data: allUsers } = useGetAllUsersQuery();
+  const { data: allUsers, isLoading } = useGetAllUsersQuery();
   const [selectedItem, setSelectedItem] = useState<User | null>(null);
   const dispatch = useAppDispatch();
   const [deleteUser] = useDeleteUserMutation();
@@ -96,6 +97,14 @@ export default function AdminUsersTable() {
       setMainData(allUsers);
     }
   }, [allUsers]);
+
+  if (isLoading) {
+    return (
+      <>
+        <Loading />
+      </>
+    );
+  }
 
   return (
     <>

@@ -43,6 +43,7 @@ export const addressQueries = createApi({
   reducerPath: 'addressApi',
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://localhost:5227/api/v1',
+    // baseUrl: 'https://fashion-adn.azurewebsites.net/api/v1',
     prepareHeaders: (headers, { getState }) => {
       // Get token from localStorage
       const token = getAccessToken();

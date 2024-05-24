@@ -15,6 +15,7 @@ import {
   useDeleteAddressMutation,
   useFetchAllAddressesQuery,
 } from '../../redux/addressQuery';
+import Loading from '../loading/Loading';
 
 export interface AddressProps {
   userId: string;
@@ -62,6 +63,7 @@ export const AddressCard: React.FC<AddressProps> = ({ userId }) => {
     data: addresses,
     isLoading,
     error,
+    refetch,
   } = useFetchAllAddressesQuery(userId);
 
   const [updateAddress] = useUpdateAddressMutation();
@@ -74,6 +76,7 @@ export const AddressCard: React.FC<AddressProps> = ({ userId }) => {
   };
 
   const handleDelete = async (id: string) => {
+   
     try {
       const res = await deleteAddress(id);
       if ('data' in res) {
@@ -125,6 +128,10 @@ export const AddressCard: React.FC<AddressProps> = ({ userId }) => {
       );
     }
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <Grid container spacing={2}>
