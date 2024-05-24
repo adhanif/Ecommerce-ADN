@@ -65,7 +65,6 @@ export default function UserForm() {
     if ('error' in response && 'status' in response.error) {
       if (response.error.data) {
         const error = response.error;
-        console.log(error.status);
         setTimeout(() => {
           dispatch(
             setNotification({

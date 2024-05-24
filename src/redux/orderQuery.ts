@@ -11,8 +11,10 @@ export const orderQueries = createApi({
   reducerPath: 'orderApi',
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://localhost:5227/api/v1',
+    // baseUrl: 'https://fashion-adn.azurewebsites.net/api/v1',
+
     prepareHeaders: (headers, { getState }) => {
-      // Get token from localStorage
+     
       const token = getAccessToken();
       if (token) {
         headers.set('Authorization', token);
@@ -20,7 +22,7 @@ export const orderQueries = createApi({
       }
     },
   }),
-  tagTypes: ['Order'],
+  tagTypes: ['Order', 'Products'],
 
   endpoints: (builder) => ({
     createOrder: builder.mutation<OrderResponse, Order>({
@@ -29,7 +31,7 @@ export const orderQueries = createApi({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['Order'],
+      invalidatesTags: ['Order', 'Products'],
     }),
     fetchOrders: builder.query<OrderResponse[], string>({
       query: (userId) => ({

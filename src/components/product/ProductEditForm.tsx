@@ -22,6 +22,7 @@ import { StandardButton } from '../customStyling/buttons';
 import { Product, SelectOptions } from '../../misc/types';
 import { useAppDispatch } from '../hooks/useDispatchApp';
 import { setNotification } from '../../redux/slices/notificationSlice';
+import Loading from '../loading/Loading';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -44,7 +45,6 @@ type Inputs = {
   images: FileList | null;
 };
 
-
 type ProductEditFormProps = {
   handleCloseModal: () => void;
   item: Product;
@@ -52,8 +52,9 @@ type ProductEditFormProps = {
 
 export default function ProductEditForm(props: ProductEditFormProps) {
   const { handleCloseModal, item } = props;
-  const [updateProduct] = useUpdateProductMutation();
-  const { data: categoriesData } = useFetchAllCategoriesQuery();
+  const [updateProduct, { isLoading: updateIsLoading }] =
+    useUpdateProductMutation();
+  const { data: categoriesData, isLoading } = useFetchAllCategoriesQuery();
   const { refetch: refetchAllProducts } = useFetchAllProductsQuery();
   const dispatch = useAppDispatch();
   const {
@@ -104,6 +105,10 @@ export default function ProductEditForm(props: ProductEditFormProps) {
       console.log(error);
     }
   };
+
+  if (updateIsLoading || isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>

@@ -49,12 +49,17 @@ export const createNewStore = () => {
     reducer: {
       // counterReducer
       cart: cartReducer,
+      address: addressReducer,
+      order: orderReducer,
       products: productReducer,
-      users: userReducer,
+      user: userReducer,
       notification: notificationReducer,
-      // query
       [userQueries.reducerPath]: userQueries.reducer,
       [productQueries.reducerPath]: productQueries.reducer,
+      [createUpdateproductQueries.reducerPath]:
+        createUpdateproductQueries.reducer,
+      [orderQueries.reducerPath]: orderQueries.reducer,
+      [addressQueries.reducerPath]: addressQueries.reducer,
     },
 
     // middleware
@@ -62,6 +67,9 @@ export const createNewStore = () => {
       getDefaultMiddleware().concat(
         userQueries.middleware,
         productQueries.middleware,
+        createUpdateproductQueries.middleware,
+        orderQueries.middleware,
+        addressQueries.middleware,
       ),
   });
 };

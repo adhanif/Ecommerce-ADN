@@ -31,12 +31,14 @@ import { setNotification } from '../../redux/slices/notificationSlice';
 import { useAppDispatch } from '../hooks/useDispatchApp';
 import ProductEditForm from '../product/ProductEditForm';
 import { convertBinaryToDataUrl } from '../utils/products';
+import Loading from '../loading/Loading';
 
 export default function AdminProductTable() {
   const [mainData, setMainData] = useState<Product[]>([]);
-  const { data: allProducts } = useFetchAllProductsQuery();
+  const { data: allProducts,  isLoading } = useFetchAllProductsQuery();
   const [selectedItem, setSelectedItem] = useState<Product | null>(null);
-  const [deleteProduct] = useDeleteProductMutation();
+  const [deleteProduct ] =
+    useDeleteProductMutation();
   const dispatch = useAppDispatch();
 
   //pagination
@@ -82,6 +84,14 @@ export default function AdminProductTable() {
   const handleCloseModal = () => {
     setSelectedItem(null);
   };
+
+  if (isLoading) {
+    return (
+      <>
+        <Loading />
+      </>
+    );
+  }
 
   return (
     <>
