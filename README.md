@@ -18,7 +18,6 @@
   <img src="https://img.shields.io/badge/React_Hook_Form-007FFF?style=for-the-badge&logo=react&logoColor=white" alt="React Hook Form">
 </p>
 
-
 ## Overview
 
 E-commerce Fashion ADN is a cutting-edge frontend project powered by TypeScript and Redux Toolkit, designed to deliver a dynamic e-commerce experience. From fashion to electronics and more, this platform is tailored to meet the diverse shopping needs of users, providing a seamless and intuitive journey. Customers can easily create orders and explore products with advanced sorting options. Meanwhile, administrators enjoy full control over orders, users, products, and other crucial aspects of the e-commerce operations, ensuring efficient management. Experience the innovation firsthand by exploring our live demo at
@@ -145,9 +144,6 @@ The testing suite for this project is implemented with Jest and utilizes msw for
 - **Update product quantity in the cart.**
 
 # Project Folder Structure
-
-📁 src  
-├─ 📁 components
 
 📁src  
 ├─ 📁 components  
