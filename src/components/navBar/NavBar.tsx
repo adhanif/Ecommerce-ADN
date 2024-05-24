@@ -65,9 +65,6 @@ function ResponsiveAppBar() {
 
   const googleToken = useSelector((state: AppState) => state.user.googleToken);
 
-  const { data: googleUserRole, isLoading: isGoogleUserLoading } =
-    useGoogleUserProfileQuery(googleToken ?? skipToken);
-
   const { data: userData, isLoading: isUserProfileLoading } =
     useUserProfileQuery(token ?? skipToken);
   const [userLogout] = useUserLogoutMutation();
@@ -102,9 +99,7 @@ function ResponsiveAppBar() {
     }
   };
 
-  // const imagUrl = userData ? userData?.avatar : googleUserRole?.picture;
-
-  if (isUserProfileLoading || isGoogleUserLoading) {
+  if (isUserProfileLoading) {
     return <Loading />;
   }
 

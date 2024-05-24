@@ -93,7 +93,7 @@ const ProductForm: React.FC = () => {
       }
 
       const res = await createProduct(formData);
-    
+
       if ('data' in res) {
         dispatch(
           setNotification({
@@ -169,6 +169,7 @@ const ProductForm: React.FC = () => {
                             variant='outlined'
                             color='primary'
                             fullWidth
+                            required
                           />
                         )}
                       />
@@ -191,6 +192,13 @@ const ProductForm: React.FC = () => {
                       <Controller
                         name='price'
                         control={control}
+                        rules={{
+                          required: 'Please enter a price',
+                          min: {
+                            value: 0.01,
+                            message: 'Price must be greater than 0',
+                          },
+                        }}
                         render={({ field }) => (
                           <TextField
                             {...field}
@@ -199,9 +207,20 @@ const ProductForm: React.FC = () => {
                             variant='outlined'
                             color='primary'
                             fullWidth
+                            required
                           />
                         )}
                       />
+                      {errors.price && (
+                        <Typography
+                          variant='caption'
+                          sx={{ color: 'red' }}
+                          marginTop={1}
+                          role='alert'
+                        >
+                          {errors.price.message}
+                        </Typography>
+                      )}
                     </Grid>
 
                     <Grid item xs={12} sm={12} md={12} marginTop='1rem'>

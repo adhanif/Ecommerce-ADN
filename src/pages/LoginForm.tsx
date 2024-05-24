@@ -184,7 +184,7 @@ export default function UserForm() {
                   </Typography>
                 </Link>
               </Box>
-              <GoogleLogIn />
+              {/* <GoogleLogIn /> */}
             </Box>
           </Grid>
         </Grid>

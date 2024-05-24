@@ -30,7 +30,6 @@ import { skipToken } from '@reduxjs/toolkit/query';
 
 export default function ProductsDataFetch() {
   const [mainData, setMainData] = useState<Product[]>([]);
-  // const searchQuery = useRef<string>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -44,7 +43,7 @@ export default function ProductsDataFetch() {
   );
   if (formSubmitted) {
   }
- 
+
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
   };
@@ -195,7 +194,6 @@ export default function ProductsDataFetch() {
                         variant='contained'
                         type='submit'
                         fullWidth
-                        // disabled={searchQuery.length === 0 ? true : false}
                       >
                         Search
                       </StandardButton>
