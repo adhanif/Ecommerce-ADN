@@ -8,7 +8,7 @@ E-commerce Fashion ADN is a cutting-edge frontend project powered by TypeScript 
 
 ### Backend
 
-The backend repository serves as the backbone of the e-commerce platform, handling server-side logic, database interactions, and API endpoints. It is built on ASP.NET Core and follows Clean Architecture principles, ensuring maintainability and scalability. The database used is PostgreSQL, providing robust data storage and retrieval capabilities. This setup enables efficient management of user sessions, product data, and orders. For more details, you can explore the backend repository
+The backend repository serves as the backbone of the e-commerce platform, handling server-side logic, database interactions, and API endpoints. It is built on ASP.NET Core and follows Clean Architecture principles, ensuring maintainability and scalability. The database used is PostgreSQL, providing robust data storage and retrieval capabilities. This setup enables efficient management of user sessions, product data, and orders. For more details, you can explore the backend repository [![Backend Repository](https://img.shields.io/badge/Backend_Repository-000000?style=for-the-badge&logo=github)](https://github.com/adhanif/fs17_CSharp_FullStack)
 
 # Table of Contents
 
