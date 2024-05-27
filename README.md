@@ -110,10 +110,11 @@ The backend repository serves as the backbone of the e-commerce platform, handli
    ```bash
    npm test
    ```
-
-# Environment Variables
-
-`REACT_APP_GOOGLE_CLIENT_ID` = `Your APP_GOOGLE_CLIENT_ID`
+3. To use admin functionalities, please use this account:
+   ```bash
+   email: john@example.com
+   password: admin@123
+   ```
 
 # Testing
 
@@ -263,7 +264,18 @@ The testing suite for this project is implemented with Jest and utilizes msw for
 
 ## API Endpoint
 
-- Use the API endpoint [https://fakeapi.platzi.com/](https://fakeapi.platzi.com/).
+All the endpoints of the API are documented and can be tested directly on the generated Swagger page. From there, you can view each endpoint URL, their HTTP methods, request body structures, and authorization requirements.
+
+**Access the Swagger page from this link:**
+
+[![Swagger Page](https://img.shields.io/badge/Swagger-Open%20API%20Specification-85EA2D.svg)](https://fashion-adn.azurewebsites.net/index.html)
+
+Click the button above to explore and test the API endpoints using Swagger.
+
+![App Screenshot](readmeSnaps/swagger1.png)
+![App Screenshot](readmeSnaps/swagger2.png)
+![App Screenshot](readmeSnaps/swagger3.png)
+![App Screenshot](readmeSnaps/swagger4.png)
 
 ## Scripts
 
