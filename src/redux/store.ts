@@ -12,6 +12,8 @@ import addressReducer from './slices/addressSlice';
 import notificationReducer from './slices/notificationSlice';
 import { orderQueries } from './orderQuery';
 import { addressQueries } from './addressQuery';
+import categoryReducer from './slices/categorySlice';
+import { categoryQueries } from './categoryQuery';
 
 const store = configureStore({
   reducer: {
@@ -20,6 +22,7 @@ const store = configureStore({
     order: orderReducer,
     products: productReducer,
     user: userReducer,
+    category: categoryReducer,
     notification: notificationReducer,
     [userQueries.reducerPath]: userQueries.reducer,
     [productQueries.reducerPath]: productQueries.reducer,
@@ -27,6 +30,7 @@ const store = configureStore({
       createUpdateproductQueries.reducer,
     [orderQueries.reducerPath]: orderQueries.reducer,
     [addressQueries.reducerPath]: addressQueries.reducer,
+    [categoryQueries.reducerPath]: categoryQueries.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -35,6 +39,7 @@ const store = configureStore({
       createUpdateproductQueries.middleware,
       orderQueries.middleware,
       addressQueries.middleware,
+      categoryQueries.middleware,
     ),
 });
 

@@ -6,6 +6,12 @@ export type Category = {
   updatedAt: string;
 };
 
+export type CategoryResponse = {
+  id: string;
+  name: string;
+  image: string;
+};
+
 export type Address = {
   name: string;
   email: string;

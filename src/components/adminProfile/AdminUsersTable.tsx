@@ -193,7 +193,7 @@ export default function AdminUsersTable() {
             ) : (
               <TableRow>
                 <TableCell sx={{ padding: '5px' }} colSpan={6} align='center'>
-                  There is no item in the cart
+                  There is no user
                 </TableCell>
               </TableRow>
             )}
