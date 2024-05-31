@@ -36,7 +36,6 @@ export const Contact = () => {
           justifyContent='center'
           alignItems='center'
           direction='row'
-          // minHeight='100vh'
           marginTop='5rem'
           marginBottom='12rem'
         >
