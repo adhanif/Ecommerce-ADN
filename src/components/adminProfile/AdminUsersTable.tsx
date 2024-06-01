@@ -26,6 +26,7 @@ import UserEditForm from '../userProfile/UserEditForm';
 import { useAppDispatch } from '../hooks/useDispatchApp';
 import { setNotification } from '../../redux/slices/notificationSlice';
 import Loading from '../loading/Loading';
+import CustomPagination from '../pagination/CustomPagination';
 
 export type UserAddress = {
   street: string;
@@ -51,7 +52,6 @@ export type User = {
 };
 
 export default function AdminUsersTable() {
-  const [mainData, setMainData] = useState<User[]>([]);
   const { data: allUsers, isLoading } = useGetAllUsersQuery();
   const [selectedItem, setSelectedItem] = useState<User | null>(null);
   const dispatch = useAppDispatch();
@@ -60,8 +60,8 @@ export default function AdminUsersTable() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = Math.min(startIndex + itemsPerPage, mainData.length);
-  const slicedData = mainData.slice(startIndex, endIndex);
+  const endIndex = Math.min(startIndex + itemsPerPage, allUsers?.length ?? 0);
+  const slicedData = allUsers?.slice(startIndex, endIndex);
 
   const handlePageChange = useCallback(
     (event: React.ChangeEvent<unknown>, page: number) => {
@@ -70,9 +70,8 @@ export default function AdminUsersTable() {
     [setCurrentPage],
   );
 
-  const handleDelete = async (item: AdminUsers) => {
-    setMainData(mainData.filter((user) => user.id !== item.id));
-    const res = await deleteUser(item.id);
+  const handleDelete = async (item: string) => {
+    const res = await deleteUser(item);
     if ('data' in res) {
       dispatch(
         setNotification({
@@ -92,11 +91,6 @@ export default function AdminUsersTable() {
     setSelectedItem(null);
   };
 
-  useEffect(() => {
-    if (allUsers) {
-      setMainData(allUsers);
-    }
-  }, [allUsers]);
 
   if (isLoading) {
     return (
@@ -108,28 +102,14 @@ export default function AdminUsersTable() {
 
   return (
     <>
-      <Grid
-        container
-        display='flex'
-        justifyContent='space-between'
-        alignItems='center'
-        marginBottom='1rem'
-      >
-        <Grid item>
-          <Typography variant='subtitle2'>{`Showing ${
-            startIndex + 1
-          } to ${endIndex} of ${mainData.length} results`}</Typography>
-        </Grid>
-        <Grid item>
-          <Pagination
-            count={Math.ceil(mainData.length / itemsPerPage)}
-            page={currentPage}
-            onChange={handlePageChange}
-            variant='outlined'
-            shape='rounded'
-          />
-        </Grid>
-      </Grid>
+      <CustomPagination
+        totalItems={slicedData?.length ?? 0}
+        itemsPerPage={itemsPerPage}
+        currentPage={currentPage}
+        handlePageChange={handlePageChange}
+        startIndex={startIndex}
+        endIndex={endIndex}
+      />
 
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label='customized table'>
@@ -183,7 +163,7 @@ export default function AdminUsersTable() {
                     <IconButton
                       aria-label='delete'
                       color='inherit'
-                      onClick={() => handleDelete(item)}
+                      onClick={() => handleDelete(item.id)}
                     >
                       <DeleteIcon />
                     </IconButton>

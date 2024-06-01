@@ -29,6 +29,7 @@ import Loading from '../loading/Loading';
 import { useAppDispatch } from '../hooks/useDispatchApp';
 import { setNotification } from '../../redux/slices/notificationSlice';
 import { OrderResponse } from '../../misc/types';
+import CustomPagination from '../pagination/CustomPagination';
 
 const AdminOrdersTable: React.FC = () => {
   const [openOrderIds, setOpenOrderIds] = useState<string[]>([]);
@@ -88,28 +89,16 @@ const AdminOrdersTable: React.FC = () => {
 
   return (
     <>
-      <Grid
-        container
-        display='flex'
-        justifyContent='space-between'
-        alignItems='center'
-        marginBottom='1rem'
-      >
-        <Grid item>
-          <Typography variant='subtitle2'>{`Showing ${
-            startIndex + 1
-          } to ${endIndex} of ${mainData.length} results`}</Typography>
-        </Grid>
-        <Grid item>
-          <Pagination
-            count={allOrders && Math.ceil(allOrders.length / itemsPerPage)}
-            page={currentPage}
-            onChange={handlePageChange}
-            variant='outlined'
-            shape='rounded'
-          />
-        </Grid>
-      </Grid>
+      <CustomPagination
+        totalItems={allOrders?.length ?? 0}
+        itemsPerPage={itemsPerPage}
+        currentPage={currentPage}
+        handlePageChange={handlePageChange}
+        startIndex={startIndex}
+        endIndex={endIndex}
+      />
+     
+
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label='customized table'>
           <TableHead>

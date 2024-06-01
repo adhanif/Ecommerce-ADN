@@ -27,6 +27,7 @@ import { CategoryResponse } from '../../misc/types';
 import AdminCategoryEditForm from './AdminCategoryEditForm';
 import { setNotification } from '../../redux/slices/notificationSlice';
 import { useAppDispatch } from '../hooks/useDispatchApp';
+import CustomPagination from '../pagination/CustomPagination';
 
 const AdminCategoriesTable = () => {
   const { data: allCategories, isLoading } = useGetAllCategoriesQuery();
@@ -36,9 +37,21 @@ const AdminCategoriesTable = () => {
   );
   const dispatch = useAppDispatch();
 
-  // if (allCategories) {
-  //   console.log(allCategories);
-  // }
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = Math.min(
+    startIndex + itemsPerPage,
+    allCategories?.length ?? 0,
+  );
+  const slicedData = allCategories?.slice(startIndex, endIndex);
+
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    page: number,
+  ) => {
+    setCurrentPage(page);
+  };
 
   const handleEditCategory = (item: CategoryResponse) => {
     setSelectedItem(item);
@@ -75,6 +88,15 @@ const AdminCategoriesTable = () => {
 
   return (
     <>
+      <CustomPagination
+        totalItems={allCategories?.length ?? 0}
+        itemsPerPage={itemsPerPage}
+        currentPage={currentPage}
+        handlePageChange={handlePageChange}
+        startIndex={startIndex}
+        endIndex={endIndex}
+      />
+
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label='customized table'>
           <TableHead>
@@ -85,8 +107,8 @@ const AdminCategoriesTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {allCategories &&
-              allCategories.map((item) => (
+            {slicedData &&
+              slicedData.map((item) => (
                 <StyledTableRow key={item.id}>
                   <TableCell component='th' scope='row'>
                     <Grid display='flex' alignItems='center'>
