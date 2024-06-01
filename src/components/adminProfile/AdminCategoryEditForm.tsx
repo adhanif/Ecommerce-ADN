@@ -14,6 +14,7 @@ import { StandardButton } from '../customStyling/buttons';
 import { useAppDispatch } from '../hooks/useDispatchApp';
 import { setNotification } from '../../redux/slices/notificationSlice';
 import { useUpdateCategoryMutation } from '../../redux/categoryQuery';
+import Loading from '../loading/Loading';
 
 const style = {
   position: 'absolute',
@@ -77,6 +78,14 @@ export default function AdminCategoryEditForm(props: CategoryEditFormProps) {
       console.log(error);
     }
   };
+
+  if (isLoading) {
+    return (
+      <>
+        <Loading />
+      </>
+    );
+  }
 
   return (
     <>

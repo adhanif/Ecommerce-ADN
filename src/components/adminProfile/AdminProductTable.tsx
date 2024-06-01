@@ -102,28 +102,6 @@ export default function AdminProductTable() {
         endIndex={endIndex}
       />
 
-      {/* <Grid
-        container
-        display='flex'
-        justifyContent='space-between'
-        alignItems='center'
-        marginBottom='1rem'
-      >
-        <Grid item>
-          <Typography variant='subtitle2'>{`Showing ${
-            startIndex + 1
-          } to ${endIndex} of ${mainData.length} results`}</Typography>
-        </Grid>
-        <Grid item>
-          <Pagination
-            count={allProducts && Math.ceil(allProducts.length / itemsPerPage)}
-            page={currentPage}
-            onChange={handlePageChange}
-            variant='outlined'
-            shape='rounded'
-          />
-        </Grid>
-      </Grid> */}
 
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label='customized table'>

@@ -1,9 +1,9 @@
 export type Category = {
-  id: string;
+  // id: string;
   name: string;
   image: string;
-  creationAt: string;
-  updatedAt: string;
+  // creationAt: string;
+  // updatedAt: string;
 };
 
 export type CategoryResponse = {

@@ -78,16 +78,6 @@ export default function AdminProfileCard({ data }: { data: UserProfileData }) {
       );
       navigate('/login');
     }
-
-    // else {
-    //   dispatch(
-    //     setNotification({
-    //       open: true,
-    //       message: 'Logout Failed',
-    //       severity: 'error',
-    //     }),
-    //   );
-    // }
   };
 
   if (isLoading) {
@@ -152,7 +142,7 @@ export default function AdminProfileCard({ data }: { data: UserProfileData }) {
                 >
                   <InventoryIcon />
                 </IconButton>
-                <Typography marginLeft={2}>Manage Products</Typography>
+                <Typography marginLeft={2}>Products</Typography>
               </Box>
 
               <Box
@@ -174,7 +164,7 @@ export default function AdminProfileCard({ data }: { data: UserProfileData }) {
                 >
                   <CategoryIcon />
                 </IconButton>
-                <Typography marginLeft={2}>Manage Categories</Typography>
+                <Typography marginLeft={2}>Categories</Typography>
               </Box>
 
               <Box
@@ -196,7 +186,7 @@ export default function AdminProfileCard({ data }: { data: UserProfileData }) {
                 >
                   <GroupIcon />
                 </IconButton>
-                <Typography marginLeft={2}>Manage Users</Typography>
+                <Typography marginLeft={2}>Users</Typography>
               </Box>
 
               <Box

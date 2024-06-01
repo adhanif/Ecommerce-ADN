@@ -28,6 +28,7 @@ import AdminCategoryEditForm from './AdminCategoryEditForm';
 import { setNotification } from '../../redux/slices/notificationSlice';
 import { useAppDispatch } from '../hooks/useDispatchApp';
 import CustomPagination from '../pagination/CustomPagination';
+import AdminCreateCategoryForm from './AdminCreateCategoryForm';
 
 const AdminCategoriesTable = () => {
   const { data: allCategories, isLoading } = useGetAllCategoriesQuery();
@@ -88,6 +89,7 @@ const AdminCategoriesTable = () => {
 
   return (
     <>
+      <AdminCreateCategoryForm />
       <CustomPagination
         totalItems={allCategories?.length ?? 0}
         itemsPerPage={itemsPerPage}

@@ -68,7 +68,6 @@ export default function UserEditForm(props: UserEditFormProps) {
     defaultValues: {
       name: item.name,
       email: item.email,
-
       role: item.role,
       avatar: item.avatar,
     },
