@@ -18,28 +18,47 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { StyledTableCell, StyledTableRow } from '../customStyling/table';
 
-import { useGetAllCategoriesQuery } from '../../redux/categoryQuery';
+import {
+  useGetAllCategoriesQuery,
+  useDeleteCategoryMutation,
+} from '../../redux/categoryQuery';
 import Loading from '../loading/Loading';
 import { CategoryResponse } from '../../misc/types';
 import AdminCategoryEditForm from './AdminCategoryEditForm';
+import { setNotification } from '../../redux/slices/notificationSlice';
+import { useAppDispatch } from '../hooks/useDispatchApp';
 
 const AdminCategoriesTable = () => {
-  const {
-    data: allCategories,
-    isLoading,
-    isFetching,
-  } = useGetAllCategoriesQuery();
-
+  const { data: allCategories, isLoading } = useGetAllCategoriesQuery();
+  const [deleteCategory] = useDeleteCategoryMutation();
   const [selectedItem, setSelectedItem] = useState<CategoryResponse | null>(
     null,
   );
+  const dispatch = useAppDispatch();
 
-  if (allCategories) {
-    console.log(allCategories);
-  }
+  // if (allCategories) {
+  //   console.log(allCategories);
+  // }
 
   const handleEditCategory = (item: CategoryResponse) => {
     setSelectedItem(item);
+  };
+
+  const handleDeleteCategory = async (item: CategoryResponse) => {
+    try {
+      const response = await deleteCategory(item.id);
+      if (response) {
+        dispatch(
+          setNotification({
+            open: true,
+            message: `Category ${item.name} has been deleted!`,
+            severity: 'success',
+          }),
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleCloseModal = () => {
@@ -101,7 +120,7 @@ const AdminCategoriesTable = () => {
                     <IconButton
                       aria-label='delete'
                       color='inherit'
-                      //   onClick={() => handleDelete(item)}
+                      onClick={() => handleDeleteCategory(item)}
                     >
                       <DeleteIcon />
                     </IconButton>

@@ -61,16 +61,17 @@ export default function AdminCategoryEditForm(props: CategoryEditFormProps) {
 
   const onSubmit = async (data: Inputs) => {
     try {
-        const res = await updateCategory({ id: item.id, ...data });
-      //   if ('data' in res) {
-      //     dispatch(
-      //       setNotification({
-      //         open: true,
-      //         message: `Category ${item.name} has been updated!`,
-      //         severity: 'success',
-      //       }),
-      //     );
-      //   }
+      const res = await updateCategory({ id: item.id, ...data });
+      console.log(res);
+      if ('data' in res) {
+        dispatch(
+          setNotification({
+            open: true,
+            message: `Category ${item.name} has been updated!`,
+            severity: 'success',
+          }),
+        );
+      }
       handleCloseModal();
     } catch (error) {
       console.log(error);
