@@ -116,10 +116,10 @@ const AdminOrdersTable: React.FC = () => {
             <TableRow>
               <StyledTableCell />
               <StyledTableCell>Customer</StyledTableCell>
-              <StyledTableCell align='left'>Address</StyledTableCell>
-              <StyledTableCell align='center'>Order Placed</StyledTableCell>
-              <StyledTableCell align='center'>Total (€)</StyledTableCell>
-              <StyledTableCell align='center'>Actions</StyledTableCell>
+              <StyledTableCell align='left'>ADDRESS</StyledTableCell>
+              <StyledTableCell align='center'>ORDER PLACED</StyledTableCell>
+              <StyledTableCell align='center'>TOTAL (€)</StyledTableCell>
+              <StyledTableCell align='center'>ACTIONS</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>

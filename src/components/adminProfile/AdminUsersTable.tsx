@@ -135,11 +135,11 @@ export default function AdminUsersTable() {
         <Table sx={{ minWidth: 700 }} aria-label='customized table'>
           <TableHead>
             <TableRow>
-              <StyledTableCell>Name</StyledTableCell>
-              <StyledTableCell>Email</StyledTableCell>
-              <StyledTableCell>Role</StyledTableCell>
-              <StyledTableCell>Created Date</StyledTableCell>
-              <StyledTableCell align='right'>Actions</StyledTableCell>
+              <StyledTableCell>NAME</StyledTableCell>
+              <StyledTableCell>EMAIL</StyledTableCell>
+              <StyledTableCell>ROLE</StyledTableCell>
+              <StyledTableCell>CREATED DATE</StyledTableCell>
+              <StyledTableCell align='right'>ACTIONS</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>

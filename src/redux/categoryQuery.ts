@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { CategoryResponse } from '../misc/types';
+import { update } from 'lodash';
 
 const getAccessToken = () => {
   const token = localStorage.getItem('token');
@@ -21,11 +22,21 @@ export const categoryQueries = createApi({
   }),
   tagTypes: ['Category'],
   endpoints: (builder) => ({
-    getAllCategories: builder.query<CategoryResponse, void>({
+    getAllCategories: builder.query<CategoryResponse[], void>({
       query: () => '/categories',
       providesTags: ['Category'],
+    }),
+
+    updateCategory: builder.mutation<CategoryResponse, CategoryResponse>({
+      query: (body) => ({
+        url: `/categories/${body.id}`,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: ['Category'],
     }),
   }),
 });
 
-export const { useGetAllCategoriesQuery } = categoryQueries;
+export const { useGetAllCategoriesQuery, useUpdateCategoryMutation } =
+  categoryQueries;
