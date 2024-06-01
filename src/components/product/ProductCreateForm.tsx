@@ -23,6 +23,7 @@ import { StandardButton } from '../customStyling/buttons';
 import { useAppDispatch } from '../../redux/store';
 import { setNotification } from '../../redux/slices/notificationSlice';
 import AdminProductTable from '../adminProfile/AdminProductTable';
+import Loading from '../loading/Loading';
 
 export type Inputs = {
   title: string;
@@ -51,7 +52,7 @@ const ProductForm: React.FC = () => {
   const [open, setOpen] = useState(false);
   const { data: categories } = useFetchAllCategoriesQuery();
   const { refetch: refetchAllProducts } = useFetchAllProductsQuery();
-  const [createProduct] = useCreateProductMutation();
+  const [createProduct, { isLoading }] = useCreateProductMutation();
   const dispatch = useAppDispatch();
 
   const {
@@ -119,6 +120,16 @@ const ProductForm: React.FC = () => {
       images: null,
     });
   };
+
+  console.log(isLoading);
+
+  if (isLoading) {
+    return (
+      <>
+        <Loading />
+      </>
+    );
+  }
 
   return (
     <>

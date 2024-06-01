@@ -15,7 +15,7 @@ const MapDetail = () => {
   return (
     <Container component='main' maxWidth='sm'>
       <MapContainer
-        center={[51.505, -0.09]}
+        center={[60.1699, 24.9384]}
         zoom={13}
         scrollWheelZoom={true}
         style={{ height: '590px', borderRadius: '0.5rem' }}
@@ -24,8 +24,8 @@ const MapDetail = () => {
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
         />
-        <Marker position={[51.505, -0.09]} icon={icon}>
-          <Popup>dd</Popup>
+        <Marker position={[60.1699, 24.9384]} icon={icon}>
+          <Popup>E-commerce Fashion ADN Oy</Popup>
         </Marker>
       </MapContainer>
     </Container>
