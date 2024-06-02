@@ -41,12 +41,24 @@ export type Order = {
   OrderProducts: ProductItem[];
 };
 
+export enum OrderStatus {
+  Pending = 'Pending',
+  Shipped = 'Shipped',
+  AwaitingPayment = 'AwaitingPayment',
+  Processing = 'Processing',
+  Shipping = 'Shipping',
+  Completed = 'Completed',
+  Refunded = 'Refunded',
+  Cancelled = 'Cancelled',
+}
+
 export type OrderResponse = {
   user: Address;
   orderProducts: OrderProduct[];
   address: string;
   total: number;
   id: string;
+  orderStatus: OrderStatus;
   createdDate: string;
   updatedDate: string;
 };

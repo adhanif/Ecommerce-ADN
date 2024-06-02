@@ -1,6 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Order, OrderResponse } from '../misc/types';
 
+export type OrderUpdate = {
+  id: string;
+  orderStatus: string;
+};
+
 const getAccessToken = () => {
   const token = localStorage.getItem('token');
   const formattedToken = token ? token.replace(/^"(.*)"$/, '$1') : '';
@@ -14,7 +19,6 @@ export const orderQueries = createApi({
     // baseUrl: 'https://fashion-adn.azurewebsites.net/api/v1',
 
     prepareHeaders: (headers, { getState }) => {
-     
       const token = getAccessToken();
       if (token) {
         headers.set('Authorization', token);
@@ -54,6 +58,15 @@ export const orderQueries = createApi({
       }),
       invalidatesTags: ['Order'],
     }),
+
+    updateOrder: builder.mutation<OrderResponse, OrderUpdate>({
+      query: (body) => ({
+        url: `/orders/${body.id}`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: ['Order'],
+    }),
   }),
 });
 
@@ -62,4 +75,5 @@ export const {
   useFetchOrdersQuery,
   useFetchAllOrdersQuery,
   useDeleteOrderMutation,
+  useUpdateOrderMutation,
 } = orderQueries;
