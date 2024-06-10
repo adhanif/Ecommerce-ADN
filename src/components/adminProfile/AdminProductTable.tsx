@@ -101,7 +101,6 @@ export default function AdminProductTable() {
         endIndex={endIndex}
       />
 
-
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label='customized table'>
           <TableHead>
@@ -116,7 +115,7 @@ export default function AdminProductTable() {
           </TableHead>
           <TableBody>
             {slicedData ? (
-              slicedData.map((item) => (
+              slicedData.map((item: Product) => (
                 <StyledTableRow key={item.id}>
                   <TableCell align='left'>
                     <Grid display='flex' alignItems='center'>
