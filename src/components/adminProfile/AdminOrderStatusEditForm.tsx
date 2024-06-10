@@ -3,7 +3,6 @@ import { useForm, Controller } from 'react-hook-form';
 import {
   Container,
   Grid,
-  TextField,
   Typography,
   IconButton,
   Box,
@@ -15,9 +14,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import { StandardButton } from '../customStyling/buttons';
 import { useAppDispatch } from '../hooks/useDispatchApp';
 import { setNotification } from '../../redux/slices/notificationSlice';
-import { useUpdateCategoryMutation } from '../../redux/categoryQuery';
+
 import Loading from '../loading/Loading';
-import { Order, OrderResponse, OrderStatus } from '../../misc/types';
+import { OrderResponse, OrderStatus } from '../../misc/types';
 import { useUpdateOrderMutation } from '../../redux/orderQuery';
 
 const style = {
@@ -77,6 +76,14 @@ export default function AdminOrderStatusEditForm(props: CategoryEditFormProps) {
     }
   };
 
+  if (updateIsLoading) {
+    return (
+      <>
+        <Loading />
+      </>
+    );
+  }
+
   return (
     <>
       <Container>
@@ -116,6 +123,7 @@ export default function AdminOrderStatusEditForm(props: CategoryEditFormProps) {
                         {...field}
                         variant='outlined'
                         fullWidth
+                        size='small'
                         error={!!errors.orderStatus}
                       >
                         {Object.values(OrderStatus).map((status) => (

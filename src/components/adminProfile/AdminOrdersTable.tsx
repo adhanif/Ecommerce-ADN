@@ -12,8 +12,6 @@ import {
   Box,
   Avatar,
   TableCell,
-  Grid,
-  Pagination,
   Modal,
   Stack,
 } from '@mui/material';
@@ -43,8 +41,7 @@ const AdminOrdersTable: React.FC = () => {
   const { data: allOrders, isLoading } = useFetchAllOrdersQuery();
   const [deleteOrder, { isLoading: deleteIsLoading }] =
     useDeleteOrderMutation();
- 
-
+  console.log(allOrders);
   const dispatch = useAppDispatch();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -113,13 +110,15 @@ const AdminOrdersTable: React.FC = () => {
         <Table sx={{ minWidth: 700 }} aria-label='customized table'>
           <TableHead>
             <TableRow>
-              <StyledTableCell />
-              <StyledTableCell>Customer</StyledTableCell>
+              <StyledTableCell></StyledTableCell>
+              <StyledTableCell>CUSTOMER</StyledTableCell>
               <StyledTableCell align='left'>ADDRESS</StyledTableCell>
               <StyledTableCell align='center'>ORDER PLACED</StyledTableCell>
               <StyledTableCell align='center'>STATUS</StyledTableCell>
               <StyledTableCell align='center'>TOTAL (€)</StyledTableCell>
-              <StyledTableCell align='center'>ACTIONS</StyledTableCell>
+              <StyledTableCell align='center' colSpan={2}>
+                ACTIONS
+              </StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -184,6 +183,8 @@ const AdminOrdersTable: React.FC = () => {
                       >
                         <BorderColorIcon />
                       </IconButton>
+                    </StyledTableCell>
+                    <StyledTableCell>
                       <IconButton
                         aria-label='delete'
                         color='inherit'
