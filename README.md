@@ -84,14 +84,14 @@ The backend repository serves as the backbone of the e-commerce platform, handli
 1. Clone the repository.
 
    ```bash
-   git clone https://github.com/adhanif/fs17-Frontend-project.git
+   git clone https://github.com/adhanif/Ecommerce-ADN.git
 
    ```
 
 2. Navigate to the project directory.
 
    ```bash
-   cd fs17-Frontend-project
+   cd Ecommerce-ADN
 
    ```
 
