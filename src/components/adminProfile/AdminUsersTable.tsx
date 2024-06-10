@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   Table,
   TableContainer,
@@ -10,14 +10,12 @@ import {
   IconButton,
   Typography,
   Grid,
-  Pagination,
   Modal,
   Stack,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import {
-  AdminUsers,
   useDeleteUserMutation,
   useGetAllUsersQuery,
 } from '../../redux/userQuery';
@@ -90,7 +88,6 @@ export default function AdminUsersTable() {
   const handleCloseModal = () => {
     setSelectedItem(null);
   };
-
 
   if (isLoading) {
     return (

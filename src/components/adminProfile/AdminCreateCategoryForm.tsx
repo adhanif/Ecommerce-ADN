@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import {
   Container,
-  FormControl,
   Grid,
-  MenuItem,
-  Select,
   TextField,
   Typography,
   Modal,
@@ -78,6 +75,7 @@ const AdminCreateCategoryForm = () => {
           }),
         );
       }
+      reset();
       handleClose();
     } catch (error) {
       console.error('Error creating category:', error);

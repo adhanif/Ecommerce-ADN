@@ -10,7 +10,6 @@ import {
   TableRow,
   Paper,
   IconButton,
-  Pagination,
   Modal,
   Stack,
 } from '@mui/material';

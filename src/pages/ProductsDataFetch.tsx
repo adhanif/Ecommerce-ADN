@@ -35,7 +35,7 @@ export default function ProductsDataFetch() {
   const [sortBy, setSortBy] = useState('');
   const [isPriceFilterActive, setIsPriceFilterActive] = useState(false);
 
-  const { data: allData, isLoading, refetch } = useFetchAllProductsQuery();
+  const { data: allData, isLoading} = useFetchAllProductsQuery();
 
   const { data: searchData } = useFetchBySearchQuery(
     formSubmitted === false ? skipToken : searchQuery,
