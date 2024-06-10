@@ -1,96 +1,83 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
+  Grid,
+  Typography,
   Table,
+  TableBody,
+  TableCell,
   TableContainer,
   TableHead,
   TableRow,
   Paper,
-  TableBody,
-  TableCell,
   IconButton,
-  Typography,
-  Grid,
   Pagination,
   Modal,
   Stack,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import {
-  AdminUsers,
-  useDeleteUserMutation,
-  useGetAllUsersQuery,
-} from '../../redux/userQuery';
 import { StyledTableCell, StyledTableRow } from '../customStyling/table';
-import UserEditForm from '../userProfile/UserEditForm';
-import { useAppDispatch } from '../hooks/useDispatchApp';
-import { setNotification } from '../../redux/slices/notificationSlice';
+
+import {
+  useGetAllCategoriesQuery,
+  useDeleteCategoryMutation,
+} from '../../redux/categoryQuery';
 import Loading from '../loading/Loading';
+import { CategoryResponse } from '../../misc/types';
+import AdminCategoryEditForm from './AdminCategoryEditForm';
+import { setNotification } from '../../redux/slices/notificationSlice';
+import { useAppDispatch } from '../hooks/useDispatchApp';
 import CustomPagination from '../pagination/CustomPagination';
+import AdminCreateCategoryForm from './AdminCreateCategoryForm';
 
-export type UserAddress = {
-  street: string;
-  city: string;
-  country: string;
-  zipCode: string;
-  phoneNumber: string;
-  userId: string;
-  user: null;
-  id: string;
-  createdDate: string;
-  updatedDate: string;
-};
-export type User = {
-  name: string;
-  email: string;
-  avatar: string | null;
-  role: string;
-  addresses: UserAddress[];
-  id: string;
-  createdDate: string;
-  updatedDate: string;
-};
-
-export default function AdminUsersTable() {
-  const { data: allUsers, isLoading } = useGetAllUsersQuery();
-  const [selectedItem, setSelectedItem] = useState<User | null>(null);
+const AdminCategoriesTable = () => {
+  const { data: allCategories, isLoading } = useGetAllCategoriesQuery();
+  const [deleteCategory] = useDeleteCategoryMutation();
+  const [selectedItem, setSelectedItem] = useState<CategoryResponse | null>(
+    null,
+  );
   const dispatch = useAppDispatch();
-  const [deleteUser] = useDeleteUserMutation();
-  // Pagination
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = Math.min(startIndex + itemsPerPage, allUsers?.length ?? 0);
-  const slicedData = allUsers?.slice(startIndex, endIndex);
-
-  const handlePageChange = useCallback(
-    (event: React.ChangeEvent<unknown>, page: number) => {
-      setCurrentPage(page);
-    },
-    [setCurrentPage],
+  const endIndex = Math.min(
+    startIndex + itemsPerPage,
+    allCategories?.length ?? 0,
   );
+  const slicedData = allCategories?.slice(startIndex, endIndex);
 
-  const handleDelete = async (item: string) => {
-    const res = await deleteUser(item);
-    if ('data' in res) {
-      dispatch(
-        setNotification({
-          open: true,
-          message: `User has been deleted!`,
-          severity: 'success',
-        }),
-      );
-    }
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    page: number,
+  ) => {
+    setCurrentPage(page);
   };
 
-  const handleEdit = (item: User) => {
+  const handleEditCategory = (item: CategoryResponse) => {
     setSelectedItem(item);
+  };
+
+  const handleDeleteCategory = async (item: CategoryResponse) => {
+    try {
+      const response = await deleteCategory(item.id);
+      if (response) {
+        dispatch(
+          setNotification({
+            open: true,
+            message: `Category ${item.name} has been deleted!`,
+            severity: 'success',
+          }),
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleCloseModal = () => {
     setSelectedItem(null);
   };
-
 
   if (isLoading) {
     return (
@@ -102,8 +89,9 @@ export default function AdminUsersTable() {
 
   return (
     <>
+      <AdminCreateCategoryForm />
       <CustomPagination
-        totalItems={slicedData?.length ?? 0}
+        totalItems={allCategories?.length ?? 0}
         itemsPerPage={itemsPerPage}
         currentPage={currentPage}
         handlePageChange={handlePageChange}
@@ -115,33 +103,28 @@ export default function AdminUsersTable() {
         <Table sx={{ minWidth: 700 }} aria-label='customized table'>
           <TableHead>
             <TableRow>
-              <StyledTableCell>NAME</StyledTableCell>
-              <StyledTableCell>EMAIL</StyledTableCell>
-              <StyledTableCell>ROLE</StyledTableCell>
-              <StyledTableCell>CREATED DATE</StyledTableCell>
+              <StyledTableCell>CATEGORY</StyledTableCell>
+              <StyledTableCell>ID</StyledTableCell>
               <StyledTableCell align='right'>ACTIONS</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {slicedData ? (
+            {slicedData &&
               slicedData.map((item) => (
                 <StyledTableRow key={item.id}>
                   <TableCell component='th' scope='row'>
                     <Grid display='flex' alignItems='center'>
                       <img
-                        src={(item.avatar && item.avatar) || ''}
+                        src={item.image}
                         alt={item.name}
                         width='40'
                         height='40'
                         style={{ borderRadius: '50%', marginRight: '1rem' }}
                       />
-
                       <Typography
                         variant='subtitle2'
                         noWrap
-                        sx={{
-                          fontSize: '0.875rem',
-                        }}
+                        sx={{ fontSize: '0.875rem' }}
                         fontWeight={700}
                         color='text.primary'
                       >
@@ -149,46 +132,37 @@ export default function AdminUsersTable() {
                       </Typography>
                     </Grid>
                   </TableCell>
-                  <TableCell>{item.email}</TableCell>
-                  <TableCell>{item.role}</TableCell>
-                  <TableCell>{item.createdDate}</TableCell>
+                  <TableCell>{item.id}</TableCell>
                   <TableCell align='right'>
                     <IconButton
                       aria-label='edit'
                       color='inherit'
-                      onClick={() => handleEdit(item)}
+                      onClick={() => handleEditCategory(item)}
                     >
                       <BorderColorIcon />
                     </IconButton>
                     <IconButton
                       aria-label='delete'
                       color='inherit'
-                      onClick={() => handleDelete(item.id)}
+                      onClick={() => handleDeleteCategory(item)}
                     >
                       <DeleteIcon />
                     </IconButton>
                   </TableCell>
                 </StyledTableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell sx={{ padding: '5px' }} colSpan={6} align='center'>
-                  There is no user
-                </TableCell>
-              </TableRow>
-            )}
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
 
-      {/* Modal for editing user */}
+      {/* Modal for editing category */}
       <Modal open={Boolean(selectedItem)} onClose={handleCloseModal}>
         <Stack
           display='flex'
           sx={{ backgroundColor: 'rgba(255, 255, 255, 0.8)' }}
         >
           {selectedItem && (
-            <UserEditForm
+            <AdminCategoryEditForm
               handleCloseModal={handleCloseModal}
               item={selectedItem}
             />
@@ -197,4 +171,6 @@ export default function AdminUsersTable() {
       </Modal>
     </>
   );
-}
+};
+
+export default AdminCategoriesTable;

@@ -15,6 +15,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import HomeIcon from '@mui/icons-material/Home';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import GroupIcon from '@mui/icons-material/Group';
+import CategoryIcon from '@mui/icons-material/Category';
 
 import { UserProfileData } from '../../misc/types';
 import { useUserLogoutMutation } from '../../redux/userQuery';
@@ -29,17 +30,30 @@ import AdminOrdersTable from './AdminOrdersTable';
 import AdminInfoCard from './AdminInfoCard';
 import { Address } from '../userProfile/UserAddress';
 import Loading from '../loading/Loading';
+import AdminCategoriesTable from './AdminCategoriesTable';
 
 export default function AdminProfileCard({ data }: { data: UserProfileData }) {
   const [userLogout, { isLoading }] = useUserLogoutMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [selectedComponent, setSelectedComponent] = useState<
-    'adminInfo' | 'Address' | 'products' | 'users' | 'orders' | null
+    | 'adminInfo'
+    | 'Address'
+    | 'products'
+    | 'users'
+    | 'orders'
+    | 'categories'
+    | null
   >('adminInfo');
 
   const handleClick = (
-    component: 'adminInfo' | 'Address' | 'products' | 'users' | 'orders',
+    component:
+      | 'adminInfo'
+      | 'Address'
+      | 'products'
+      | 'users'
+      | 'orders'
+      | 'categories',
   ) => {
     setSelectedComponent(component);
   };
@@ -63,14 +77,6 @@ export default function AdminProfileCard({ data }: { data: UserProfileData }) {
         }),
       );
       navigate('/login');
-    } else {
-      dispatch(
-        setNotification({
-          open: true,
-          message: 'Logout Failed',
-          severity: 'error',
-        }),
-      );
     }
   };
 
@@ -136,7 +142,29 @@ export default function AdminProfileCard({ data }: { data: UserProfileData }) {
                 >
                   <InventoryIcon />
                 </IconButton>
-                <Typography marginLeft={2}>Manage Products</Typography>
+                <Typography marginLeft={2}>Products</Typography>
+              </Box>
+
+              <Box
+                alignItems='center'
+                display='flex'
+                flexDirection='row'
+                sx={{
+                  cursor: 'pointer',
+                  '&:hover': {
+                    backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                  },
+                }}
+                onClick={() => handleClick('categories')}
+              >
+                <IconButton
+                  size='small'
+                  aria-label='show 17 new notifications'
+                  color='inherit'
+                >
+                  <CategoryIcon />
+                </IconButton>
+                <Typography marginLeft={2}>Categories</Typography>
               </Box>
 
               <Box
@@ -158,7 +186,7 @@ export default function AdminProfileCard({ data }: { data: UserProfileData }) {
                 >
                   <GroupIcon />
                 </IconButton>
-                <Typography marginLeft={2}>Manage Users</Typography>
+                <Typography marginLeft={2}>Users</Typography>
               </Box>
 
               <Box
@@ -253,9 +281,10 @@ export default function AdminProfileCard({ data }: { data: UserProfileData }) {
         </Grid>
         <Grid item xs={12} sm={12} md={9}>
           {selectedComponent === 'products' && <ProductForm />}
-          {selectedComponent === 'adminInfo' && <AdminInfoCard />}
+          {selectedComponent === 'categories' && <AdminCategoriesTable/>}
           {selectedComponent === 'orders' && <AdminOrdersTable />}
           {selectedComponent === 'users' && <AdminUsersTable />}
+          {selectedComponent === 'adminInfo' && <AdminInfoCard />}
           {selectedComponent === 'Address' && <Address userId={data.id} />}
           {!selectedComponent && (
             <Typography>Select an option to view details</Typography>

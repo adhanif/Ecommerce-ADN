@@ -146,29 +146,6 @@ export default function UserForm() {
                   })}
                 />
 
-                {/* <Typography
-                  variant='caption'
-                  sx={{ color: 'red' }}
-                  marginTop={1}
-                  role='alert'
-                >
-                  {errors.avatar?.message}
-                </Typography>
-
-                <TextField
-                  fullWidth
-                  label='Avatar'
-                  margin='normal'
-                  variant='outlined'
-                  {...register('avatar', {
-                    required: 'Avatar link is required',
-                    pattern: {
-                      value: /^(https?|chrome):\/\/[^\s$.?#].[^\s]*$/i,
-                      message: 'Invalid URL format',
-                    },
-                  })}
-                /> */}
-
                 <StandardButton
                   type='submit'
                   variant='contained'

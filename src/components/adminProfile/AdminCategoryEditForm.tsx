@@ -11,13 +11,10 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 
 import { StandardButton } from '../customStyling/buttons';
-import { UserUpdate } from '../../misc/types';
 import { useAppDispatch } from '../hooks/useDispatchApp';
 import { setNotification } from '../../redux/slices/notificationSlice';
-import {
-  UserAddress,
-  useUpdateUserByAdminMutation,
-} from '../../redux/userQuery';
+import { useUpdateCategoryMutation } from '../../redux/categoryQuery';
+import Loading from '../loading/Loading';
 
 const style = {
   position: 'absolute',
@@ -33,31 +30,23 @@ const style = {
 
 type Inputs = {
   name: string;
-  email: string;
-  role: string;
-  avatar: string | null;
+  image: string;
 };
 
-type PropUser = {
-  name: string;
-  email: string;
-  avatar: string | null;
-  role: string;
-  password?: string;
-  addresses: UserAddress[];
+type Category = {
   id: string;
-  createdDate: string;
-  updatedDate: string;
+  name: string;
+  image: string;
 };
 
-type UserEditFormProps = {
+type CategoryEditFormProps = {
   handleCloseModal: () => void;
-  item: PropUser;
+  item: Category;
 };
 
-export default function UserEditForm(props: UserEditFormProps) {
+export default function AdminCategoryEditForm(props: CategoryEditFormProps) {
   const { handleCloseModal, item } = props;
-  const [updateUserByAdmin] = useUpdateUserByAdminMutation();
+  const [updateCategory, { isLoading }] = useUpdateCategoryMutation();
 
   const dispatch = useAppDispatch();
   const {
@@ -67,35 +56,19 @@ export default function UserEditForm(props: UserEditFormProps) {
   } = useForm<Inputs>({
     defaultValues: {
       name: item.name,
-      email: item.email,
-      role: item.role,
-      avatar: item.avatar,
+      image: item.image,
     },
   });
 
   const onSubmit = async (data: Inputs) => {
-    const updateData: UserUpdate = {
-      email: data.email,
-    };
-
-    if (
-      data.avatar !== null &&
-      data.avatar !== undefined &&
-      data.avatar !== ''
-    ) {
-      updateData.avatar = data.avatar;
-    }
-
-    if (data.name) {
-      updateData.name = data.name;
-    }
     try {
-      const res = await updateUserByAdmin([item.id, data]);
+      const res = await updateCategory({ id: item.id, ...data });
+      console.log(res);
       if ('data' in res) {
         dispatch(
           setNotification({
             open: true,
-            message: `User ${item.name} has been updated!`,
+            message: `Category ${item.name} has been updated!`,
             severity: 'success',
           }),
         );
@@ -105,6 +78,14 @@ export default function UserEditForm(props: UserEditFormProps) {
       console.log(error);
     }
   };
+
+  if (isLoading) {
+    return (
+      <>
+        <Loading />
+      </>
+    );
+  }
 
   return (
     <>
@@ -132,7 +113,7 @@ export default function UserEditForm(props: UserEditFormProps) {
                 justifyContent='center'
                 spacing='10'
               >
-                <Grid item xs={12} sm={12} md={6}>
+                <Grid item xs={12} sm={12} md={12}>
                   <Typography variant='subtitle2' color='text.primary'>
                     Name
                   </Typography>
@@ -162,43 +143,14 @@ export default function UserEditForm(props: UserEditFormProps) {
                   )}
                 </Grid>
 
-                <Grid item xs={12} sm={12} md={6}>
-                  <Typography variant='subtitle2' color='text.primary'>
-                    Email
-                  </Typography>
-                  <Controller
-                    name='email'
-                    control={control}
-                    rules={{ required: 'Email is required' }}
-                    render={({ field }) => (
-                      <TextField
-                        {...field}
-                        size='small'
-                        variant='outlined'
-                        color='primary'
-                        fullWidth
-                      />
-                    )}
-                  />
-                  {errors.email && (
-                    <Typography
-                      variant='caption'
-                      sx={{ color: 'red' }}
-                      marginTop={1}
-                      role='alert'
-                    >
-                      {errors.email.message}
-                    </Typography>
-                  )}
-                </Grid>
-
                 <Grid item xs={12} sm={12} md={12} marginTop='1rem'>
                   <Typography variant='subtitle2' color='text.primary'>
-                    Role
+                    Image URL
                   </Typography>
                   <Controller
-                    name='role'
+                    name='image'
                     control={control}
+                    rules={{ required: 'Image URL is required' }}
                     render={({ field }) => (
                       <TextField
                         {...field}
@@ -209,47 +161,18 @@ export default function UserEditForm(props: UserEditFormProps) {
                       />
                     )}
                   />
-                  {errors.role && (
+                  {errors.image && (
                     <Typography
                       variant='caption'
                       sx={{ color: 'red' }}
                       marginTop={1}
                       role='alert'
                     >
-                      {errors.role.message}
+                      {errors.image.message}
                     </Typography>
                   )}
                 </Grid>
 
-                <Grid item xs={12} sm={12} md={12} marginTop='2rem'>
-                  <Typography variant='subtitle2' color='text.primary'>
-                    Avatar
-                  </Typography>
-                  <Controller
-                    name='avatar'
-                    control={control}
-                    defaultValue={item.avatar || ''}
-                    render={({ field }) => (
-                      <TextField
-                        {...field}
-                        fullWidth
-                        size='small'
-                        error={!!errors.avatar}
-                        helperText={errors.avatar ? errors.avatar.message : ''}
-                      />
-                    )}
-                  />
-                  {errors.avatar && (
-                    <Typography
-                      variant='caption'
-                      sx={{ color: 'red' }}
-                      marginTop={1}
-                      role='alert'
-                    >
-                      {errors.avatar.message}
-                    </Typography>
-                  )}
-                </Grid>
                 <Grid item xs={12} sm={12} md={3} marginTop='2rem'>
                   <StandardButton variant='contained' type='submit' fullWidth>
                     Save

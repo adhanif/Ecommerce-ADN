@@ -32,9 +32,9 @@ import { useAppDispatch } from '../hooks/useDispatchApp';
 import ProductEditForm from '../product/ProductEditForm';
 import { convertBinaryToDataUrl } from '../utils/products';
 import Loading from '../loading/Loading';
+import CustomPagination from '../pagination/CustomPagination';
 
 export default function AdminProductTable() {
-  const [mainData, setMainData] = useState<Product[]>([]);
   const { data: allProducts, isLoading } = useFetchAllProductsQuery();
   const [selectedItem, setSelectedItem] = useState<Product | null>(null);
   const [deleteProduct] = useDeleteProductMutation();
@@ -45,8 +45,11 @@ export default function AdminProductTable() {
   const itemsPerPage = 10;
   const startIndex = (currentPage - 1) * itemsPerPage;
 
-  const endIndex = Math.min(startIndex + itemsPerPage, mainData.length);
-  const slicedData = mainData.slice(startIndex, endIndex);
+  const endIndex = Math.min(
+    startIndex + itemsPerPage,
+    allProducts?.length ?? 0,
+  );
+  const slicedData = allProducts?.slice(startIndex, endIndex);
 
   const handlePageChange = useCallback(
     (event: React.ChangeEvent<unknown>, page: number) => {
@@ -54,12 +57,6 @@ export default function AdminProductTable() {
     },
     [setCurrentPage],
   );
-
-  useEffect(() => {
-    if (allProducts) {
-      setMainData(allProducts);
-    }
-  }, [allProducts]);
 
   const handleDelete = async (item: Product) => {
     const res = await deleteProduct(item.id);
@@ -96,28 +93,15 @@ export default function AdminProductTable() {
 
   return (
     <>
-      <Grid
-        container
-        display='flex'
-        justifyContent='space-between'
-        alignItems='center'
-        marginBottom='1rem'
-      >
-        <Grid item>
-          <Typography variant='subtitle2'>{`Showing ${
-            startIndex + 1
-          } to ${endIndex} of ${mainData.length} results`}</Typography>
-        </Grid>
-        <Grid item>
-          <Pagination
-            count={allProducts && Math.ceil(allProducts.length / itemsPerPage)}
-            page={currentPage}
-            onChange={handlePageChange}
-            variant='outlined'
-            shape='rounded'
-          />
-        </Grid>
-      </Grid>
+      <CustomPagination
+        totalItems={allProducts?.length ?? 0}
+        itemsPerPage={itemsPerPage}
+        currentPage={currentPage}
+        handlePageChange={handlePageChange}
+        startIndex={startIndex}
+        endIndex={endIndex}
+      />
+
 
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label='customized table'>

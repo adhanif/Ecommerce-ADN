@@ -30,7 +30,6 @@ export default function Admin() {
               <Divider />
             </Grid>
           </Box>
-          {/* {data && <UserProfileCard data={data} />} */}
           {data && <AdminProfileCard data={data} />}
         </Box>
       </Container>

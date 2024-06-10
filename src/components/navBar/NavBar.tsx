@@ -87,14 +87,6 @@ function ResponsiveAppBar() {
         }),
       );
       navigate('/login');
-    } else {
-      dispatch(
-        setNotification({
-          open: true,
-          message: 'Logout Failed',
-          severity: 'error',
-        }),
-      );
     }
   };
 

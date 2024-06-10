@@ -12,14 +12,16 @@ import {
   Box,
   Avatar,
   TableCell,
-  Grid,
-  Pagination,
+  Modal,
+  Stack,
 } from '@mui/material';
 import {
   KeyboardArrowDown,
   KeyboardArrowUp,
   Delete,
 } from '@mui/icons-material';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+
 import { StyledTableCell } from '../customStyling/table';
 import {
   useDeleteOrderMutation,
@@ -29,20 +31,25 @@ import Loading from '../loading/Loading';
 import { useAppDispatch } from '../hooks/useDispatchApp';
 import { setNotification } from '../../redux/slices/notificationSlice';
 import { OrderResponse } from '../../misc/types';
+import CustomPagination from '../pagination/CustomPagination';
+import AdminOrderStatusEditForm from './AdminOrderStatusEditForm';
 
 const AdminOrdersTable: React.FC = () => {
   const [openOrderIds, setOpenOrderIds] = useState<string[]>([]);
-  const [mainData, setMainData] = useState<OrderResponse[]>([]);
+  const [selectedItem, setSelectedItem] = useState<OrderResponse | null>(null);
+
   const { data: allOrders, isLoading } = useFetchAllOrdersQuery();
-  const [deleteOrder] = useDeleteOrderMutation();
+  const [deleteOrder, { isLoading: deleteIsLoading }] =
+    useDeleteOrderMutation();
+  console.log(allOrders);
   const dispatch = useAppDispatch();
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const startIndex = (currentPage - 1) * itemsPerPage;
 
-  const endIndex = Math.min(startIndex + itemsPerPage, mainData.length);
-  const slicedData = mainData.slice(startIndex, endIndex);
+  const endIndex = Math.min(startIndex + itemsPerPage, allOrders?.length ?? 0);
+  const slicedData = allOrders?.slice(startIndex, endIndex);
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -59,12 +66,6 @@ const AdminOrdersTable: React.FC = () => {
     );
   };
 
-  useEffect(() => {
-    if (allOrders) {
-      setMainData(allOrders);
-    }
-  }, [allOrders]);
-
   const handleDelete = async (orderId: string) => {
     const res = await deleteOrder(orderId);
     if ('data' in res) {
@@ -78,7 +79,15 @@ const AdminOrdersTable: React.FC = () => {
     }
   };
 
-  if (isLoading) {
+  const handleEditOrder = (order: OrderResponse) => {
+    setSelectedItem(order);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedItem(null);
+  };
+
+  if (isLoading || deleteIsLoading) {
     return (
       <>
         <Loading />
@@ -88,38 +97,28 @@ const AdminOrdersTable: React.FC = () => {
 
   return (
     <>
-      <Grid
-        container
-        display='flex'
-        justifyContent='space-between'
-        alignItems='center'
-        marginBottom='1rem'
-      >
-        <Grid item>
-          <Typography variant='subtitle2'>{`Showing ${
-            startIndex + 1
-          } to ${endIndex} of ${mainData.length} results`}</Typography>
-        </Grid>
-        <Grid item>
-          <Pagination
-            count={allOrders && Math.ceil(allOrders.length / itemsPerPage)}
-            page={currentPage}
-            onChange={handlePageChange}
-            variant='outlined'
-            shape='rounded'
-          />
-        </Grid>
-      </Grid>
+      <CustomPagination
+        totalItems={allOrders?.length ?? 0}
+        itemsPerPage={itemsPerPage}
+        currentPage={currentPage}
+        handlePageChange={handlePageChange}
+        startIndex={startIndex}
+        endIndex={endIndex}
+      />
+
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label='customized table'>
           <TableHead>
             <TableRow>
-              <StyledTableCell />
-              <StyledTableCell>Customer</StyledTableCell>
-              <StyledTableCell align='left'>Address</StyledTableCell>
-              <StyledTableCell align='center'>Order Placed</StyledTableCell>
-              <StyledTableCell align='center'>Total (€)</StyledTableCell>
-              <StyledTableCell align='center'>Actions</StyledTableCell>
+              <StyledTableCell></StyledTableCell>
+              <StyledTableCell>CUSTOMER</StyledTableCell>
+              <StyledTableCell align='left'>ADDRESS</StyledTableCell>
+              <StyledTableCell align='center'>ORDER PLACED</StyledTableCell>
+              <StyledTableCell align='center'>STATUS</StyledTableCell>
+              <StyledTableCell align='center'>TOTAL (€)</StyledTableCell>
+              <StyledTableCell align='center' colSpan={2}>
+                ACTIONS
+              </StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -165,6 +164,9 @@ const AdminOrdersTable: React.FC = () => {
                       {new Date(order.updatedDate).toLocaleDateString()}
                     </StyledTableCell>
                     <StyledTableCell align='center'>
+                      {order.orderStatus}
+                    </StyledTableCell>
+                    <StyledTableCell align='center'>
                       {(
                         order.orderProducts.reduce(
                           (acc, product) =>
@@ -173,7 +175,16 @@ const AdminOrdersTable: React.FC = () => {
                         ) / 100
                       ).toFixed(2)}
                     </StyledTableCell>
-                    <StyledTableCell align='center'>
+                    <StyledTableCell align='right'>
+                      <IconButton
+                        aria-label='edit'
+                        color='inherit'
+                        onClick={() => handleEditOrder(order)}
+                      >
+                        <BorderColorIcon />
+                      </IconButton>
+                    </StyledTableCell>
+                    <StyledTableCell>
                       <IconButton
                         aria-label='delete'
                         color='inherit'
@@ -240,6 +251,21 @@ const AdminOrdersTable: React.FC = () => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      {/* Modal for editing status of order */}
+      <Modal open={Boolean(selectedItem)} onClose={handleCloseModal}>
+        <Stack
+          display='flex'
+          sx={{ backgroundColor: 'rgba(255, 255, 255, 0.8)' }}
+        >
+          {selectedItem && (
+            <AdminOrderStatusEditForm
+              handleCloseModal={handleCloseModal}
+              item={selectedItem}
+            />
+          )}
+        </Stack>
+      </Modal>
     </>
   );
 };

@@ -44,6 +44,7 @@ const OrdersTable: React.FC<OrdersTableProps> = ({ orderData }) => {
             <StyledTableCell>Order Number</StyledTableCell>
             <StyledTableCell align='left'>Address</StyledTableCell>
             <StyledTableCell align='center'>Order Placed</StyledTableCell>
+            <StyledTableCell align='center'>STATUS</StyledTableCell>
             <StyledTableCell align='center'>Total (€)</StyledTableCell>
           </TableRow>
         </TableHead>
@@ -70,6 +71,9 @@ const OrdersTable: React.FC<OrdersTableProps> = ({ orderData }) => {
                 <StyledTableCell align='left'>{order.address}</StyledTableCell>
                 <StyledTableCell align='center'>
                   {new Date(order.updatedDate).toLocaleDateString()}
+                </StyledTableCell>
+                <StyledTableCell align='left'>
+                  {order.orderStatus}
                 </StyledTableCell>
                 <StyledTableCell align='center'>
                   {(
