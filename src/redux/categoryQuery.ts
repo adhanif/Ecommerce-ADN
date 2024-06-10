@@ -10,7 +10,8 @@ const getAccessToken = () => {
 export const categoryQueries = createApi({
   reducerPath: 'categoryApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5227/api/v1',
+    // baseUrl: 'http://localhost:5227/api/v1',
+    baseUrl: 'https://fashion-adn.azurewebsites.net/api/v1',
     prepareHeaders: (headers) => {
       const token = getAccessToken();
       if (token) {

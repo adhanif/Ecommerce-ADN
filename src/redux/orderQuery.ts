@@ -15,8 +15,8 @@ const getAccessToken = () => {
 export const orderQueries = createApi({
   reducerPath: 'orderApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5227/api/v1',
-    // baseUrl: 'https://fashion-adn.azurewebsites.net/api/v1',
+    // baseUrl: 'http://localhost:5227/api/v1',
+    baseUrl: 'https://fashion-adn.azurewebsites.net/api/v1',
 
     prepareHeaders: (headers, { getState }) => {
       const token = getAccessToken();
