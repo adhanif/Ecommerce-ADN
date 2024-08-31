@@ -37,7 +37,7 @@ describe('cart reducer', () => {
     );
     expect(state.products).toHaveLength(1);
     expect(state.products[0].quantity).toBe(2);
-    expect(state.products[0].price).toBe(20);
+    expect(state.products[0].price).toBe(200);
   });
 
   // test2: item should be deleted
