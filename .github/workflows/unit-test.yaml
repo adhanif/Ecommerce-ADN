@@ -1,0 +1,21 @@
+name: 'Run unit tests when push'
+
+# Events that trigger the run
+on:
+  - push
+
+# Job definitions
+jobs:
+  unit-test:
+    name: unit-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout GitHub repo
+        uses: actions/checkout@v4
+
+      - name: Print a message
+        run: echo "Here is frontend test"
+
+      - name: Run unit test
+        run: npm test
