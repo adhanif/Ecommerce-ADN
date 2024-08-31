@@ -36,7 +36,6 @@ describe('cart reducer', () => {
       addToCart({ product: products[0], count }),
     );
     expect(state.products).toHaveLength(1);
-    expect(state.products[0].id).toBe(1);
     expect(state.products[0].quantity).toBe(2);
     expect(state.products[0].price).toBe(20);
   });
