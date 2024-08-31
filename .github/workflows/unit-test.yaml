@@ -17,5 +17,8 @@ jobs:
       - name: Print a message
         run: echo "Here is frontend test"
 
+      - name: Install packages
+        run: npm install
+
       - name: Run unit test
         run: npm test
