@@ -7,17 +7,24 @@ import { products } from './mockData';
 let mockProducts = products;
 
 export const handler = [
-  http.get('https://api.escuelajs.co/api/v1/products', () => {
-    return HttpResponse.json(mockProducts, { status: 200 });
-  }),
-  http.post('https://api.escuelajs.co/api/v1/products', async ({ request }) => {
-    const product = (await request.json()) as CreateProductMockServer;
-    const createdProduct: CreateProductMockServer = {
-      ...product,
-      id: mockProducts.length + 1,
-    };
-    return HttpResponse.json(createdProduct, { status: 201 });
-  }),
+  http.get(
+    'https://fashion-adn.azurewebsites.net/api/v1/products',
+    async () => {
+      return HttpResponse.json(mockProducts, { status: 200 });
+    },
+  ),
+
+  http.post(
+    'https://fashion-adn.azurewebsites.net/api/v1/products',
+    async ({ request }) => {
+      const product = (await request.json()) as CreateProductMockServer;
+      const createdProduct: CreateProductMockServer = {
+        ...product,
+        id: mockProducts.length + 1,
+      };
+      return HttpResponse.json(createdProduct, { status: 201 });
+    },
+  ),
 
   http.delete(
     'https://api.escuelajs.co/api/v1/products/:productId',
