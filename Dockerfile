@@ -1,6 +1,24 @@
-FROM node:18-alpine
+# Create image based on the official Node image from dockerhub
+FROM node:lts-buster
+
+# Create app directory
 WORKDIR /
+
+# Copy dependency definitions
+COPY package.json /
+COPY package-lock.json /
+
+# Install dependencies
+#RUN npm set progress=false \
+#   && npm config set depth 0 \
+#   && npm i install
+RUN npm ci
+
+# Get all the code needed to run the app
 COPY . /
-RUN npm install
+
+# Expose the port the app runs in
 EXPOSE 3000
-CMD npm start
+
+# Serve the app
+CMD ["npm", "start"]
